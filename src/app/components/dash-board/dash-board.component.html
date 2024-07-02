@@ -1,0 +1,30 @@
+
+<body class="container">
+    <div>
+        <h1 >{{selectedComati?.name}}</h1>
+        <h1>{{person.name}}</h1>
+    </div>
+    <div class="first">
+        <label class="label">Select Comati </label>
+        <select class="input" type="text" id="comatiSelect" [(ngModel)]="selectedComati" name="comatiSelect">
+            <option *ngFor="let comati of comaties" index as i [ngValue]="comati">{{ comati.name }}</option>
+        </select>
+        <a class="button" href="add-member"> Add new Member</a>
+        <a  class="button" href="add-payment"> Add a Payment</a>
+        <a  class="button" href="add-comati"> Add New Comati</a>
+    </div>
+    <div class="first">
+        <div class="element"><h3>Amount Collected</h3><h3>88000</h3></div>
+        <div class="element"><h3>Members Remaining</h3>
+            <h3>11</h3>
+            <button class="button">See Details</button>
+        </div>
+        <div class="element"><h3>This month: </h3><h3>Receiver</h3></div>
+    </div>
+    
+    <div class="first">
+        <div class="element"><h3>Total Members</h3><h3>{{selectedComati?.totalMembers}}</h3></div>
+        <div class="element"><h3>Ending On</h3> <h3></h3></div>      
+        <div class="element"><h3>Per Person</h3><h3>{{selectedComati?.per_head}}</h3></div>
+    </div>
+</body>

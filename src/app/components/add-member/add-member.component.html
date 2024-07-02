@@ -1,0 +1,25 @@
+<body class="container">
+    <div class="first">
+        <h1>Add a Member</h1>
+        <h1>{{person.name}}</h1>
+    </div>
+    <div class="first">
+        <h4>Select Comati</h4>
+        <h4>Select Person</h4>
+        <h4>Paying Amount</h4>
+        <h4>Remarks</h4>
+
+    </div>
+    <div class="first">
+        <select class="input" type="text" id="comatiSelect" [(ngModel)]="member.comatiId" name="comatiSelect">
+            <option *ngFor="let comati of comaties" index as i [ngValue]="comati.id">{{ comati.name }}</option>
+        </select>
+        <select class="input" type="text" id="personSelect" [(ngModel)]="member.personId" name="personSelect">
+            <option *ngFor="let person of persons" [ngValue]="person.id">{{ person.name }}</option>
+        </select>
+        <input class="input" type="number" [(ngModel)]="member.amount" name="amount"/>
+        <input class="input" type="text" [(ngModel)]="member.remarks" name="remarks"/>
+    </div>
+            
+    <button class="button" (click)="register()">Add Member</button>
+</body>

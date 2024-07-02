@@ -1,0 +1,12 @@
+<div class="container">
+<h1>Login</h1>
+<div class="first">
+    <select [(ngModel)]="person"  (ngModelChange)="updatePerson($event)" class="input">Select Manager
+        <option *ngFor="let person of persons" [ngValue]="person" >{{person.name}} </option>
+    </select>
+
+</div>
+<div class="first">
+    <button class="button" (click)="login()">Login</button>
+</div>
+</div>

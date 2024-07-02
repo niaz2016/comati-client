@@ -1,0 +1,20 @@
+<div class="container">
+    <h1>Register Person</h1>
+
+
+    <div class="first">
+      <h4>Name</h4>
+      <h4>Phone</h4>
+      <h4>Address</h4>
+      <h4>Remarks</h4>
+    </div>
+    <div class="first">
+      <input class="input" type="text" [(ngModel)]="person.name"/>
+      <input class="input" type="text" [(ngModel)]="person.phone"/>
+      <input class="input" type="text" [(ngModel)]="person.address"/>
+      <input class="input" type="text" [(ngModel)]="person.remarks"/>
+
+    </div>
+    <button class="button" (click)="register()">Save</button>
+  </div>
+  

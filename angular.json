@@ -16,6 +16,7 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
+          
           "options": {
             "outputPath": "dist/comati",
             "index": "src/index.html",

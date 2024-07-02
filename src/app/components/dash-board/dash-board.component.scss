@@ -1,14 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
 // Define common styles for labels and inputs
 $form-element-padding: 10px;
 $form-element-border-radius: 4px;
 $form-element-border: 1px solid #ccc;
-.container {
-    display: flex;
-    justify-content: space-around; 
-    flex-direction: row;
-    align-items: center;
-    height: 90vh;
+.body {
+    width: 100%;
 }
 .first {
   display: flex;
@@ -16,13 +11,27 @@ $form-element-border: 1px solid #ccc;
   gap: 50px;
   
 }
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100vh;
+    justify-content: space-around;
+}
 // Styling for labels
 .label {
-    display: flex;
-    font-weight: bold;
-    gap: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  gap: 50px;
 }
-
+.row {
+    display: flex;
+    gap: 20px;
+    
+}
 // Styling for inputs
 .input, textarea {
   padding: $form-element-padding;
@@ -42,10 +51,12 @@ $form-element-border: 1px solid #ccc;
 
 input[type="submit"],
 .button {
-  background-color: #007bff;
-  color: white;
-  border: none;
-  padding: 10px 20px;
+    text-decoration: none;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+  
   cursor: pointer;
   border-radius: $form-element-border-radius;
   font-size: 16px;
