@@ -4,6 +4,4 @@ export type Person = {
     phone?: string,
     address?: string,
     remarks?: string,
-
-
 }

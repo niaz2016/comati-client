@@ -1,6 +1,9 @@
 export type Member = {
-    remarks: string;
+    name: string,
+    remarks: string,
     comatiId: number,
+    memberShipId: string,
     personId: number,
     amount: number,
+    openingDate: string,
 }

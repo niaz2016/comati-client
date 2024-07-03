@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Comati } from '../../models/comati';
 import { Person } from '../../models/person';
 import { Member } from '../../models/member';
-import { Router } from '@angular/router';
 import { CommonService } from '../../services/common.service';
+import { GetComatiesService } from '../../services/get-comaties.service';
 
 @Component({
   selector: 'app-comati-members',
@@ -15,63 +15,54 @@ import { CommonService } from '../../services/common.service';
   styleUrl: './add-member.component.scss'
 })
 export class AddMemberComponent {
-  comaties: Comati[]=[];
-  persons: Person[]=[];
+  persons = this.commonService.persons;
+  person = this.commonService.person;
+  comaties = this.getComatiesService.comaties;
+  comati = this.getComatiesService.comati;
+  selectedComati = this.getComatiesService.selectedComati;
   
-  selectedComati?: Comati | undefined;
-  selectedPerson?: Person | undefined;
-  amount?: number;
-  person!:Person;
-  comati!:Comati;
-  constructor(private commonService: CommonService, private router: Router){
-    this.person=commonService.person;
 
+  constructor(private commonService: CommonService,
+    private getComatiesService: GetComatiesService){
+    const person=this.person;
   }
+
 member: Member = {
+  name: '',
   comatiId: 0,
   personId: 0,
+  memberShipId: '',
   amount: 0,
+  openingDate: Date.toString(),
   remarks: '',
 }
 
-  ngOnInit(): void {
-    this.getComaties(this.person.id);
-    this.getPersons();
+async ngOnInit(): Promise<void> {
+    
+  this.commonService.getComaties(this.person.id)
+      .then(comaties => {
+        this.comaties = comaties;
+      })
+      .catch(error => {
+        console.error('Error fetching comaties', error);
+      });
+  this.persons= await  this.commonService.getPersons();
   }
-  async getComaties(managerId: number): Promise<void> {
-    try {
-      const result = await this.commonService.getComaties(managerId);
-        console.log(result);
-        this.comaties = result as Comati[];
-      } catch (error) {
-        console.error('Error fetching comaties:', error);
-  
-      }
-  }
-  async getPersons(): Promise<void> {
-    try {
-      const result = await this.commonService.getPersons();
-      this.persons = result;
-    }
-    catch (error: any) {
-      console.error('Error fetching comaties:', error);
-  
-    }
-  }
-  updateComati(event:Comati) {
-    console.log(event)
-  }
-updatePerson(event:Person){
-  console.log(event)
-}
-async register(){
+updateComati(event:Comati) {}
+updatePerson(event:Person){}
+
+
+//registering a person to a comati making it Member
+async register(): Promise<void> {
+  //await this.commonService.getMemberShipId(this.getComatiesService.selectedComati?.id?? 1)).toString;
   const result = await this.commonService.registerMember(this.member);
-  if(result===null){
-    window.alert("Registration Failed");
+  this.selectedComati=undefined;
+  
+  if(result.comatiId!==0){
+    window.alert("Registration was successfull");
   }
   else {
-    window.alert("Registration was successfull");
-    this.router.navigateByUrl('/add-member')
+    window.alert("Registration Failed");
   }
 }
   

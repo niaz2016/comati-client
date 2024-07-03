@@ -6,8 +6,8 @@
     </div>
     <div class="first">
         <label class="label">Select Comati </label>
-        <select class="input" type="text" id="comatiSelect" [(ngModel)]="selectedComati" name="comatiSelect">
-            <option *ngFor="let comati of comaties" index as i [ngValue]="comati">{{ comati.name }}</option>
+        <select class="input" id="comatiSelect" [(ngModel)]="selectedComati" name="comatiSelect">
+            <option *ngFor="let comati of comaties" [ngValue]="comati.id">{{ comati.name }}</option>
         </select>
         <a class="button" href="add-member"> Add new Member</a>
         <a  class="button" href="add-payment"> Add a Payment</a>

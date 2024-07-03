@@ -1,5 +1,6 @@
 <body class="container">
     <h1>Register New Comati</h1>
+    <h2>{{person.name}}</h2>
     <div class="first">
             <h4 class="label">Name</h4>
             <h4>Per Head Amount</h4>
@@ -11,10 +12,6 @@
             <input class="input" type="int" [(ngModel)]="comati.per_head"/>
             <input class="input" type="text" [(ngModel)]="comati.remarks"/>
             <input class="input" type="date" [(ngModel)]="comati.start_date"/>
-
-
-        </div>
-        <button class="button" (click)="register()" >Save</button>
-        
-    
+    </div>
+    <button class="button" (click)="register()" >Save</button>
 </body>

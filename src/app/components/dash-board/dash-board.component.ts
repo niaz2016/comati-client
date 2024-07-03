@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Comati } from '../../models/comati';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { GetComatiesService } from '../../services/get-comaties.service';
+import { Comati } from '../../models/comati';
 import { Person } from '../../models/person';
 import { CommonService } from '../../services/common.service';
 
@@ -12,34 +13,21 @@ import { CommonService } from '../../services/common.service';
   templateUrl: './dash-board.component.html',
   styleUrls: ['./dash-board.component.scss']
 })
-export class DashBoardComponent implements OnInit {
-  comaties: Comati[]=[];
-  
-  selectedComati?: Comati | undefined;
-  person!:Person;
-  comati!:Comati;
-  constructor(private commonService: CommonService,
-  ) {
-    this.person=commonService.person;
-  }
+export class DashBoardComponent implements OnInit  {
 
-  ngOnInit(): void {
-    this.getComaties(this.person.id); 
-  }
-  updateComati(event:Comati) {
-    console.log(event)
-  }
+  selectedComati: Comati |undefined
+  person!: Person;
+  comati!: Comati;
+  comaties!: Comati[];
+  constructor(private getComatiesService: GetComatiesService, private commonService: CommonService) { 
+    this.person = commonService.person;
+   }
 
-  async getComaties(managerId: number): Promise<void> {
-    try {
-    const result = await this.commonService.getComaties(managerId);
-      console.log(result);
-      this.comaties = result as Comati[];
-    } catch (error) {
-      console.error('Error fetching comaties:', error);
-
-    }
-
+  async ngOnInit(): Promise<void> {
+    this.comaties = await this.commonService.getComaties(this.person.id);
   }
-  
+updateComati(event:Comati) {}
+updatePerson(event:Person){}
+
 }
+  

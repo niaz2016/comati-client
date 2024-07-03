@@ -53,4 +53,36 @@ input[type="submit"],
   &:hover {
     background-color: #0056b3;
   }
+  .select {
+    padding: $form-element-padding;
+    border: $form-element-border;
+    border-radius: $form-element-border-radius;
+    width: 220px; // Adjust width as needed
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    font-size: 16px;
+    appearance: none; // Removes default dropdown arrow for custom styling
+    background-color: white;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 4 5"><path fill="%23999" d="M2 0L0 2h4L2 0zm0 5L0 3h4l-2 2z"/></svg>'); // Custom dropdown arrow
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px 12px;
+}
+
+// Dropdown option styling
+.option {
+    padding: $form-element-padding;
+    font-size: 16px;
+}
+
+// Styling for focused elements
+.input:focus,
+.select:focus,
+textarea:focus,
+input[type="submit"]:focus,
+.button:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
 }

@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Comati } from '../../models/comati'
 import { Router } from '@angular/router';
 import { CommonService } from '../../services/common.service';
+import { Person } from '../../models/person';
 
 @Component({
   selector: 'app-add-comati',
@@ -12,8 +13,11 @@ import { CommonService } from '../../services/common.service';
   templateUrl: './comati.component.html',
   styleUrl: './comati.component.scss'
 })
-export class AddComatiComponent {
-  comati: Comati ={
+export class AddComatiComponent implements OnInit {
+Comaties!: Comati[];
+person!: Person;
+
+comati: Comati ={
     id: 0,
     name: '',
     per_head: 0,
@@ -21,28 +25,27 @@ export class AddComatiComponent {
     remarks: '',
     managerId: 0,
     totalMembers: 0,
+    totalComati: 0,
   };
   comaties: any;
   constructor(private commonService: CommonService, private router: Router){
     this.comati.managerId=commonService.person.id;
+    this.person=commonService.person;
   }
-
+//registering comati
   async register(){
     const result = await this.commonService.registerComati(this.comati);
-    if(result?.id){
+    if(result===this.comati){
+      window.alert("Comati Created Successfully")
       this.router.navigateByUrl('/dash-board')
     }
     else {
       alert("result failed")
     }
   }
-  async getComaties(MgrId: number): Promise<Comati[]> {
-    try {
-    return this.comaties = await this.commonService.getComaties(MgrId);
-      console.log(this.comaties);
-    } catch (error) {
-      console.error('Error fetching comaties:', error);
-    }
-    return this.comaties;
+  async ngOnInit(): Promise<void> {
+    this.comaties = await this.commonService.getComaties(this.person.id)
+
   }
+
 }

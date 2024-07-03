@@ -23,12 +23,9 @@ export class LoginComponent implements OnInit {
     this.persons = await this.commonService.getPersons()
 
   }
-  updatePerson(event:Person) {
-    console.log(event)
-  }
+  updatePerson(event:Person) {}
   login() {
     this.commonService.login(this.person);
-    
   }
 
 }
