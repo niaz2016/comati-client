@@ -8,7 +8,10 @@
       <li><a routerLinkActive = "active"  routerLink="/reg-person">Add Person</a></li>
     </ul>
     <ul>
-      <li><a href="/login">Login</a></li>
+      <div class="loginButton"> 
+        <a>{{person?.name}}</a>
+      <li><a  routerLink="/login" (click)="logout()">Login</a></li>
+      </div>
     </ul>
   </nav>
   <div>

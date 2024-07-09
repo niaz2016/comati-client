@@ -5,7 +5,6 @@ import { Comati } from '../../models/comati';
 import { Person } from '../../models/person';
 import { Member } from '../../models/member';
 import { CommonService } from '../../services/common.service';
-import { GetComatiesService } from '../../services/get-comaties.service';
 
 @Component({
   selector: 'app-comati-members',
@@ -16,24 +15,21 @@ import { GetComatiesService } from '../../services/get-comaties.service';
 })
 export class AddMemberComponent {
   persons = this.commonService.persons;
-  person = this.commonService.person;
-  comaties = this.getComatiesService.comaties;
-  comati = this.getComatiesService.comati;
-  selectedComati = this.getComatiesService.selectedComati;
-  
-
-  constructor(private commonService: CommonService,
-    private getComatiesService: GetComatiesService){
+  person = this.commonService.person;  
+selectedComati: Comati | undefined;
+comaties: Comati[]=[];
+  constructor(private commonService: CommonService){
     const person=this.person;
   }
 
 member: Member = {
+  id: 0,
   name: '',
   comatiId: 0,
   personId: 0,
-  memberShipId: '',
+  comatiMemberNo: 0,
   amount: 0,
-  openingDate: Date.toString(),
+  openingMonth: new Date(),
   remarks: '',
 }
 

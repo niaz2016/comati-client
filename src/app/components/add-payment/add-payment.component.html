@@ -1,24 +1,32 @@
 <body class="container">
-    <h1>Add Payment</h1>
-    <h1>{{person.name}}</h1>
-    <h1></h1>
     <div class="first">
-        <h4>Comati</h4>
-        <h4>Select Member</h4>
-        <h4>For the Month of: </h4>
-        <h2>Amount to Pay</h2>
-        <h4>Remarks</h4>
-        </div>
-    <div class="first" >
-        <select class="input" type="text" id="comatiSelect" [(ngModel)]="comati" (ngModelChange)="getMembers($event)" name="comatiSelect">
-            <option class="option" *ngFor="let comati of comaties" [ngValue]="comati">{{ comati.name }}</option>
-        </select>
-        <select class="input"  id="memberSelect" [(ngModel)]="member" (ngModelChange)="getAmount($event)" name="memberSelect">
-            <option class="option" *ngFor="let member of members" [ngValue]="member">{{ member.name }}</option>
-        </select>
-        <input class="input" type="date"/>
-        <input class="input" type="number" [placeholder]="memberAmount"  />
-        <input class="input" type="text" [placeholder]="remarks" />
+        <h2>Add Payment</h2>
+    <h2>{{person.name}}</h2>
     </div>
-    <button class="button" (click)="payNow()">Pay Now</button>
+    <div class="first" >
+        <div class="inputField">
+            <span class="span">Select Comati</span>
+            <select class="input" type="text" id="comatiSelect" [(ngModel)]="comati" (ngModelChange)="getMembers($event)" name="comatiSelect">
+            <option class="option" *ngFor="let comati of comaties" [ngValue]="comati">{{ comati.name }}</option></select>
+        </div>
+        <div class="inputField">
+            <span class="span">Select Member</span>
+            <select class="input"  id="memberSelect" [(ngModel)]="member" (ngModelChange)="getAmount($event)" name="memberSelect">
+            <option class="option" *ngFor="let member of members" [ngValue]="member">{{ member.name }}</option></select>
+        </div>
+        <div class="inputField">
+            <span class="span">For the Month of: </span>
+            <input class="input" [(ngModel)]="payment.paymentDate" type="date"/>
+        </div>
+        <div class="inputField">
+            <h3>Amount</h3>
+            <input class="input" type="number" [(ngModel)]="memberAmount" />
+        </div>
+        <div class="inputField">
+            <span class="span">Remarks</span>
+            <input class="input" type="text" [(ngModel)]="memberRemarks"/>
+        </div>
+        <button class="button" (click)="payNow()">Pay Now</button>
+    </div>
+    
 </body>

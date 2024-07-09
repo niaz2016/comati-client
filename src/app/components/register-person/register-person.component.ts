@@ -24,13 +24,19 @@ export class RegisterPersonComponent {
   constructor(private commonService: CommonService, private router: Router) { }
 
   async register() {
+    if(this.person.name.length<3||this.person.phone.length<11){
+      window.alert("Please Enter Correct Credentials")
+    }
+      else {
     const restult = await this.commonService.registerPerson(this.person);
-  if(restult===null){
-    window.alert("Person registration Failed");
+    if(restult===null){
+      window.alert("Person registration Failed");
+    }
+    else {
+      window.alert("Person registration Successful");
   }
-  else {
-    window.alert("Person registration Successful");
-    this.router.navigateByUrl('/reg-person')
+  
+    
   }
 }
 }

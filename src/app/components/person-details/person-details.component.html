@@ -1,0 +1,36 @@
+<div class="container">
+    <div class="first">
+        <div class="inputField">
+           <span class="span">Comati:</span> <select class="input" [(ngModel)]="selectedComati" >
+                <option *ngFor="let comati of comaties" (ngValue)="comati">{{comati.name}}</option>
+            </select>
+        </div>
+        <div class="inputField">
+            <span class="span">Member: </span> <select class="input" [(ngModel)]="member" (ngModelChange)="getPersonDetails($event)">
+                <option *ngFor="let member of members" [ngValue]="member">{{member.name}}</option>
+            </select>
+        </div>
+
+        <div class="inputField"><h2>{{member?.name}}</h2></div>
+        <div class="inputField"> <h2>{{selectedComati?.name}}</h2> </div>
+        <div class="inputField"><span class="span">Amount</span> <span class="span">{{member?.amount}}</span></div>
+        <div class="inputField"><span class="span">Member No.</span><span class="span">{{member?.comatiMemberNo}}</span></div>
+        <div class="inputField"><span class="span">Opening Date</span><span class="span">{{ member?.openingMonth?.toLocaleDateString()}}</span></div>
+        <div class="inputField"><span class="span">Phone: </span> <span class="span">{{personDetails?.phone}}</span> </div>
+        <div class="inputField"><span class="span">Address: </span> <span class="span">{{personDetails?.address}}</span> </div>
+        <div class="inputField"><span class="span">Person Remarks:</span> <span class="span">{{personDetails?.remarks}}</span> </div>
+        <div class="inputField"><span class="span">Member Remarks:</span> <span class="span">{{member?.remarks}}</span> </div>
+    </div>
+    <div class="first">
+        <div>
+            <div>
+                <h2>Payment History</h2>
+            </div>
+            <table>
+                <tr> <th></th> </tr>
+                <tr *ngFor="let payment of payments">{{payment.amount}} </tr>
+
+            </table>
+        </div>
+    </div>
+</div>

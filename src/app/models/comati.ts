@@ -1,11 +1,14 @@
-export type Comati = {
+import { Defaulter } from "./defaulter";
+export interface Comati  {
     id: number,
-    name: string,
-    start_date: string,
-    end_date?: string,
-    per_head?: number,
-    remarks: string,
     managerId: number,
+    name: string,
+    start_Date: Date,
+    end_Date?: Date,
+    per_Head: number,
+    remarks?: string,
     totalMembers: number,
     totalComati: number,
+    totalCollected: number,
+    defaulters?: Defaulter[],
 }

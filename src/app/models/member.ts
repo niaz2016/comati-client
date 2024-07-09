@@ -1,9 +1,10 @@
 export type Member = {
+    id: 0,
     name: string,
     remarks: string,
     comatiId: number,
-    memberShipId: string,
+    comatiMemberNo: number,
     personId: number,
     amount: number,
-    openingDate: string,
+    openingMonth: Date,
 }

@@ -1,26 +1,139 @@
 /* You can add global styles to this file, and also import other style files */
 // Define common styles for labels and inputs
 $form-element-padding: 10px;
-$form-element-border-radius: 4px;
+$form-element-border-radius: 0px;
 $form-element-border: 1px solid #ccc;
+$table-bg-color: #f9f9f9;
+$table-border-color: #ddd;
+$table-header-bg-color:  #807878;
+$table-header-text-color: #fff;
+$table-row-hover-bg-color: #f1f1f1;
+$table-padding: 10px;
+$table-border-radius: 0px;
+
+.table-container {
+  width: 100%;
+  margin: 20px auto;
+  overflow-x: auto;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-height: 100%;
+  overflow-y: scroll;
+  max-width: 1024px;
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid $table-border-color;
+    border-radius: $table-border-radius;
+    display: block;
+    box-shadow: 2px 2px 1px 1px rgb(212, 212, 212);
+
+    th, td {
+      padding: $table-padding;
+      text-align: left;
+    }
+
+    thead {
+      background-color: $table-header-bg-color;
+      position: sticky; // Make the header sticky
+      top: 0; // Position it at the top
+      z-index: 1;
+
+      th {
+        color: $table-header-text-color;
+        font-weight: bold;
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(even) {
+          background-color: darken($table-bg-color, 15%);
+        }
+
+        &:hover {
+          background-color: $table-row-hover-bg-color;
+        }
+
+        td {
+          border-bottom: 1px solid $table-border-color;
+        }
+
+        &:last-child {
+          td {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+}
+
 .container {
     display: flex;
-    justify-content: space-around; 
+    justify-content: center; 
+    padding: 20px;
     flex-direction: row;
+    background-color: #d6d6d6;
     align-items: center;
-    height: 90vh;
+    max-height: 85vh;
+    gap: 15px;
+    padding-bottom: 0px;
+    
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px;
+  padding: 0;
+}
+.inputField {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 .first {
   display: flex;
   flex-direction: column;
-  gap: 50px;
-  
+  gap: 5px;
+  background-color: rgb(248, 248, 248);
+  padding: 15px;
+  border-radius: $form-element-border-radius;
+  min-width: fit-content;
+  height: 75vh;
+  box-shadow: 2px 2px 1px 1px rgb(212, 212, 212);
+  min-width: 25%;
+  &:hover {
+    background-color: white;
+  }
+  .element {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: rgb(238, 238, 238);
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    &:hover{
+      background-color: white;
+      font-weight:600;
+      font-size: larger;
+      box-shadow: #807878;
+    }
+  }
 }
 // Styling for labels
 .label {
+  margin: 0;
     display: flex;
+    flex-direction: row;
     font-weight: bold;
-    gap: 50px;
+    gap: 5px;
 }
 
 // Styling for inputs
@@ -28,9 +141,11 @@ $form-element-border: 1px solid #ccc;
   padding: $form-element-padding;
   border: $form-element-border;
   border-radius: $form-element-border-radius;
-  width: 200px;
+  min-width:70%;
   box-sizing: border-box; // Ensures padding doesn't affect width
-  margin-bottom: 15px; // Adjust as needed
+  margin-bottom: 0px;
+  margin-top: 0px;
+  max-height: 50px;
   font-size: 16px; // Adjust font size as needed
 }
 
@@ -40,30 +155,35 @@ $form-element-border: 1px solid #ccc;
   margin-bottom: 0;
 }
 
-input[type="submit"],
+
 .button {
-  background-color: #007bff;
-  color: white;
+  text-decoration: none;
+  background-color: rgb(220, 220, 220);
+  color: rgb(0, 0, 0);
   border: none;
   padding: 10px 20px;
+  width: 100%;
   cursor: pointer;
   border-radius: $form-element-border-radius;
   font-size: 16px;
   
   &:hover {
-    background-color: #0056b3;
+    background-color: #807878;
+    font-size: 18;
+    padding: 12px 24px;
   }
+  
   .select {
     padding: $form-element-padding;
     border: $form-element-border;
     border-radius: $form-element-border-radius;
     width: 220px; // Adjust width as needed
     box-sizing: border-box;
+    align-self: center;
     margin-bottom: 15px;
     font-size: 16px;
     appearance: none; // Removes default dropdown arrow for custom styling
     background-color: white;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 4 5"><path fill="%23999" d="M2 0L0 2h4L2 0zm0 5L0 3h4l-2 2z"/></svg>'); // Custom dropdown arrow
     background-repeat: no-repeat;
     background-position: right 10px center;
     background-size: 12px 12px;
@@ -75,6 +195,7 @@ input[type="submit"],
     font-size: 16px;
 }
 
+
 // Styling for focused elements
 .input:focus,
 .select:focus,
@@ -82,7 +203,7 @@ textarea:focus,
 input[type="submit"]:focus,
 .button:focus {
     outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: #807878;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 }

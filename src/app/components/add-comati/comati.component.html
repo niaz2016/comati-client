@@ -1,17 +1,27 @@
-<body class="container">
-    <h1>Register New Comati</h1>
-    <h2>{{person.name}}</h2>
+<div class="container">
     <div class="first">
-            <h4 class="label">Name</h4>
-            <h4>Per Head Amount</h4>
-            <h4>Remarks</h4>
-            <h4>Start Date</h4>
-        </div>
-        <div class="first">
-            <input class="input" type="text" [(ngModel)]="comati.name"/>
-            <input class="input" type="int" [(ngModel)]="comati.per_head"/>
-            <input class="input" type="text" [(ngModel)]="comati.remarks"/>
-            <input class="input" type="date" [(ngModel)]="comati.start_date"/>
+        <h1>Register New Comati</h1>
+    <h3>{{person.name}}</h3>
     </div>
-    <button class="button" (click)="register()" >Save</button>
-</body>
+    
+     <div class="first">
+        <div class="inputField">
+            <span class="span">Name</span>
+            <input class="input" type="text" [(ngModel)]="comati.name"/>
+        </div >
+        <div class="inputField">
+            <span class="span">Per Head Amount</span>
+        <input class="input" type="int" [(ngModel)]="comati.per_Head"/>
+        </div>
+        <div class="inputField">
+            <span class="span">Remarks</span>
+        <input class="input" type="text" [(ngModel)]="comati.remarks"/>
+        </div>
+        <div class="inputField">
+            <span class="span">Start Date</span>
+        <input class="input" type="date" [(ngModel)]="comati.start_Date"/>
+        </div>
+        <button class="button" (click)="register()" >Save</button>
+    </div>
+    
+</div>

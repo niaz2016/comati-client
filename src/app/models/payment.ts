@@ -1,4 +1,7 @@
 export type Payment = {
     comatiId: number,
-    memberShipId: number
+    memberId: number,
+    amount: number,
+    paymentDate: Date,
+    remarks: string,
 }

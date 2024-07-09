@@ -1,11 +1,18 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 15;
+    font-size: larger;
+    background-color: #D6D6D6;
+    height: 97vh;
+    
   }
   .navBar {
     display: flex;
     justify-content: space-between;
+  }
+  .span {
+    color: #fd0000;
   }
   nav {
     background-color: #333;
@@ -28,6 +35,11 @@ body {
     }
   }
   
+  .loginButton {
+    display: flex;
+    gap: 8px;
+    color: white;
+  }
   main {
     padding: 2rem;
   }

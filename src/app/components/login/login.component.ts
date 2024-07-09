@@ -16,16 +16,15 @@ export class LoginComponent implements OnInit {
   person!:Person;
 
   constructor(private commonService:CommonService) {
-
-  }
+    localStorage.clear;
+    }
 
   async ngOnInit(): Promise<void> {
-    this.persons = await this.commonService.getPersons()
-
+    this.persons = await this.commonService.getPersons();
   }
-  updatePerson(event:Person) {}
   login() {
     this.commonService.login(this.person);
+    
   }
 
 }

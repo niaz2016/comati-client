@@ -1,30 +1,52 @@
 
 <body class="container">
-    <div>
-        <h1 >{{selectedComati?.name}}</h1>
-        <h1>{{person.name}}</h1>
-    </div>
     <div class="first">
-        <label class="label">Select Comati </label>
-        <select class="input" id="comatiSelect" [(ngModel)]="selectedComati" name="comatiSelect">
-            <option *ngFor="let comati of comaties" [ngValue]="comati.id">{{ comati.name }}</option>
-        </select>
-        <a class="button" href="add-member"> Add new Member</a>
-        <a  class="button" href="add-payment"> Add a Payment</a>
-        <a  class="button" href="add-comati"> Add New Comati</a>
-    </div>
-    <div class="first">
-        <div class="element"><h3>Amount Collected</h3><h3>88000</h3></div>
-        <div class="element"><h3>Members Remaining</h3>
-            <h3>11</h3>
-            <button class="button">See Details</button>
+        <div class="element">
+            <span class="span">User:</span>
+        <span class="span">{{person.name}}</span>
         </div>
-        <div class="element"><h3>This month: </h3><h3>Receiver</h3></div>
+        <div class="first">
+            <label class="label">Select Comati </label>
+            <select class="input" id="comatiSelect"  [(ngModel)]="selectedComati" (ngModelChange)="getData()" name="comatiSelect">
+                <option *ngFor="let comati of comaties" [ngValue]="comati">{{ comati.name }}</option></select>
+                <div class="row" >
+                    <div><span class="span">Members: </span><span > {{ selectedComati.totalMembers}}</span></div>
+                    <div><span class="span">Per Member: </span> <span > {{ selectedComati.per_Head}}</span ></div>
+                </div>
+                <button class="button" routerLink="/add-member" >Add New Member</button>
+                <button class="button" routerLink="/add-payment" >Add a payment</button>
+            
+        </div>
     </div>
     
-    <div class="first">
-        <div class="element"><h3>Total Members</h3><h3>{{selectedComati?.totalMembers}}</h3></div>
-        <div class="element"><h3>Ending On</h3> <h3></h3></div>      
-        <div class="element"><h3>Per Person</h3><h3>{{selectedComati?.per_head}}</h3></div>
+    <div class="first" ><div class="row"> <h3 class="elemet">{{selectedComati.name}}</h3><fa-icon *ngIf="selectedComati?.name"  [icon]="faEdit"></fa-icon></div>
+        <div class="table-container">
+            <table >
+                <tr ><th> Name </th> <th>Mem. No </th> <th> Amount </th> <th> Opening </th></tr>
+                <tr *ngFor="let member of members" > <td><button class="button" routerLink="/person-details">{{member.name}}</button></td>
+                    <td>{{member.comatiMemberNo}}</td><td>{{member.amount}}</td><td><app-date-pipe [date]="member.openingMonth" ></app-date-pipe></td></tr>
+            </table>
+        </div>
+    </div>
+    <div class="first" >
+        <div class="element" ><span class="span">Total Comati</span><span class="span">{{selectedComati.totalComati}}</span></div>
+        <div class="element"><span class="span">Total Collected</span><span class="span">{{selectedComati.totalCollected}}</span></div>
+        <div class="element"><span class="span">Started On</span><span class="span"><app-date-pipe [date]="selectedComati.start_Date" ></app-date-pipe> </span></div>
+        <div class="element" ><span class="span">Ending On</span> <app-date-pipe [date]="selectedComati.end_Date" ></app-date-pipe></div>
+        
+        <div class="table-container" name="table" >Defaulters This Month:
+            
+            <table *ngIf="defaulters">
+               <tr ><th>Name</th><th>Mem. No</th><th>Amount</th></tr> 
+            <tr  *ngFor="let defaulter of defaulters" >
+              <td >
+                <button  class="button" (click)="defaulterDetails(defaulter.memberId)" routerLink="/person-details">{{defaulter?.name}}</button>
+            </td>
+
+              <td>{{defaulter?.comatiMemberNo}}</td>
+              <td>{{defaulter?.amount}}</td>
+            </tr>
+          </table>
+        </div>
     </div>
 </body>

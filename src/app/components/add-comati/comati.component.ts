@@ -5,6 +5,7 @@ import { Comati } from '../../models/comati'
 import { Router } from '@angular/router';
 import { CommonService } from '../../services/common.service';
 import { Person } from '../../models/person';
+import { ComatiPost } from '../../models/comatiPost';
 
 @Component({
   selector: 'app-add-comati',
@@ -14,28 +15,28 @@ import { Person } from '../../models/person';
   styleUrl: './comati.component.scss'
 })
 export class AddComatiComponent implements OnInit {
-Comaties!: Comati[];
+  
+comaties!: Comati[];
 person!: Person;
-
-comati: Comati ={
-    id: 0,
-    name: '',
-    per_head: 0,
-    start_date: Date.toString(),
-    remarks: '',
+comati: ComatiPost ={
     managerId: 0,
-    totalMembers: 0,
-    totalComati: 0,
+    name: '',
+    start_Date: new Date(),
+    per_Head: 0,
+    remarks: '',
   };
-  comaties: any;
-  constructor(private commonService: CommonService, private router: Router){
-    this.comati.managerId=commonService.person.id;
-    this.person=commonService.person;
-  }
+constructor(private commonService: CommonService, private router: Router){
+
+  this.person=commonService.person;
+  this.comati.managerId=this.person.id;
+}
 //registering comati
   async register(){
-    const result = await this.commonService.registerComati(this.comati);
-    if(result===this.comati){
+    if (await (this.comati.per_Head)===0 || await(this.comati.name.length)<3 || this.comati.managerId===0 ){
+      window.alert("Please Provide correct Credentials")
+    }else{
+    const result =  this.commonService.registerComati(this.comati);
+    if((await result).managerId===this.person.id){
       window.alert("Comati Created Successfully")
       this.router.navigateByUrl('/dash-board')
     }
@@ -43,8 +44,8 @@ comati: Comati ={
       alert("result failed")
     }
   }
+  }
   async ngOnInit(): Promise<void> {
-    this.comaties = await this.commonService.getComaties(this.person.id)
 
   }
 
