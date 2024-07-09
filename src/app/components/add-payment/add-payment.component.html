@@ -1,9 +1,11 @@
 <body class="container">
     <div class="first">
-        <h2>Add Payment</h2>
-    <h2>{{person.name}}</h2>
+        <br>
+    <div class="element"><span>User :</span><span>{{person.name}}</span></div>
     </div>
     <div class="first" >
+        <br>
+        <div class="element"><span>Add Payment</span><span>{{selectedComati?.name}}</span></div><br>
         <div class="inputField">
             <span class="span">Select Comati</span>
             <select class="input" type="text" id="comatiSelect" [(ngModel)]="comati" (ngModelChange)="getMembers($event)" name="comatiSelect">
@@ -26,6 +28,7 @@
             <span class="span">Remarks</span>
             <input class="input" type="text" [(ngModel)]="memberRemarks"/>
         </div>
+        <br>
         <button class="button" (click)="payNow()">Pay Now</button>
     </div>
     

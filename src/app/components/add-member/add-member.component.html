@@ -1,13 +1,22 @@
 <body class="container">
     <div class="first">
-        <h3>Add new member</h3>
-        <h3>{{person.name}}</h3>
+        <br>
+        <div class="element"><span>{{person.name}}</span><span>Registered Members</span><span>{{selectedComati?.name}}</span></div>
+        <div class="table-container">
+            <table *ngIf="selectedComati">Members in {{selectedComati.name}}
+                <tr> <th>Name</th> <th>No.</th><th>Amount</th><th>Openeing</th></tr>
+                <tr *ngFor="let member of members"> <td>{{member.name}}</td><td>{{member.comatiMemberNo}}</td><td>{{member.amount}}</td><td><app-date-pipe [date]="member.openingMonth" ></app-date-pipe></td></tr>
+            </table>
+        </div>
     </div>
     <div class="first">
+        <br>
+        <div class="element"><span>Add New Member</span></div>
+        <br>
         <div class="inputField">
             <span class="span">Select Comati</span>
-            <select class="input" type="text" id="comatiSelect" [(ngModel)]="member.comatiId" name="comatiSelect">
-            <option *ngFor="let comati of comaties" [ngValue]="comati.id">{{ comati.name }}</option></select>
+            <select class="input" type="text" id="comatiSelect" [(ngModel)]="selectedComati" (ngModelChange)="getMembers($event)" name="comatiSelect">
+            <option *ngFor="let comati of comaties" [ngValue]="comati">{{ comati.name }}</option></select>
         </div>
         <div class="inputField">
             <span class="span">Select Person</span>
@@ -24,8 +33,10 @@
         </div>
         <div class="inputField">
             <span class="span">Remarks</span>
+            
             <input class="input" type="text" [(ngModel)]="member.remarks" name="remarks" />
         </div>
+        <br>
         <button class="button" (click)="register()">Add Member</button>
     </div>
 

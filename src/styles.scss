@@ -4,16 +4,16 @@ $form-element-padding: 10px;
 $form-element-border-radius: 0px;
 $form-element-border: 1px solid #ccc;
 $table-bg-color: #f9f9f9;
-$table-border-color: #ddd;
+$table-border-color: #acacac;
 $table-header-bg-color:  #807878;
 $table-header-text-color: #fff;
-$table-row-hover-bg-color: #f1f1f1;
+$table-row-hover-bg-color: white;
 $table-padding: 10px;
 $table-border-radius: 0px;
 
 .table-container {
   width: 100%;
-  margin: 20px auto;
+  margin: 10px auto;
   overflow-x: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   max-height: 100%;
@@ -30,6 +30,8 @@ $table-border-radius: 0px;
     th, td {
       padding: $table-padding;
       text-align: left;
+      background-color: #eeecec;
+      max-width: 150px;
     }
 
     thead {
@@ -141,7 +143,8 @@ $table-border-radius: 0px;
   padding: $form-element-padding;
   border: $form-element-border;
   border-radius: $form-element-border-radius;
-  min-width:70%;
+  min-width:65%;
+  max-width: 100%;
   box-sizing: border-box; // Ensures padding doesn't affect width
   margin-bottom: 0px;
   margin-top: 0px;
@@ -169,8 +172,7 @@ $table-border-radius: 0px;
   
   &:hover {
     background-color: #807878;
-    font-size: 18;
-    padding: 12px 24px;
+    color: white;
   }
   
   .select {

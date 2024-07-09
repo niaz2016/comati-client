@@ -32,7 +32,7 @@ constructor(private commonService: CommonService, private router: Router){
 }
 //registering comati
   async register(){
-    if (await (this.comati.per_Head)===0 || await(this.comati.name.length)<3 || this.comati.managerId===0 ){
+    if ((this.comati.per_Head)===0 || await(this.comati.name.length)<3 || this.comati.managerId===0 ){
       window.alert("Please Provide correct Credentials")
     }else{
     const result =  this.commonService.registerComati(this.comati);
@@ -43,10 +43,12 @@ constructor(private commonService: CommonService, private router: Router){
     else {
       alert("result failed")
     }
-  }
+
+  } location.reload();
   }
   async ngOnInit(): Promise<void> {
-
+    this.comaties=this.commonService.comaties;
+    
   }
 
 }

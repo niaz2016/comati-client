@@ -18,11 +18,8 @@ import { DatePipeComponent } from '../../shared/date-pipe/date-pipe.component';
   styleUrls: ['./dash-board.component.scss']
 })
 export class DashBoardComponent implements OnInit  {
-  constructor(private commonService: CommonService, private router: Router) {
-    this.person=this.commonService.person;
-    
-  }
-
+  
+  
   faEdit= faEdit;
   person!: Person;
   members: Member[] = [];
@@ -30,22 +27,26 @@ export class DashBoardComponent implements OnInit  {
   defaulter!: Defaulter;
   defaulters: Defaulter[] = [];
   status!: string ;
-  startDate!: string;
-  endDate!: string;
-  selectedComati!: Comati;
+  
+  selectedComati: Comati =this.commonService.selectedComati;
+  
+  constructor(private commonService: CommonService, private router: Router) {
+    this.person=this.commonService.person;
+    
+  }
   async ngOnInit(): Promise<void> {
-    this.comaties= await this.commonService.getComaties(this.person.id);
-    this.selectedComati=this.comaties[0];
+    this.comaties= this.commonService.comaties;
+    this.selectedComati=this.commonService.selectedComati;
     this.defaulters = this.selectedComati?.defaulters||[];
-    this.members = await this.commonService.getMembers(this.selectedComati?.id)
-    this.startDate = this.commonService.rearrangeDate(this.selectedComati?.start_Date?? new Date());
-    this.endDate = this.commonService.rearrangeDate(this.selectedComati?.end_Date?? new Date());
+    const members = await this.commonService.getMembers(this.selectedComati?.id);
+    this.members = members as Member[];
+    this.commonService.selectedComati=this.selectedComati;
   }
   async getData(){
     this.defaulters = this.selectedComati?.defaulters||[];
     this.commonService.selectedComati = this.selectedComati as Comati;
     
-    this.members = await this.commonService.getMembers(this.selectedComati?.id?? 0)
+    this.members = await this.commonService.getMembers(this.selectedComati?.id?? 0) as Member[];
   }
 
  async defaulterDetails(memberId: number) {

@@ -6,6 +6,8 @@ import { Comati } from '../../models/comati';
 import { Person } from '../../models/person';
 import { Member } from '../../models/member';
 import { Payment } from '../../models/payment';
+import { DatePipeComponent } from '../../shared/date-pipe/date-pipe.component';
+import { Defaulter } from '../../models/defaulter';
 
 @Component({
   selector: 'app-comati-payment',
@@ -17,17 +19,19 @@ import { Payment } from '../../models/payment';
 export class AddPaymentComponent implements OnInit {
   person!:Person;
   comati!:Comati;
-  comaties!: Comati[];
-  selectedComati!: Comati ;
-  member!: Member;
-  members!: Member[];
+  comaties: Comati[]=[];
+  selectedComati: Comati |undefined;
+  member: Member|undefined;
+  members: Member[]=[];
   selectedMember!: Member;
   memberAmount!: number;
   memberRemarks!: string;
+  defaulter: Defaulter | undefined;
+  defaulters: Defaulter[]=[];
   
   constructor(private commonService: CommonService){
     this.person=this.commonService.person;
-    this.comaties =  this.commonService.comaties;
+    
   }
   
 payment: Payment= {
@@ -38,21 +42,22 @@ payment: Payment= {
   remarks: ''
 };
 async getMembers(event: any): Promise<Member[]> {
-  this.members= await this.commonService.getMembers(event.id);
+  this.members= await this.commonService.getMembers(event.id) as Member[];
   return this.members;
 }
 async getAmount(event: any): Promise<void> {
-  this.memberAmount=this.member.amount;
-  this.memberRemarks= this.member.remarks;
-  
+  this.memberAmount=this.member?.amount??0;
+  this.memberRemarks= this.member?.remarks??'';
 }
 
 async ngOnInit(){
-  
+  this.comaties=this.commonService.comaties;
+  this.selectedComati=this.commonService.selectedComati;
+  this.commonService.selectedComati=this.selectedComati;
 }
   async payNow() {
     this.payment.comatiId= this.comati.id;
-    this.payment.memberId= this.member.id;
+    this.payment.memberId= this.member?.id??0;
     this.payment.amount=this.memberAmount;
     this.payment.remarks=this.memberRemarks;
     if (this.payment.amount==0) {

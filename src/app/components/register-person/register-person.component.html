@@ -1,7 +1,10 @@
 <div class="container">
     <div class="first">
-      <h2>Register Person</h2></div>
+      <div><h3>Registered Persons</h3></div>
+      
+      </div>
     <div class="first">
+      <h3>Register New Person</h3>
       <div class="inputField">
         <span class="span">Name</span>
         <input class="input" type="text" [(ngModel)]="person.name"/>
@@ -18,6 +21,7 @@
         <span class="span">Remarks</span>
         <input class="input" type="text" [(ngModel)]="person.remarks"/>
       </div>
+      <br>
       <button class="button" (click)="register()">Save</button>
     </div>
     

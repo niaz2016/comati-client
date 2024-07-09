@@ -40,7 +40,8 @@ export class CommonService {
   
   constructor(private http: HttpClient, private router: Router) { 
     let p = localStorage.getItem('person');
-    if(p){this.setUser((JSON.parse(p) as Person) );}
+    if(p && p!=undefined){this.setUser((JSON.parse(p) as Person) );}
+    this.getComaties(this.person.id);
   }
   async getComaties(MgrId: number): Promise<Comati[]> {
     const params = new HttpParams().set('MgrId', MgrId);
@@ -92,9 +93,11 @@ export class CommonService {
   }
 
   async getMembers(comatiId: number) {
+    if(comatiId>0){
     const params = new HttpParams().set('comatiId', comatiId);
     this.members = await firstValueFrom(this.http.get<Member[]>(this.comatiMemberUrl, { params }));
     return this.members;
+    }else {return null;}
   }
 
   async getPersons(): Promise<Person[]> {
@@ -105,6 +108,7 @@ export class CommonService {
     if (person && person.name) {
       localStorage.setItem('person', JSON.stringify(person));
       this.setUser(person);
+      this.getComaties(this.person.id);
       this.router.navigateByUrl("/dash-board")
     }
   }
