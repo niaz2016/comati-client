@@ -5,15 +5,20 @@ import { Comati } from '../../models/comati';
 import { DatePipeComponent } from '../../shared/date-pipe/date-pipe.component';
 import { Member } from '../../models/member';
 import { CommonService } from '../../services/common.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faEdit} from '@fortawesome/free-solid-svg-icons'
 
 @Component({
   selector: 'app-comati-members',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipeComponent],
+  imports: [CommonModule, FormsModule, DatePipeComponent, FontAwesomeModule],
   templateUrl: './add-member.component.html',
   styleUrl: './add-member.component.scss'
 })
 export class AddMemberComponent implements OnInit {
+editMember() {
+throw new Error('Method not implemented.');
+}
 
   persons = this.commonService.persons;
   person = this.commonService.person;  
@@ -22,6 +27,8 @@ export class AddMemberComponent implements OnInit {
   members:Member[] | undefined;
   constructor(private commonService: CommonService){
     this.person=this.commonService.person;
+    if(this.selectedComati.totalMembers>0){this.showTable="show"; this.zeroMembers=''};
+    if(this.selectedComati.totalMembers===0){this.showTable=''; this.zeroMembers="show"};
   }
   async getMembers(event: Comati) {
     this.member.comatiId= event.id;
@@ -39,16 +46,18 @@ member: Member = {
   openingMonth: new Date(),
   remarks: '',
 }
-
+faEdit = faEdit;
+showTable: string = '';
+zeroMembers: string = '';
 async ngOnInit(): Promise<void> {
   this.comaties= this.commonService.comaties;
-  this.selectedComati=this.commonService.selectedComati;
   this.members= await this.commonService.getMembers(this.selectedComati.id) as Member[];
   this.commonService.selectedComati=this.selectedComati;
-  console.log(this.members)
+  
   }
 
 async register(): Promise<void> {
+  this.member.comatiId=this.selectedComati.id;
   const result = await this.commonService.registerMember(this.member);
   
   if(result.comatiId>0){

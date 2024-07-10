@@ -27,23 +27,30 @@ $table-border-radius: 0px;
     display: block;
     box-shadow: 2px 2px 1px 1px rgb(212, 212, 212);
 
-    th, td {
+    th {
+      position: sticky; // Make the header sticky
+      top: 22px; // Position it at the top
+      z-index: 0;
       padding: $table-padding;
       text-align: left;
       background-color: #eeecec;
-      max-width: 150px;
+      max-width: 100px;
     }
+    
 
     thead {
       background-color: $table-header-bg-color;
       position: sticky; // Make the header sticky
       top: 0; // Position it at the top
       z-index: 1;
+      display: flex;
+      justify-content: center;
 
       th {
         color: $table-header-text-color;
         font-weight: bold;
       }
+      
     }
 
     tbody {
@@ -81,6 +88,45 @@ $table-border-radius: 0px;
     gap: 15px;
     padding-bottom: 0px;
     
+}
+.buttonAlert{
+  text-decoration: none;
+  background-color: rgb(241, 110, 110);
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 10px 10px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: $form-element-border-radius;
+  font-size: 16px;
+  
+  &:hover {
+    background-color: #807878;
+    color: white;
+  }
+  
+  .select {
+    padding: $form-element-padding;
+    border: $form-element-border;
+    border-radius: $form-element-border-radius;
+    width: 220px; // Adjust width as needed
+    box-sizing: border-box;
+    align-self: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    appearance: none; // Removes default dropdown arrow for custom styling
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px 12px;
+}
+}
+.icon {
+  width: 10px;
+  height: 10px;
+  &:hover {
+    background-color: #c4c1c1;
+  }
 }
 .row {
   display: flex;
@@ -164,7 +210,7 @@ $table-border-radius: 0px;
   background-color: rgb(220, 220, 220);
   color: rgb(0, 0, 0);
   border: none;
-  padding: 10px 20px;
+  padding: 10px 10px;
   width: 100%;
   cursor: pointer;
   border-radius: $form-element-border-radius;

@@ -12,8 +12,8 @@
                 <option *ngFor="let comati of comaties" [ngValue]="comati">{{ comati.name }}</option></select>
                 <br>
                 <div class="row" >
-                    <div><span class="span">Members: </span><span > {{ selectedComati?.totalMembers}}</span></div>
-                    <div><span class="span">Per Member: </span> <span > {{ selectedComati?.per_Head}}</span ></div>
+                    <div><span class="span">Members: </span><span > {{ selectedComati.totalMembers}}</span></div>
+                    <div><span class="span">Per Member: </span> <span > {{ selectedComati.per_Head}}</span ></div>
                 </div>
                 <br>
                 <button class="button" routerLink="/add-member" >Add New Member</button>
@@ -22,9 +22,9 @@
         </div>
     </div>
     
-    <div class="first" ><div class="row"> <span class="elemet">{{selectedComati?.name}}</span><fa-icon *ngIf="selectedComati?.name"  [icon]="faEdit"></fa-icon></div>
+    <div class="first" ><div class="row"> <span class="elemet">{{selectedComati.name}}</span><fa-icon *ngIf="selectedComati?.name"  [icon]="faEdit"></fa-icon></div>
         <div class="table-container">
-            <table *ngIf="selectedComati">All Members in {{selectedComati.name}}
+            <table *ngIf="selectedComati"><thead>{{selectedComati.totalMembers}} Members in {{selectedComati.name}}</thead>   
                 <tr ><th> Name </th> <th>No </th> <th> Amount </th> <th> Opening </th></tr>
                 <tr *ngFor="let member of members" > <td><button class="button" routerLink="/person-details">{{member.name}}</button></td>
                     <td>{{member.comatiMemberNo}}</td><td>{{member.amount}}</td><td><app-date-pipe [date]="member.openingMonth" ></app-date-pipe></td></tr>
@@ -33,22 +33,19 @@
     </div>
     <div class="first" >
         <br>
-        <div class="element" ><span class="span">Total Comati</span><span class="span">{{selectedComati?.totalComati}}</span></div>
-        <div class="element"><span class="span">Total Collected</span><span class="span">{{selectedComati?.totalCollected}}</span></div>
-        <div class="element"><span class="span">Started On</span><span class="span"><app-date-pipe [date]="selectedComati?.start_Date" ></app-date-pipe> </span></div>
-        <div class="element" ><span class="span">Ending On</span> <app-date-pipe [date]="selectedComati?.end_Date" ></app-date-pipe></div>
+        <div class="element" ><span class="span">Total Comati</span><span class="span">{{selectedComati.totalComati}}</span></div>
+        <div class="element"><span class="span">Total Collected</span><span class="span">{{selectedComati.totalCollected}}</span></div>
+        <div class="element"><span class="span">Started On</span><span class="span"><app-date-pipe [date]="selectedComati.start_Date" ></app-date-pipe> </span></div>
+        <div class="element" ><span class="span">Ending On</span> <app-date-pipe [date]="selectedComati.end_Date" ></app-date-pipe></div>
         <br>
-        <div class="table-container" name="table" *ngIf="selectedComati">Defaulters This Month:
-            
+        <div class="table-container" name="table" *ngIf="selectedComati">
             <table >
-               <tr ><th>Name</th><th>Phone#</th><th>Amount</th></tr> 
-            <tr  *ngFor="let defaulter of defaulters" >
-              <td >
+                <thead>Defaulters This Month</thead>
+                <tr ><th>Name</th><th>Amount</th><th>Remarks</th></tr> 
+                <tr  *ngFor="let defaulter of defaulters" >
+                <td >
                 <button  class="button" (click)="defaulterDetails(defaulter.memberId)" routerLink="/person-details">{{defaulter?.name}}</button>
-            </td>
-
-              <td>{{defaulter?.phone}}</td>
-              <td>{{defaulter?.amount}}</td>
+                </td> <td>{{defaulter?.amount}}</td><td>{{defaulter.remarks}}</td>
 
             </tr>
           </table>

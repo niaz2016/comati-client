@@ -1,18 +1,18 @@
 <div class="container">
     <div class="first">
         <div class="inputField">
-           <span class="span">Comati:</span> <select class="input" [(ngModel)]="selectedComati" >
-                <option *ngFor="let comati of comaties" (ngValue)="comati">{{comati.name}}</option>
-            </select>
+           <span class="span">Comati:</span>
+           <select class="input" [(ngModel)]="selectedComati" (ngModelChange)="comatiSelected($event)">
+            <option *ngFor="let comati of comaties" (ngValue)="comati">{{comati.name}}</option></select>
         </div>
         <div class="inputField">
-            <span class="span">Member: </span> <select class="input" [(ngModel)]="member" (ngModelChange)="getPersonDetails($event)">
-                <option *ngFor="let member of members" [ngValue]="member">{{member.name}}</option>
-            </select>
+            <span class="span">Member: </span>
+            <select class="input" [(ngModel)]="member" (ngModelChange)="getPersonDetails($event)">
+            <option *ngFor="let member of members" [ngValue]="member">{{member.name}}</option></select>
         </div>
 
-        <div class="inputField"><h2>{{member?.name}}</h2></div>
-        <div class="inputField"> <h2>{{selectedComati?.name}}</h2> </div>
+        <div class="inputField"><h2>{{member?.name??''}}</h2></div>
+        <div class="inputField"> <h2>{{selectedComati.name}}</h2> </div>
         <div class="inputField"><span class="span">Amount</span> <span class="span">{{member?.amount}}</span></div>
         <div class="inputField"><span class="span">Member No.</span><span class="span">{{member?.comatiMemberNo}}</span></div>
         <div class="inputField"><span class="span">Opening Date</span><span class="span">{{ member?.openingMonth?.toLocaleDateString()}}</span></div>

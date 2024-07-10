@@ -24,7 +24,10 @@ export class AppComponent implements OnInit {
   }
   person: Person | undefined;
   logout() {
-
+    this.commonService.selectedComati.name='';
+    this.commonService.selectedComati.id=0;
+    this.commonService.comaties.length=0;
+    this.commonService.members.length=0;
     this.commonService.person={id:0,name:'No User Logged In',phone:'No phone'};
     this.person=this.commonService.person;
     localStorage.setItem('person', JSON.stringify(this.person));

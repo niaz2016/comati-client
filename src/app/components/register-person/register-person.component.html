@@ -1,16 +1,17 @@
 <div class="container">
-    <div class="first">
-      <div><span>Registered Persons</span></div>
+    <div class="first"><br>
       <div class="table-container">
-        <table>
-          <tr> <th>Name</th><th>Phone</th><th>Address</th><th>{{totalCount}}</th></tr>
-          <tr *ngFor="let person of persons"> <td>{{person.name}}</td><td>{{person.phone}}</td><td>{{person.address}}</td><button class="button">Edit</button></tr>
+        <table *ngIf="persons[0].name"><thead>{{totalCount}} registered Persons</thead>
+          <tr> <th>Name</th><th>Phone</th><th>Address</th><th></th></tr>
+          <tr *ngFor="let pers of persons"> <td (click)="editPersonfunc(pers)"><fa-icon class="icon" [icon]="faEdit"></fa-icon>{{pers.name}}</td><td>{{pers.phone}}</td><td>{{pers.address}}</td></tr>
         </table>
       </div>
+    </div>
       
-      </div>
-    <div class="first">
-      <h3>Register New Person</h3>
+    <div class="first"><br>
+      <span class="element" *ngIf="reg==true">Register New Person</span>
+      <span class="element" *ngIf="edit==true">Edit Person</span><br>
+      <div class="element"><span>Person ID:</span><span [(ngModel)]="person.id">{{person.id}}</span></div>
       <div class="inputField">
         <span class="span">Name</span>
         <input class="input" type="text" [(ngModel)]="person.name"/>
@@ -28,7 +29,9 @@
         <input class="input" type="text" [(ngModel)]="person.remarks"/>
       </div>
       <br>
-      <button class="button" (click)="register()">Save</button>
+      <button class="button" *ngIf="reg==true" (click)="savePerson()">Save</button>
+      <button class="button" *ngIf="edit==true" (click)="savePerson()">Update</button>
+      <button class="button" *ngIf="edit==true" (click)="cancelEdit()">Close</button>
     </div>
     
   </div>

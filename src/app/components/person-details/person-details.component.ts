@@ -18,28 +18,27 @@ import { Member } from '../../models/member';
 })
 export class PersonDetailsComponent implements OnInit {
 comaties: Comati[] | undefined;
-selectedComati: Comati | undefined;
+selectedComati = this.commonService.selectedComati;
 member: Member | undefined;
 members: Member[]=[];
 personDetails: Person |undefined;
 payments!: PaymentsHistory[];
  constructor(private commonService: CommonService){
-   this.member= this.commonService.member;
+  this.member= this.commonService.member;
+  this.selectedComati = this.commonService.selectedComati;
+  this.comaties = this.commonService.comaties;
   }
   async getPersonDetails(event: Member): Promise<void> {
     this.member = event;
     console.log(this.member)
   }
+  async comatiSelected(event: Comati) {
+this.members = await this.commonService.getMembers(event.id) as Member[];
+  }
   async ngOnInit(): Promise<void> {
-  this.comaties = this.commonService.comaties||[];
-  this.selectedComati = this.commonService.selectedComati;
-  this.members =await this.commonService.getMembers(this.selectedComati?.id)as Member[];
+  this.members =await this.commonService.getMembers(this.selectedComati.id)as Member[];
   this.payments = this.commonService.payments;
 console.log(this.selectedComati)
 
   }
-
-  // updateMemberDetails():void{}
-  // updateSelectedComati():void{}
-  // updatePersonDetails():void{}
 }

@@ -32,14 +32,13 @@ export class DashBoardComponent implements OnInit  {
   
   constructor(private commonService: CommonService, private router: Router) {
     this.person=this.commonService.person;
-    
   }
   async ngOnInit(): Promise<void> {
     this.comaties= this.commonService.comaties;
     this.selectedComati=this.commonService.selectedComati;
-    this.defaulters = this.selectedComati?.defaulters||[];
     const members = await this.commonService.getMembers(this.selectedComati?.id);
     this.members = members as Member[];
+    this.defaulters = this.selectedComati?.defaulters||[];
     this.commonService.selectedComati=this.selectedComati;
   }
   async getData(){

@@ -6,7 +6,6 @@ import { Comati } from '../models/comati';
 import { Person } from '../models/person';
 import { Router } from '@angular/router';
 import { Payment } from '../models/payment';
-import { ComatiPost } from '../models/comatiPost';
 import { Defaulter } from '../models/defaulter';
 import { PaymentsHistory } from '../models/paymentsHistory';
 
@@ -25,8 +24,10 @@ export class CommonService {
   amountUrl = 'https://localhost:7258/api/ComatiPayment/ComatiId'
   memberPaymentsUrl = 'https://localhost:7258/api/ComatiPayment/memberPayments'
   memberUrl = 'https://localhost:7258/api/ComatiMember/memberId'
+  delComatiUrl = 'https://localhost:7258/api/Comati/delete'
+
   person: Person={name:'No User Loggedin',id:0,phone:'No Phone'};
-  persons!: Person[];
+  persons: Person[]=[];
   comati!: Comati;
   comaties: Comati[]=[];
   member!: Member;
@@ -38,10 +39,15 @@ export class CommonService {
   personDetails!: Person;
   selectedComati!: Comati;
   
-  constructor(private http: HttpClient, private router: Router) { 
+  constructor(private http: HttpClient, private router: Router) {
+    
     let p = localStorage.getItem('person');
     if(p && p!=undefined){this.setUser((JSON.parse(p) as Person) );}
-    this.getComaties(this.person.id);
+    this.loadDefaults();
+  }
+  async loadDefaults(){
+    await this.getComaties(this.person.id);
+    await this.getPersons();
   }
   async getComaties(MgrId: number): Promise<Comati[]> {
     const params = new HttpParams().set('MgrId', MgrId);
@@ -81,12 +87,12 @@ export class CommonService {
     return await firstValueFrom(this.http.post<Member>(this.comatiMemberUrl, member));
   }
 
-  async registerComati(comati: ComatiPost): Promise<Comati> {
+  async registerComati(comati: Comati): Promise<Comati> {
     return await firstValueFrom(this.http.post<any>(this.regComatiUrl, comati));
   }
 
-  async registerPerson(person: Person): Promise<void> {
-    return await firstValueFrom (this.http.post<any>(this.personsUrl, person))
+  async registerPerson(person: Person): Promise<Person> {
+    return await firstValueFrom (this.http.post<any>(this.personsUrl, person));
   }
   async AddPayment(payment: Payment): Promise<Payment> {
     return await firstValueFrom (this.http.post<any>(this.paymentUrl, payment));
@@ -112,13 +118,19 @@ export class CommonService {
       this.router.navigateByUrl("/dash-board")
     }
   }
+  async deleteComati(comatiId: number): Promise<number> {
+    const params = new HttpParams().set('comatiId', comatiId.toString());
+    const result = await firstValueFrom(
+      this.http.delete<number>(this.delComatiUrl, { params })
+    );
+    return result;
+  }
   rearrangeDate(date: Date): string{
 var month = date.getMonth();
 var year = date.getFullYear();
 var day = date.getDay();
     const stringDate= (day+'/'+month+'/'+year).toString();
     return stringDate;
-  console.log(stringDate);
    }
   setUser(person:Person) {
     this.person.name=person.name;
