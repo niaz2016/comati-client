@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Person } from '../../models/person';
@@ -12,7 +12,7 @@ import { CommonService } from '../../services/common.service';
   templateUrl: './register-person.component.html',
   styleUrls: ['./register-person.component.scss'],
 })
-export class RegisterPersonComponent {
+export class RegisterPersonComponent implements OnInit {
   person:Person = {
     id:0,
     name: '',
@@ -20,9 +20,12 @@ export class RegisterPersonComponent {
     address: '',
     remarks: ''
   };
-
+  totalCount: number = this.commonService.persons.length;
   constructor(private commonService: CommonService, private router: Router) { }
-
+  ngOnInit(): void {
+    
+  }
+  persons= this.commonService.persons;
   async register() {
     if(this.person.name.length<3||this.person.phone.length<11){
       window.alert("Please Enter Correct Credentials")
@@ -34,6 +37,7 @@ export class RegisterPersonComponent {
     }
     else {
       window.alert("Person registration Successful");
+      this.commonService.getPersons();
   }
   
     

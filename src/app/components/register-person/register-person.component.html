@@ -1,6 +1,12 @@
 <div class="container">
     <div class="first">
-      <div><h3>Registered Persons</h3></div>
+      <div><span>Registered Persons</span></div>
+      <div class="table-container">
+        <table>
+          <tr> <th>Name</th><th>Phone</th><th>Address</th><th>{{totalCount}}</th></tr>
+          <tr *ngFor="let person of persons"> <td>{{person.name}}</td><td>{{person.phone}}</td><td>{{person.address}}</td><button class="button">Edit</button></tr>
+        </table>
+      </div>
       
       </div>
     <div class="first">
