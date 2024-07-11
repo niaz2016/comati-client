@@ -41,7 +41,9 @@ export class RegisterPersonComponent implements OnInit {
     this.person=pers;
     this.edit=true;
     this.reg=false;
-    
+  }
+  del(pId: number){
+    this.commonService.deletePerson(pId);
   }
   cancelEdit() {
     this.edit = false;
@@ -61,10 +63,8 @@ export class RegisterPersonComponent implements OnInit {
        }
        else {const result = await this.commonService.registerPerson(this.person);
        if (result) {
-        if(this.reg=true){window.alert("Person registration Successful");}
-        if(this.edit=true){window.alert("Person Update Successful");}
-        this.edit=false;
-        this.reg=true;-
+        if(this.reg===true){window.alert("Person registration Successful");}
+        else if((this.edit===true)) {window.alert("Person Update Successful");}
         this.cancelEdit();
        }
     }

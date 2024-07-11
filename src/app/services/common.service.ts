@@ -19,11 +19,9 @@ export class CommonService {
   regComatiUrl = 'https://localhost:7258/api/Comati';
   comatiMemberUrl = 'https://localhost:7258/api/ComatiMember';
   personsUrl = 'https://localhost:7258/api/Person';
-  getPersonUrl = 'https://localhost:7258/api/Person/personId';
   paymentUrl = 'https://localhost:7258/api/ComatiPayment'
   amountUrl = 'https://localhost:7258/api/ComatiPayment/ComatiId'
   memberPaymentsUrl = 'https://localhost:7258/api/ComatiPayment/memberPayments'
-  memberUrl = 'https://localhost:7258/api/ComatiMember/memberId'
   delComatiUrl = 'https://localhost:7258/api/Comati/delete'
 
   person: Person={name:'No User Loggedin',id:0,phone:'No Phone'};
@@ -63,13 +61,13 @@ export class CommonService {
   }
   async getPerson(personId: number): Promise<Person> {
     const params =new HttpParams().set('personId', personId);
-    this.personDetails = await firstValueFrom(this.http.get<Person>(this.getPersonUrl, {params}));
+    this.personDetails = await firstValueFrom(this.http.get<Person>(this.personsUrl, {params}));
     return this.personDetails;
    }
    async getMember(memberId: number ) {
      const params = new HttpParams().set('memberId', memberId);
      //this.personDetails= await firstValueFrom(this.http.get<Person>(this.getPerson, )) get person by memberId
-     this.member = await firstValueFrom(this.http.get<Member>(this.memberUrl, {params}));
+     this.member = await firstValueFrom(this.http.get<Member>(this.comatiMemberUrl, {params}));
      
    }
   async getMemberPayments(comatiId: number, memberId: number): Promise<PaymentsHistory[]>  {
@@ -102,7 +100,9 @@ export class CommonService {
     if(comatiId>0){
     const params = new HttpParams().set('comatiId', comatiId);
     this.members = await firstValueFrom(this.http.get<Member[]>(this.comatiMemberUrl, { params }));
+    console.log(this.members);
     return this.members;
+    
     }else {return null;}
   }
 
@@ -120,10 +120,18 @@ export class CommonService {
   }
   async deleteComati(comatiId: number): Promise<number> {
     const params = new HttpParams().set('comatiId', comatiId.toString());
-    const result = await firstValueFrom(
-      this.http.delete<number>(this.delComatiUrl, { params })
-    );
+    const result = await firstValueFrom(this.http.delete<number>(this.delComatiUrl, { params }));
     return result;
+  }
+  async deletePerson(pId: number){
+    const params = new HttpParams().set('id', pId);
+    const result = await firstValueFrom(this.http.delete<number>(this.personsUrl, {params}));
+    return result;
+  }
+  async deleteMember(id: number){
+    const params = new HttpParams().set('id', id);
+    const result = await firstValueFrom(this.http.delete<number>(this.comatiMemberUrl, {params}));
+    return result
   }
   rearrangeDate(date: Date): string{
 var month = date.getMonth();

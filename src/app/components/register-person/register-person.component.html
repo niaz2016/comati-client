@@ -3,7 +3,7 @@
       <div class="table-container">
         <table *ngIf="persons[0].name"><thead>{{totalCount}} registered Persons</thead>
           <tr> <th>Name</th><th>Phone</th><th>Address</th><th></th></tr>
-          <tr *ngFor="let pers of persons"> <td (click)="editPersonfunc(pers)"><fa-icon class="icon" [icon]="faEdit"></fa-icon>{{pers.name}}</td><td>{{pers.phone}}</td><td>{{pers.address}}</td></tr>
+          <tr *ngFor="let pers of persons"> <td ><fa-icon (click)="editPersonfunc(pers)" class="icon" [icon]="faEdit"></fa-icon>{{pers.name}}</td><td>{{pers.phone}}</td><td>{{pers.address}}</td></tr>
         </table>
       </div>
     </div>
@@ -32,6 +32,7 @@
       <button class="button" *ngIf="reg==true" (click)="savePerson()">Save</button>
       <button class="button" *ngIf="edit==true" (click)="savePerson()">Update</button>
       <button class="button" *ngIf="edit==true" (click)="cancelEdit()">Close</button>
+      <button *ngIf="edit" class="buttonAlert" (click)="del(person.id)" >Delete</button>
     </div>
     
   </div>

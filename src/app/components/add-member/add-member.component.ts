@@ -16,15 +16,14 @@ import { faEdit} from '@fortawesome/free-solid-svg-icons'
   styleUrl: './add-member.component.scss'
 })
 export class AddMemberComponent implements OnInit {
-editMember() {
-throw new Error('Method not implemented.');
-}
+
 
   persons = this.commonService.persons;
   person = this.commonService.person;  
   selectedComati: Comati =this.commonService.selectedComati;
   comaties: Comati[] = this.commonService.comaties;
   members:Member[] | undefined;
+comati: Comati=this.selectedComati;
   constructor(private commonService: CommonService){
     this.person=this.commonService.person;
     if(this.selectedComati.totalMembers>0){this.showTable="show"; this.zeroMembers=''};
@@ -36,6 +35,8 @@ throw new Error('Method not implemented.');
     this.members =await this.commonService.getMembers(event.id) as Member[];
     console.log(event)
   }
+  reg = true;
+  edit = false;
 member: Member = {
   id: 0,
   name: '',
@@ -55,17 +56,35 @@ async ngOnInit(): Promise<void> {
   this.commonService.selectedComati=this.selectedComati;
   
   }
-
+  editMember(member: Member) {
+    this.reg=false;
+    this.edit=true;
+    this.member=member;
+  }
+delete(){
+  this.commonService.deleteMember(this.member.id);
+}
 async register(): Promise<void> {
   this.member.comatiId=this.selectedComati.id;
   const result = await this.commonService.registerMember(this.member);
   
   if(result.comatiId>0){
     window.alert("Registration was successfull");
+    this.close();
   }
   else {
     window.alert("Registration Failed");
   }
 }
-  
+close(){
+  this.reg=true;
+  this.edit=false;
+  this.member.id=0;
+  this.member.amount=0;
+  this.member.comatiId=0,
+  this.member.comatiMemberNo=0;
+  this.member.name='';
+  this.member.remarks='';
+}
+
 }
