@@ -34,7 +34,6 @@ allPaymentsSum: number | undefined;
   async getPersonDetails(event: Member): Promise<void> {
     this.personDetails = await this.commonService.getPerson(event.personId);
     this.payments = await this.commonService.getMemberPayments(event.id)
-    console.log(this.personDetails)
     this.allPaymentsSum = this.payments.reduce((sum, payment) => sum + payment.amount, 0);
   }
   async comatiSelected(event: Comati) {

@@ -4,6 +4,8 @@ import { CommonService } from './services/common.service';
 import { Person } from './models/person';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SortTablePipe } from './shared/sort-table.pipe';
+import { Comati } from './models/comati';
+import { EMPTY } from 'rxjs';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -15,21 +17,21 @@ import { SortTablePipe } from './shared/sort-table.pipe';
 export class AppComponent implements OnInit {
 
   title = 'comati';
-  
-  
   constructor(private commonService: CommonService) {
     
   }
   ngOnInit(): void {
     this.person=this.commonService.person;
-  }
-  person: Person | undefined;
-  logout() {
     
+  }
+  person: Person| undefined;
+  logout() {
     this.commonService.selectedComati?.name?? '';
     this.commonService.selectedComati?.id?? 0;
-    this.commonService.person={id:0,name:'No User Logged In',phone:'No phone'};
-    this.person=this.commonService.person;
-    localStorage.setItem('person', JSON.stringify(this.commonService.person));
+    this.commonService.comaties=[];
+    this.commonService.members=[];
+    this.person={ id: 0, name: '', phone: ''};
+    this.commonService.selectedComati= {id: 0, name: '', managerId: 0, start_Date: new Date, per_Head: 0,totalMembers: 0, totalComati: 0, totalCollected: 0};
+    localStorage.setItem('person', JSON.stringify(this.person));
     }
 }

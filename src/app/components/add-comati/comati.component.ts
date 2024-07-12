@@ -35,9 +35,10 @@ reg: boolean = true;
 edit: boolean = false;
 constructor(private commonService: CommonService, private router: Router){
   this.comati.managerId=this.person.id;
+  this.ngOnInit();
 }
   async ngOnInit(): Promise<void> {
-    this.comaties = await this.commonService.getComaties(this.person?.id);
+    this.comaties = this.commonService.comaties;
     if(this.comaties?.length===0){this.zeroComaties=true; this.showTable=false}
     if(this.comaties?.length!=0){this.zeroComaties=false; this.showTable=true;}
   }

@@ -7,8 +7,8 @@
         <table ><thead>Your Comaties</thead>
             <tr><th>Name</th> <th>Members</th> <th>Per Head</th><th>Remarks</th> </tr>
             <tr *ngFor="let comati of comaties">
-                <td><fa-icon class="icon" (click)="editComati(comati)" [icon]="faEdit"></fa-icon> {{comati.name}}</td>
-                <td><div class="serialNo">{{comati.totalMembers}}</div></td><td><div class="serialNo">{{comati.per_Head}}</div></td><td>{{comati.remarks}}</td>
+                <td><fa-icon class="icon" (click)="editComati(comati)" [icon]="faEdit"></fa-icon> {{comati?.name}}</td>
+                <td><div class="serialNo">{{comati?.totalMembers}}</div></td><td><div class="serialNo">{{comati?.per_Head}}</div></td><td>{{comati?.remarks}}</td>
             </tr>
         </table>
     </div>

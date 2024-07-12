@@ -24,7 +24,7 @@ export class DashBoardComponent implements OnInit  {
   faEdit= faEdit;
   person!: Person;
   members: Member[] = [];
-  comaties: Comati[]=[];
+  comaties = this.commonService.comaties;
   
   defaulter!: Defaulter;
   defaulters: Defaulter[] = [];
@@ -32,25 +32,26 @@ export class DashBoardComponent implements OnInit  {
   zeroComaties = true;
   showContent = true;
   defaultersTable = false;
-  selectedComati: Comati =this.commonService.selectedComati;
+  allPaid = false;
+  selectedComati=this.commonService.selectedComati;
   
   constructor(private commonService: CommonService, private router: Router) {
     this.person=this.commonService.person;
   }
   async ngOnInit(): Promise<void> {
     this.comaties= this.commonService.comaties;
-    if(this.comaties.length===0){this.zeroComaties=true; this.showContent=false; this.defaultersTable=false;}else{this.zeroComaties=false; this.showContent=true; this.defaultersTable=true;}
-    this.selectedComati=this.commonService.selectedComati;
-    const members = await this.commonService.getMembers(this.selectedComati?.id);
+    const members = await this.commonService.getMembers(this.selectedComati?.id??0);
     this.members = members as Member[];
-    this.defaulters = this.selectedComati?.defaulters||[];
-    this.commonService.selectedComati=this.selectedComati;
+    this.defaulters = this.selectedComati?.defaulters as Defaulter[]; // necessary for initial settings and getData sets it after change
+    if(this.comaties.length===0){this.zeroComaties=true; this.showContent=false; this.defaultersTable=false;this.allPaid=false;}else{this.zeroComaties=false; this.showContent=true;}
+    if(this.defaulters.length!=0){this.defaultersTable=true;this.allPaid=false;}else{this.allPaid=true; this.defaultersTable=false;}
   }
   async getData(){
-    this.defaulters = this.selectedComati?.defaulters||[];
-    this.commonService.selectedComati = this.selectedComati as Comati;
-    
     this.members = await this.commonService.getMembers(this.selectedComati?.id?? 0) as Member[];
+    this.commonService.selectedComati=this.selectedComati;
+    this.defaulters = this.selectedComati?.defaulters as Defaulter[];
+    if(this.defaulters.length!=0){this.defaultersTable=true;this.allPaid=false;}else{this.allPaid=true; this.defaultersTable=false}
+    if(this.comaties.length===0){this.zeroComaties=true; this.showContent=false; this.defaultersTable=false;this.allPaid=false;}else{this.zeroComaties=false; this.showContent=true;}
   }
 
  async defaulterDetails(memberId: number) {

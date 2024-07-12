@@ -40,14 +40,15 @@
         <div class="element"><span class="span">Started On</span><span class="span"><app-date-pipe [date]="selectedComati?.start_Date" ></app-date-pipe> </span></div>
         <div class="element" ><span class="span">Ending On</span> <app-date-pipe [date]="selectedComati?.end_Date" ></app-date-pipe></div>
         <br>
-        <div class="table-container" name="table" *ngIf="defaultersTable">
+        <div class="element" *ngIf="allPaid">Congratulations: No pending payments</div>
+        <div class="table-container" name="table" *ngIf="defaultersTable" >
             <table >
                 <thead>Defaulters This Month</thead>
                 <tr ><th>Name</th><th>Amount</th><th>Remarks</th></tr> 
                 <tr  *ngFor="let defaulter of defaulters" >
                 <td >
                 <button  class="button" (click)="defaulterDetails(defaulter.memberId)" routerLink="/person-details">{{defaulter?.name}}</button>
-                </td> <td>{{defaulter?.amount}}</td><td>{{defaulter.remarks}}</td>
+                </td> <td>{{defaulter?.amount}}</td><td>{{defaulter?.remarks}}</td>
             </tr>
           </table>
         </div>

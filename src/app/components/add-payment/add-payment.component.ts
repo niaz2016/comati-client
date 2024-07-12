@@ -20,7 +20,7 @@ export class AddPaymentComponent implements OnInit {
   person!:Person;
   comati!:Comati;
   comaties: Comati[]=[];
-  selectedComati: Comati |undefined;
+  selectedComati: Comati | undefined;
   member: Member|undefined;
   members: Member[]=[];
   selectedMember!: Member;
@@ -33,6 +33,7 @@ export class AddPaymentComponent implements OnInit {
   }
   
 payment: Payment= {
+  comatiId: 0,
   memberId: 0,
   amount: 0,
   paymentDate: new Date(),
@@ -50,19 +51,21 @@ async getAmount(event: any): Promise<void> {
 async ngOnInit(){
   this.comaties=this.commonService.comaties;
   this.selectedComati=this.commonService.selectedComati;
-  this.commonService.selectedComati=this.selectedComati;
 }
   async payNow() {
+    this.payment.comatiId=this.selectedComati?.id as number;
     this.payment.memberId= this.member?.id as number;
     if (this.payment.amount==0) {
       window.alert("Payment can't be zero");
       return;
     }
+    else{
     let result = await this.commonService.AddPayment(this.payment);
-    if(result.memberId>0){window.alert("Payment Successfull"); return;}
+    if(result){window.alert("Payment Successfull"); return;}
     else {
       window.alert("Payment may be null")
     }
+  }
   }  
 
 }

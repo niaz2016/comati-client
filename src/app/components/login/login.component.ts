@@ -13,13 +13,11 @@ import { CommonService } from '../../services/common.service';
 })
 export class LoginComponent implements OnInit {
   persons!: Person[];
-  person!:Person;
+  person!: Person;
   constructor(private commonService:CommonService) {
-    
     }
     
   async ngOnInit(): Promise<void> {
-    
     const persons = await this.commonService.getPersons();
     this.persons =persons;
   }

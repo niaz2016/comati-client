@@ -23,22 +23,24 @@ export class AddMemberComponent implements OnInit {
   persons = this.commonService.persons;
   person = this.commonService.person;  
   selectedComati: Comati | undefined;
-  comaties: Comati[] = this.commonService.comaties;
+  comaties = this.commonService.comaties;
   members!: Member[];
   comati: Comati | undefined;
   constructor(private commonService: CommonService, private router: Router){
     this.person=this.commonService.person;
-    
     
   }
   async getMembers(event: Comati) {
     this.member.comatiId= event.id;
     this.selectedComati=event;
     this.members =await this.commonService.getMembers(event.id) as Member[];
-    console.log(event)
   }
-  reg = false;
+  reg = true;
   edit = false;
+  faEdit = faEdit;
+  showTable= true;
+  zeroMembers=true;
+
 member: Member = {
   id: 0,
   name: '',
@@ -49,16 +51,11 @@ member: Member = {
   openingMonth: new Date(),
   remarks: '',
 }
-faEdit = faEdit;
-showTable: string = '';
-zeroMembers: string = '';
 async ngOnInit(): Promise<void> {
-  if(this.comaties?.length===1){this.selectedComati=this.comaties[0];}
+  this.selectedComati=this.commonService.selectedComati;
   this.members= await this.commonService.getMembers(this.selectedComati?.id??0) as Member[];
-  this.commonService.selectedComati=this.selectedComati as Comati;
-  if(this.selectedComati)
-    {if(this.selectedComati?.totalMembers>0){this.showTable="show"; this.zeroMembers=''};
-    if(this.selectedComati?.totalMembers===0){this.showTable=''; this.zeroMembers="show"};}
+    if(this.comaties.length===0){this.showTable=false; this.zeroMembers=true;}
+    if(this.members.length>0){this.showTable=true; this.zeroMembers=false;}else { this.showTable=false; }
   }
   details(){
     this.router.navigateByUrl("/person-details");

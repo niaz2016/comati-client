@@ -10,7 +10,7 @@
                     <td><fa-icon class="icon" (click)="editMember(member)" [icon]="faEdit"></fa-icon>{{member?.name}}</td><td>{{member?.amount}}</td><td><app-date-pipe [date]="member?.openingMonth" ></app-date-pipe></td></tr>
             </table>
         </div>
-        <button class="button" (click)="details()">Go to Detals</button>
+        <div *ngIf="showTable"><button  class="button" (click)="details()">Go to Detals</button></div>
     </div>
     <div class="first">
         <br>
