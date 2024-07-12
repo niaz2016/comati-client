@@ -10,4 +10,5 @@ import { CommonModule } from '@angular/common';
 })
 export class DatePipeComponent {
   @Input() date!: Date|undefined;
+@Input() fullDate!: Date | undefined;
 }

@@ -7,7 +7,6 @@ import { Person } from '../models/person';
 import { Router } from '@angular/router';
 import { Payment } from '../models/payment';
 import { Defaulter } from '../models/defaulter';
-import { PaymentsHistory } from '../models/paymentsHistory';
 
 @Injectable({
   providedIn: 'root'
@@ -19,21 +18,22 @@ export class CommonService {
   regComatiUrl = 'https://localhost:7258/api/Comati';
   comatiMemberUrl = 'https://localhost:7258/api/ComatiMember';
   personsUrl = 'https://localhost:7258/api/Person';
-  paymentUrl = 'https://localhost:7258/api/ComatiPayment'
-  amountUrl = 'https://localhost:7258/api/ComatiPayment/ComatiId'
-  memberPaymentsUrl = 'https://localhost:7258/api/ComatiPayment/memberPayments'
-  delComatiUrl = 'https://localhost:7258/api/Comati/delete'
+  personUrl = 'https://localhost:7258/api/Person/personId';
+  paymentUrl = 'https://localhost:7258/api/ComatiPayment';
+  amountUrl = 'https://localhost:7258/api/ComatiPayment/ComatiId';
+  memberPaymentsUrl = 'https://localhost:7258/api/ComatiPayment/memberPayments';
+  delComatiUrl = 'https://localhost:7258/api/Comati/delete';
 
   person: Person={name:'No User Loggedin',id:0,phone:'No Phone'};
   persons: Person[]=[];
   comati!: Comati;
   comaties: Comati[]=[];
   member!: Member;
-  members!: Member[];
+  members: Member[]=[];
   selectedMember: any;
   maxhMemberShipId: number | undefined;
   defaulter!: Defaulter ;
-  payments!: PaymentsHistory[];
+  payments: Payment[]=[];
   personDetails!: Person;
   selectedComati!: Comati;
   
@@ -60,9 +60,9 @@ export class CommonService {
   return this.comaties;
   }
   async getPerson(personId: number): Promise<Person> {
-    const params =new HttpParams().set('personId', personId);
-    this.personDetails = await firstValueFrom(this.http.get<Person>(this.personsUrl, {params}));
-    return this.personDetails;
+    const params =new HttpParams().set('id', personId);
+    return await firstValueFrom(this.http.get<Person>(this.personUrl, {params}));
+    
    }
    async getMember(memberId: number ) {
      const params = new HttpParams().set('memberId', memberId);
@@ -70,8 +70,8 @@ export class CommonService {
      this.member = await firstValueFrom(this.http.get<Member>(this.comatiMemberUrl, {params}));
      
    }
-  async getMemberPayments(comatiId: number, memberId: number): Promise<PaymentsHistory[]>  {
-    const params = new HttpParams().set('comatiId', comatiId).set('memberId', memberId);
+  async getMemberPayments(memberId: number): Promise<Payment[]>  {
+    const params = new HttpParams().set('memberId', memberId);
     this.payments = await firstValueFrom(this.http.get<Payment[]>(this.memberPaymentsUrl, {params})) ;
     return this.payments;
   }

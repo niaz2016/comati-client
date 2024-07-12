@@ -14,10 +14,10 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
   templateUrl: './comati.component.html',
   styleUrl: './comati.component.scss'
 })
-export class AddComatiComponent {
+export class AddComatiComponent implements OnInit {
 faEdit=faEdit;
 person=this.commonService.person;
-comaties=this.commonService.comaties;
+comaties: Comati[] | undefined;
 comati: Comati = {
   id: 0,
   managerId: 0,
@@ -29,14 +29,22 @@ comati: Comati = {
   totalComati: 0,
   totalCollected: 0
 };
+zeroComaties: boolean = false;
+showTable = false;
 reg: boolean = true;
 edit: boolean = false;
 constructor(private commonService: CommonService, private router: Router){
   this.comati.managerId=this.person.id;
 }
+  async ngOnInit(): Promise<void> {
+    this.comaties = await this.commonService.getComaties(this.person?.id);
+    if(this.comaties?.length===0){this.zeroComaties=true; this.showTable=false}
+    if(this.comaties?.length!=0){this.zeroComaties=false; this.showTable=true;}
+  }
 editComati(comati: Comati){
   this.comati=comati;
-  this.reg=false; this.edit=true;
+  this.reg=false;
+  this.edit=true;
 }
 close(){
   this.reg=true; this.edit=false;

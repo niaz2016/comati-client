@@ -7,11 +7,13 @@ import { Member } from '../../models/member';
 import { CommonService } from '../../services/common.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEdit} from '@fortawesome/free-solid-svg-icons'
+import { SortTablePipe } from '../../shared/sort-table.pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-comati-members',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipeComponent, FontAwesomeModule],
+  imports: [CommonModule, FormsModule, DatePipeComponent, FontAwesomeModule, SortTablePipe],
   templateUrl: './add-member.component.html',
   styleUrl: './add-member.component.scss'
 })
@@ -20,14 +22,14 @@ export class AddMemberComponent implements OnInit {
 
   persons = this.commonService.persons;
   person = this.commonService.person;  
-  selectedComati: Comati =this.commonService.selectedComati;
+  selectedComati: Comati | undefined;
   comaties: Comati[] = this.commonService.comaties;
-  members:Member[] | undefined;
-comati: Comati=this.selectedComati;
-  constructor(private commonService: CommonService){
+  members!: Member[];
+  comati: Comati | undefined;
+  constructor(private commonService: CommonService, private router: Router){
     this.person=this.commonService.person;
-    if(this.selectedComati.totalMembers>0){this.showTable="show"; this.zeroMembers=''};
-    if(this.selectedComati.totalMembers===0){this.showTable=''; this.zeroMembers="show"};
+    
+    
   }
   async getMembers(event: Comati) {
     this.member.comatiId= event.id;
@@ -35,7 +37,7 @@ comati: Comati=this.selectedComati;
     this.members =await this.commonService.getMembers(event.id) as Member[];
     console.log(event)
   }
-  reg = true;
+  reg = false;
   edit = false;
 member: Member = {
   id: 0,
@@ -51,10 +53,15 @@ faEdit = faEdit;
 showTable: string = '';
 zeroMembers: string = '';
 async ngOnInit(): Promise<void> {
-  this.comaties= this.commonService.comaties;
-  this.members= await this.commonService.getMembers(this.selectedComati.id) as Member[];
-  this.commonService.selectedComati=this.selectedComati;
-  
+  if(this.comaties?.length===1){this.selectedComati=this.comaties[0];}
+  this.members= await this.commonService.getMembers(this.selectedComati?.id??0) as Member[];
+  this.commonService.selectedComati=this.selectedComati as Comati;
+  if(this.selectedComati)
+    {if(this.selectedComati?.totalMembers>0){this.showTable="show"; this.zeroMembers=''};
+    if(this.selectedComati?.totalMembers===0){this.showTable=''; this.zeroMembers="show"};}
+  }
+  details(){
+    this.router.navigateByUrl("/person-details");
   }
   editMember(member: Member) {
     this.reg=false;
@@ -65,7 +72,7 @@ delete(){
   this.commonService.deleteMember(this.member.id);
 }
 async register(): Promise<void> {
-  this.member.comatiId=this.selectedComati.id;
+  this.member.comatiId=this.selectedComati?.id??0;
   const result = await this.commonService.registerMember(this.member);
   
   if(result.comatiId>0){
@@ -85,6 +92,7 @@ close(){
   this.member.comatiMemberNo=0;
   this.member.name='';
   this.member.remarks='';
+  location.reload();
 }
 
 }

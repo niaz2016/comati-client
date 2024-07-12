@@ -2,10 +2,14 @@
     <div class="first">
         <br>
     <div class="element"><span>User: </span><span>{{person.name}}</span></div>
-    <div class="table-container">
+    <br><div class="element" *ngIf="zeroComaties"> <span>You have no comaties registered</span> </div>
+    <div  class="table-container" *ngIf="showTable">
         <table ><thead>Your Comaties</thead>
             <tr><th>Name</th> <th>Members</th> <th>Per Head</th><th>Remarks</th> </tr>
-            <tr *ngFor="let comati of comaties"> <td><fa-icon class="icon" (click)="editComati(comati)" [icon]="faEdit"></fa-icon> {{comati.name}}</td> <td>{{comati.totalMembers}}</td><td>{{comati.per_Head}}</td><td>{{comati.remarks}}</td> </tr>
+            <tr *ngFor="let comati of comaties">
+                <td><fa-icon class="icon" (click)="editComati(comati)" [icon]="faEdit"></fa-icon> {{comati.name}}</td>
+                <td><div class="serialNo">{{comati.totalMembers}}</div></td><td><div class="serialNo">{{comati.per_Head}}</div></td><td>{{comati.remarks}}</td>
+            </tr>
         </table>
     </div>
     </div>

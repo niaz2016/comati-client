@@ -24,8 +24,6 @@ export class AddPaymentComponent implements OnInit {
   member: Member|undefined;
   members: Member[]=[];
   selectedMember!: Member;
-  memberAmount!: number;
-  memberRemarks!: string;
   defaulter: Defaulter | undefined;
   defaulters: Defaulter[]=[];
   
@@ -35,7 +33,6 @@ export class AddPaymentComponent implements OnInit {
   }
   
 payment: Payment= {
-  comatiId: 0,
   memberId: 0,
   amount: 0,
   paymentDate: new Date(),
@@ -46,8 +43,8 @@ async getMembers(event: any): Promise<Member[]> {
   return this.members;
 }
 async getAmount(event: any): Promise<void> {
-  this.memberAmount=this.member?.amount??0;
-  this.memberRemarks= this.member?.remarks??'';
+  this.payment.amount=this.member?.amount as number;
+  this.payment.remarks= this.member?.remarks??'';
 }
 
 async ngOnInit(){
@@ -56,20 +53,13 @@ async ngOnInit(){
   this.commonService.selectedComati=this.selectedComati;
 }
   async payNow() {
-    this.payment.comatiId= this.comati.id;
-    this.payment.memberId= this.member?.id??0;
-    this.payment.amount=this.memberAmount;
-    this.payment.remarks=this.memberRemarks;
+    this.payment.memberId= this.member?.id as number;
     if (this.payment.amount==0) {
       window.alert("Payment can't be zero");
       return;
     }
     let result = await this.commonService.AddPayment(this.payment);
-    if(result.comatiId){window.alert("Payment Successfull"); return;}
-    
-    else if (this.payment!==null) {
-    
-    }
+    if(result.memberId>0){window.alert("Payment Successfull"); return;}
     else {
       window.alert("Payment may be null")
     }

@@ -33,7 +33,6 @@ export class RegisterPersonComponent implements OnInit {
   }
   async ngOnInit() {
     this.persons= await this.commonService.getPersons();
-    console.log(this.persons)
     
   }
 

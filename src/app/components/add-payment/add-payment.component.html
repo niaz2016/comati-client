@@ -22,11 +22,11 @@
         </div>
         <div class="inputField">
             <h3>Amount</h3>
-            <input class="input" type="number" [(ngModel)]="memberAmount" />
+            <input class="input" type="number" [(ngModel)]="payment.amount" />
         </div>
         <div class="inputField">
             <span class="span">Remarks</span>
-            <input class="input" type="text" [(ngModel)]="memberRemarks"/>
+            <input class="input" type="text" [(ngModel)]="payment.remarks"/>
         </div>
         <br>
         <button class="button" (click)="payNow()">Pay Now</button>

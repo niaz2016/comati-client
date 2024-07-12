@@ -52,19 +52,24 @@ $table-border-radius: 0px;
       }
       
     }
-
+    .serialNo{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     tbody {
       tr {
         &:nth-child(even) {
           background-color: darken($table-bg-color, 15%);
+          
         }
-
         &:hover {
           background-color: $table-row-hover-bg-color;
         }
 
         td {
-          border-bottom: 1px solid $table-border-color;
+          border-bottom: 4px solid $table-border-color;
+          height: 40px;
         }
 
         &:last-child {
@@ -215,7 +220,7 @@ $table-border-radius: 0px;
   cursor: pointer;
   border-radius: $form-element-border-radius;
   font-size: 16px;
-  
+  margin-right: 3px;
   &:hover {
     background-color: #807878;
     color: white;

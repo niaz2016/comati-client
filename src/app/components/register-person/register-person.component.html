@@ -1,7 +1,7 @@
 <div class="container">
     <div class="first"><br>
       <div class="table-container">
-        <table *ngIf="persons[0].name"><thead>{{totalCount}} registered Persons</thead>
+        <table><thead>{{totalCount}} registered Persons</thead>
           <tr> <th>Name</th><th>Phone</th><th>Address</th><th></th></tr>
           <tr *ngFor="let pers of persons"> <td ><fa-icon (click)="editPersonfunc(pers)" class="icon" [icon]="faEdit"></fa-icon>{{pers.name}}</td><td>{{pers.phone}}</td><td>{{pers.address}}</td></tr>
         </table>
@@ -9,8 +9,8 @@
     </div>
       
     <div class="first"><br>
-      <span class="element" *ngIf="reg==true">Register New Person</span>
-      <span class="element" *ngIf="edit==true">Edit Person</span><br>
+      <span class="element" *ngIf="reg" name="regPerson">Register New Person</span>
+      <span class="element" *ngIf="edit" name="editPerson">Edit Person</span><br>
       <div class="element"><span>Person ID:</span><span [(ngModel)]="person.id">{{person.id}}</span></div>
       <div class="inputField">
         <span class="span">Name</span>

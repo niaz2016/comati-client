@@ -1,15 +1,16 @@
 <body class="container">
     <div class="first">
         <br>
-        <div class="element"><span>{{person.name}}</span><span>{{selectedComati.name}}</span></div>
-        <div class="element" *ngIf="zeroMembers">No Members Registered in {{selectedComati.name}}</div>
+        <div class="element"><span>{{person.name}}</span><span>{{selectedComati?.name}}</span></div>
+        <div class="element" *ngIf="zeroMembers">No Members Registered in {{selectedComati?.name}}</div>
         <div *ngIf="showTable" class="table-container">
-            <table > <thead>{{selectedComati.totalMembers}} members in {{selectedComati.name}}</thead>
-                <tr><th>Name</th><th>No.</th><th>Amount</th><th>Openeing</th></tr>
-                <tr *ngFor="let member of members"> <td><fa-icon class="icon" (click)="editMember(member)" [icon]="faEdit"></fa-icon>{{member.name}}</td>
-                    <td>{{member.comatiMemberNo}}</td><td>{{member.amount}}</td><td><app-date-pipe [date]="member.openingMonth" ></app-date-pipe></td></tr>
+            <table > <thead>{{selectedComati?.totalMembers}} members in {{selectedComati?.name}}</thead>
+                <tr><th>No.</th><th>Name</th><th>Amount</th><th>Openeing</th></tr>
+                <tr *ngFor="let member of members | sortTable: 'openingMonth'; index as i"><td><div class="serialNo">{{i+1}}</div></td>
+                    <td><fa-icon class="icon" (click)="editMember(member)" [icon]="faEdit"></fa-icon>{{member?.name}}</td><td>{{member?.amount}}</td><td><app-date-pipe [date]="member?.openingMonth" ></app-date-pipe></td></tr>
             </table>
         </div>
+        <button class="button" (click)="details()">Go to Detals</button>
     </div>
     <div class="first">
         <br>
@@ -22,19 +23,17 @@
             <option *ngFor="let comati of comaties" [ngValue]="comati">{{ comati.name }}</option></select>
         </div>
         <div *ngIf="edit" class="inputField"><span class="span">Comati Name</span>
-            <input class="input" disabled="true" [placeholder]="comati.name" />
+            <input class="input" disabled="true" [placeholder]="comati?.name" />
         </div>
+        <div *ngIf="edit" class="inputField"> <span class="span">Name</span><input class="input" disabled="true" placeholder="Edit name from people page"/></div>
         <div *ngIf="reg" class="inputField">
             <span class="span">Select Person</span>
             <select class="input" type="text" id="personSelect" [(ngModel)]="member.personId" name="personSelect">
             <option *ngFor="let person of persons" [ngValue]="person.id">{{ person.name }}</option></select>
         </div>
-        <div *ngIf="edit" class="inputField">
-            <span class="span">Member No</span>
-            <input class="input" type="number" [(ngModel)]="member.comatiMemberNo" name="memNo" [placeholder]="member.comatiMemberNo"/></div>
         <div class="inputField">
             <span class="span">Paying Amount</span>
-            <input class="input" type="number" [(ngModel)]="member.amount" name="amount" [placeholder]="selectedComati.per_Head"/></div>
+            <input class="input" type="number" [(ngModel)]="member.amount" name="amount" [placeholder]="selectedComati?.per_Head"/></div>
         <div class="inputField">
             <span class="span">Opening Month</span>
             <input class="input" type="date" [(ngModel)]="member.openingMonth" name="openingDate" />

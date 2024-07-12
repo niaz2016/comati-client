@@ -10,10 +10,11 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Member } from '../../models/member';
 import { DatePipeComponent } from '../../shared/date-pipe/date-pipe.component';
+import { SortTablePipe } from '../../shared/sort-table.pipe';
 @Component({
   selector: 'app-dash-board',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, FontAwesomeModule, DatePipeComponent],
+  imports: [CommonModule, FormsModule, RouterLink, FontAwesomeModule, DatePipeComponent, SortTablePipe],
   templateUrl: './dash-board.component.html',
   styleUrls: ['./dash-board.component.scss']
 })
@@ -24,10 +25,13 @@ export class DashBoardComponent implements OnInit  {
   person!: Person;
   members: Member[] = [];
   comaties: Comati[]=[];
+  
   defaulter!: Defaulter;
   defaulters: Defaulter[] = [];
   status!: string ;
-  
+  zeroComaties = true;
+  showContent = true;
+  defaultersTable = false;
   selectedComati: Comati =this.commonService.selectedComati;
   
   constructor(private commonService: CommonService, private router: Router) {
@@ -35,6 +39,7 @@ export class DashBoardComponent implements OnInit  {
   }
   async ngOnInit(): Promise<void> {
     this.comaties= this.commonService.comaties;
+    if(this.comaties.length===0){this.zeroComaties=true; this.showContent=false; this.defaultersTable=false;}else{this.zeroComaties=false; this.showContent=true; this.defaultersTable=true;}
     this.selectedComati=this.commonService.selectedComati;
     const members = await this.commonService.getMembers(this.selectedComati?.id);
     this.members = members as Member[];
