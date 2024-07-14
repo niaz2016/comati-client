@@ -23,8 +23,9 @@
     </div>
     
     <div class="first" ><div class="row"> <span class="elemet">{{selectedComati?.name}}</span><fa-icon *ngIf="selectedComati?.name"  [icon]="faEdit"></fa-icon></div>
-        <div class="table-container">
-            <table *ngIf="selectedComati"><thead>{{selectedComati?.totalMembers}} Members in {{selectedComati?.name}}</thead>   
+    <div class="element" *ngIf="zeroMembers">No Members registered</div>   
+    <div class="table-container">
+            <table *ngIf="selectedComati?.name"><thead>{{selectedComati?.totalMembers}} Members in {{selectedComati?.name}}</thead>   
                 <tr ><th>No. </th> <th>Name </th> <th> Amount </th> <th> Opening </th></tr>
                 <tr *ngFor="let member of members | sortTable: 'openingMonth'; index as i" > <td ><div class="serialNo">{{ i+1}}</div></td>
                     <td >{{member.name}}</td>

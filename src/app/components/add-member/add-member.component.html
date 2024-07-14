@@ -7,7 +7,7 @@
             <table > <thead>{{selectedComati?.totalMembers}} members in {{selectedComati?.name}}</thead>
                 <tr><th>No.</th><th>Name</th><th>Amount</th><th>Openeing</th></tr>
                 <tr *ngFor="let member of members | sortTable: 'openingMonth'; index as i"><td><div class="serialNo">{{i+1}}</div></td>
-                    <td><fa-icon class="icon" (click)="editMember(member)" [icon]="faEdit"></fa-icon>{{member?.name}}</td><td>{{member?.amount}}</td><td><app-date-pipe [date]="member?.openingMonth" ></app-date-pipe></td></tr>
+                    <td><fa-icon class="icon" (click)="editMember(member)" [icon]="faEdit"></fa-icon>{{member?.name}}</td><td><div class="serialNo">{{member?.amount}}</div></td><td><app-date-pipe [date]="member?.openingMonth" ></app-date-pipe></td></tr>
             </table>
         </div>
         <div *ngIf="showTable"><button  class="button" (click)="details()">Go to Detals</button></div>

@@ -7,11 +7,12 @@ import { Person } from '../models/person';
 import { Router } from '@angular/router';
 import { Payment } from '../models/payment';
 import { Defaulter } from '../models/defaulter';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CommonService {  
+export class CommonService {
   
   comatiesByMgrUrl = 'https://localhost:7258/api/Comati';
   comatiUrl = 'https://localhost:7258/api/Comati/comati';
@@ -23,6 +24,7 @@ export class CommonService {
   amountUrl = 'https://localhost:7258/api/ComatiPayment/ComatiId';
   memberPaymentsUrl = 'https://localhost:7258/api/ComatiPayment/memberPayments';
   delComatiUrl = 'https://localhost:7258/api/Comati/delete';
+  userUrl = 'https://localhost:7258/api/User';
 
   person: Person={name:'No User Loggedin',id:0,phone:'No Phone'};
   persons: Person[]=[];
@@ -36,16 +38,21 @@ export class CommonService {
   payments: Payment[]=[];
   personDetails!: Person;
   selectedComati!: Comati;
-  
+  user: User | undefined;
   constructor(private http: HttpClient, private router: Router) {
     
-    let p = localStorage.getItem('person');
-    if(p && p!=undefined && p!='undefined'){this.setUser((JSON.parse(p) as Person) );}
+    let u = localStorage.getItem('user');
+    if(u && u!=undefined && u!='undefined'){this.setUser((JSON.parse(u) as Person) );}
     this.loadDefaults();
   }
   async loadDefaults(){
     await this.getComaties(this.person.id);
     await this.getPersons();
+  }
+  async registerUser(user: User): Promise<User> {
+    const result = await firstValueFrom(this.http.post<User>(this.userUrl, user));
+    if(result) {this.user = result;}
+    return result;
   }
   async getComaties(MgrId: number): Promise<Comati[]> {
     const params = new HttpParams().set('MgrId', MgrId);

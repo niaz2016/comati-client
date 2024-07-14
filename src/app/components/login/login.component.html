@@ -1,9 +1,32 @@
 <div class="container">
-<div class="first">
-    <h1>Login</h1>
-    <select [(ngModel)]="person" class="input">
-        <option *ngFor="let person of persons" [ngValue]="person" >{{person.name}} </option></select>
-    <button class="button" (click)="login()">Login</button>
-</div>
-    
-</div>
+    <div class="first"><br>
+      <div class="element">Log into your account</div>
+      <br>
+        <div class="inputField"><span class="span">Registered Phone</span><input class="input"></div>
+        <div class="inputField"><span class="span">Enter Password</span><input class="input" type="password"></div>
+        <br>
+        <button class="button" (click)="login()">Login</button>
+    </div>
+    <div class="first"><br>
+      <span class="element" name="regUser">Register as a new User</span>
+      
+      <div class="inputField">
+        <span class="span">Name*</span>
+        <input class="input" type="text" [(ngModel)]="user.name" name="userName"/>
+      </div>
+      <div class="inputField">
+        <span class="span">Phone*</span>
+        <input class="input" type="text" [(ngModel)]="user.phone" name="userPhone"/>
+      </div>
+      <div class="inputField">
+        <span class="span">Address (optional)</span>
+        <input class="input" type="text" [(ngModel)]="user.address" name="userAddress"/>
+      </div>
+      <div class="inputField"><span class="span">Enter Password</span><input [(ngModel)]="user.password" class="input" type="password"></div>
+      <div class="inputField"><span class="span">Confirm Password</span><input  [(ngModel)]="rePassword" class="input" type="password"></div>
+      <br>
+      <button class="button" (click)="registerUser()">Register</button>
+      <button class="button"  (click)="cancelEdit()">Cancel</button>
+    </div>
+  </div>
+  

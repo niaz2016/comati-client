@@ -8,7 +8,7 @@
         <div class="inputField">
             <span class="span">Select Member</span>
             <select class="input"  id="memberSelect" [(ngModel)]="member" (ngModelChange)="getPersonDetails($event)" name="memberSelect">
-            <option class="option" *ngFor="let memb of members" [ngValue]="memb">{{ memb.name }}</option></select>
+            <option class="option" *ngFor="let memb of members" [ngValue]="memb">{{ memb?.name }}</option></select>
         </div>
         <br>
         <div class="element"><span class="span">{{personDetails?.name}}</span></div>

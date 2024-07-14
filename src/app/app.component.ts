@@ -4,8 +4,6 @@ import { CommonService } from './services/common.service';
 import { Person } from './models/person';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SortTablePipe } from './shared/sort-table.pipe';
-import { Comati } from './models/comati';
-import { EMPTY } from 'rxjs';
 @Component({
   selector: 'app-root',
   standalone: true,

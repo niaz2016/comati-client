@@ -65,8 +65,9 @@ async ngOnInit(): Promise<void> {
     this.edit=true;
     this.member=member;
   }
-delete(){
-  this.commonService.deleteMember(this.member.id);
+async delete(){
+ const result = await this.commonService.deleteMember(this.member.id);
+  if (result){window.alert("Member Deleted"+result)}
 }
 async register(): Promise<void> {
   this.member.comatiId=this.selectedComati?.id??0;

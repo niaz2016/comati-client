@@ -26,14 +26,14 @@ comaties = this.commonService.comaties;
 selectedComati = this.commonService.selectedComati;
 member: Member | undefined;
 members = this.commonService.members;
-personDetails: Person |undefined;
+personDetails: Person | undefined;
 payments: Payment[]=[];
 allPaymentsSum: number | undefined;
 
 
   async getPersonDetails(event: Member): Promise<void> {
     this.personDetails = await this.commonService.getPerson(event.personId);
-    this.payments = await this.commonService.getMemberPayments(event.id)
+    this.payments = await this.commonService.getMemberPayments(event.id);
     this.allPaymentsSum = this.payments.reduce((sum, payment) => sum + payment.amount, 0);
   }
   async comatiSelected(event: Comati) {
