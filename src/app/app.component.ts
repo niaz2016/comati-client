@@ -20,7 +20,6 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(): void {
     this.person=this.commonService.person;
-    
   }
   person: Person| undefined;
   logout() {

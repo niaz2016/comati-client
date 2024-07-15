@@ -2,8 +2,8 @@
     <div class="first"><br>
       <div class="element">Log into your account</div>
       <br>
-        <div class="inputField"><span class="span">Registered Phone</span><input class="input"></div>
-        <div class="inputField"><span class="span">Enter Password</span><input class="input" type="password"></div>
+        <div class="inputField"><span class="span" >Registered Phone</span><input [(ngModel)]="user.phone" class="input"></div>
+        <div class="inputField"><span class="span" >Enter Password</span><input [(ngModel)]="user.password" class="input" type="password"></div>
         <br>
         <button class="button" (click)="login()">Login</button>
     </div>

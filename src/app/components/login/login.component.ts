@@ -4,23 +4,26 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CommonService } from '../../services/common.service';
 import { User } from '../../models/user';
-import { Router } from '@angular/router';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
-login() {
-throw new Error('Method not implemented.');
+async login() {
+  const params = new HttpParams().set('phone', this.user.phone).set('password', this.user.password);
+    const person = await firstValueFrom(this.http.get<Person>('https://localhost:7258/api/User', { params })) as Person;
+  this.commonService.login(person);
 }
 cancelEdit() {
 throw new Error('Method not implemented.');
 }
- 
+ person: Person | undefined
 user: User = {
     id: 0,
     name: '',
@@ -30,7 +33,7 @@ user: User = {
   };
   rePassword: string = '';
   
-  constructor(private commonService: CommonService, private router: Router)
+  constructor(private commonService: CommonService, private http: HttpClient)
   { 
   
   }

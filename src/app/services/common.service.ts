@@ -112,7 +112,7 @@ export class CommonService {
   }
   async login(person:Person) {
     if (person && person.name) {
-      localStorage.setItem('person', JSON.stringify(person));
+      localStorage.setItem('user', JSON.stringify(person));
       this.setUser(person);
       await this.getComaties(this.person.id);
       this.router.navigateByUrl("/dash-board")
