@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Comati } from '../../models/comati'
-import { Router } from '@angular/router';
 import { CommonService } from '../../services/common.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
+import { PopupComponent } from '../../shared/popup/popup.component';
 
 @Component({
   selector: 'app-add-comati',
@@ -15,6 +15,10 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
   styleUrl: './comati.component.scss'
 })
 export class AddComatiComponent implements OnInit {
+del(arg0: number) {
+throw new Error('Method not implemented.');
+}
+popupContainer!: ViewContainerRef;
 faEdit=faEdit;
 person=this.commonService.person;
 comaties: Comati[] | undefined;
@@ -33,9 +37,8 @@ zeroComaties: boolean = false;
 showTable = false;
 reg: boolean = true;
 edit: boolean = false;
-constructor(private commonService: CommonService, private router: Router){
+constructor(private commonService: CommonService){
   this.comati.managerId=this.person.id;
-  this.ngOnInit();
 }
   async ngOnInit(): Promise<void> {
     this.comaties = this.commonService.comaties;
@@ -47,18 +50,17 @@ editComati(comati: Comati){
   this.reg=false;
   this.edit=true;
 }
-close(){
+async close(){
   this.reg=true; this.edit=false;
   this.comati.name='';
   this.comati.per_Head=0;
   this.comati.remarks='';
-  location.reload();
+  this.comaties=await this.commonService.getComaties(this.person.id);
 }
-async del(comatiId: number){
-  this.commonService.deleteComati(comatiId);
-  this.close();
-  location.reload();
-}
+// openPopup(comati: Comati){
+//   this.popupService.popupRef = this.popupContainer.createComponent(PopupComponent);
+//   this.popupService.openPopup(comati);
+// }
 //registering comati
   async register(comati: Comati){
     this.comati=comati;

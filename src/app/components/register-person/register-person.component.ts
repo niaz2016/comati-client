@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, ComponentRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Person } from '../../models/person';
-import { Router } from '@angular/router';
 import { CommonService } from '../../services/common.service';
-import { faEdit} from '@fortawesome/free-solid-svg-icons'
+import { faEdit} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
+import { PopupComponent } from '../../shared/popup/popup.component';
 @Component({
   selector: 'app-register-person',
   standalone: true,
@@ -15,7 +14,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   styleUrls: ['./register-person.component.scss'],
 })
 export class RegisterPersonComponent implements OnInit {
-
   person:Person = {
     id:0,
     name: '',
@@ -28,21 +26,37 @@ export class RegisterPersonComponent implements OnInit {
   reg=true;
   persons: Person[]=[];
   totalCount: number = this.commonService.persons.length;
-  constructor(private commonService: CommonService, private router: Router) { 
-    this.ngOnInit();
-  }
+  constructor(private commonService: CommonService){  }
   async ngOnInit() {
-    this.persons= await this.commonService.getPersons();
-    
+    this.persons= await this.commonService.getPersons();    
   }
-
+  @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
+  popupContainer!: ViewContainerRef;
+  popupRef?: ComponentRef<PopupComponent> ;
+  message: string = 'Are you sure to delete';
+openPopup(person: Person){
+  if (this.popupRef) {
+    return; // Popup is already open
+  }
+  this.popupRef = this.popupContainer.createComponent(PopupComponent);
+  this.popupRef.instance.title = person.name; 
+  this.popupRef.instance.message = this.message;
+  this.popupRef.instance.del = () => this.del(person.id);
+  this.popupRef.instance.close = () => this.closePopup();
+}
+del(id: number){
+  this.commonService.deletePerson(id);
+  this.closePopup();
+  this.cancelEdit();
+}
+closePopup() {
+  this.popupRef?.destroy();
+}
+onClose(){}
   editPersonfunc(pers: Person){
-    this.person=pers;
-    this.edit=true;
     this.reg=false;
-  }
-  del(pId: number){
-    this.commonService.deletePerson(pId);
+    this.edit=true;
+    this.person=pers;
   }
   cancelEdit() {
     this.edit = false;
@@ -54,19 +68,24 @@ export class RegisterPersonComponent implements OnInit {
     this.person.remarks='';
     this.ngOnInit();
     }
-  
+    
     async savePerson(): Promise<void> {
       
-      if(this.person.name.length<3||this.person.phone.length<11 || this.person.phone?.length>11){
+      if(this.person.name.length<3||this.person.phone.length<11 || this.person.phone?.length>11)
+        {
         window.alert("Please Enter Correct Credentials");
-       }
-       else {const result = await this.commonService.registerPerson(this.person);
-       if (result) {
-        if(this.reg===true){window.alert("Person registration Successful");}
-        else if((this.edit===true)) {window.alert("Person Update Successful");}
-        this.cancelEdit();
-       }
-    }
-    
+      }
+      try
+      {
+        const result = await this.commonService.registerPerson(this.person);
+          if (result) {
+           if(this.reg){window.alert("Person registration Successful");}
+           else if((this.edit)) {window.alert("Person Update Successful");}
+           this.cancelEdit();
+          }
+      }
+      catch(err: any) {
+        window.alert(err.Error);
+      }
   }
 }

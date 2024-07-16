@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonService } from './services/common.service';
 import { Person } from './models/person';
@@ -13,10 +13,9 @@ import { SortTablePipe } from './shared/sort-table.pipe';
   providers:[]
 })
 export class AppComponent implements OnInit {
-
+  
   title = 'comati';
   constructor(private commonService: CommonService) {
-    
   }
   ngOnInit(): void {
     this.person=this.commonService.person;

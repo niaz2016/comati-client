@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Comati } from '../../models/comati';
@@ -9,6 +9,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEdit} from '@fortawesome/free-solid-svg-icons'
 import { SortTablePipe } from '../../shared/sort-table.pipe';
 import { Router } from '@angular/router';
+import { PopupComponent } from '../../shared/popup/popup.component';
 
 @Component({
   selector: 'app-comati-members',
@@ -18,17 +19,20 @@ import { Router } from '@angular/router';
   styleUrl: './add-member.component.scss'
 })
 export class AddMemberComponent implements OnInit {
-
-
+del(arg0: Member) {
+throw new Error('Method not implemented.');
+}
+  popupContainer!: ViewContainerRef;
   persons = this.commonService.persons;
   person = this.commonService.person;  
   selectedComati: Comati | undefined;
   comaties = this.commonService.comaties;
   members!: Member[];
   comati: Comati | undefined;
-  constructor(private commonService: CommonService, private router: Router){
+  constructor(private commonService: CommonService, private router: Router,
+    ){
     this.person=this.commonService.person;
-    
+    this.selectedComati=this.commonService.selectedComati;
   }
   async getMembers(event: Comati) {
     this.member.comatiId= event.id;
@@ -46,13 +50,12 @@ member: Member = {
   name: '',
   comatiId: 0,
   personId: 0,
-  comatiMemberNo: 0,
   amount: 0,
   openingMonth: new Date(),
   remarks: '',
 }
 async ngOnInit(): Promise<void> {
-  this.selectedComati=this.commonService.selectedComati;
+  
   this.members= await this.commonService.getMembers(this.selectedComati?.id??0) as Member[];
     if(this.comaties.length===0){this.showTable=false; this.zeroMembers=true;}
     if(this.members.length>0){this.showTable=true; this.zeroMembers=false;}else { this.showTable=false; }
@@ -65,10 +68,10 @@ async ngOnInit(): Promise<void> {
     this.edit=true;
     this.member=member;
   }
-async delete(){
- const result = await this.commonService.deleteMember(this.member.id);
-  if (result){window.alert("Member Deleted"+result)}
-}
+// openPopup(member: Member){
+//   this.popupService.popupRef = this.popupContainer.createComponent(PopupComponent);
+//   this.popupService.openPopup(member)
+// }
 async register(): Promise<void> {
   this.member.comatiId=this.selectedComati?.id??0;
   const result = await this.commonService.registerMember(this.member);
@@ -87,10 +90,9 @@ close(){
   this.member.id=0;
   this.member.amount=0;
   this.member.comatiId=0,
-  this.member.comatiMemberNo=0;
   this.member.name='';
   this.member.remarks='';
-  location.reload();
+ this.ngOnInit();
 }
 
 }

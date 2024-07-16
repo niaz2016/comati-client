@@ -15,14 +15,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent implements OnInit {
-async login() {
-  const params = new HttpParams().set('phone', this.user.phone).set('password', this.user.password);
-    const person = await firstValueFrom(this.http.get<Person>('https://localhost:7258/api/User', { params })) as Person;
-  this.commonService.login(person);
-}
-cancelEdit() {
-throw new Error('Method not implemented.');
-}
+
  person: Person | undefined
 user: User = {
     id: 0,
@@ -32,7 +25,8 @@ user: User = {
     password: '',
   };
   rePassword: string = '';
-  
+  reg = false;
+  log = true;
   constructor(private commonService: CommonService, private http: HttpClient)
   { 
   
@@ -40,9 +34,29 @@ user: User = {
   ngOnInit(): void {
     
   }
+  async login() {
+    const params = new HttpParams().set('phone', this.user.phone).set('password', this.user.password);
+      try {
+        const person = await firstValueFrom(this.http.get<Person>('https://localhost:7258/api/User', { params })) as Person;
+      if(person){this.commonService.login(person);}
+      }
+      catch(err: any){window.alert(err.error.message);}
+  }
+  cancelEdit() {
+    this.user.name = '',
+    this.user.phone = '',
+    this.user.address = '',
+    this.user.password = '',
+    this.rePassword = ''
+  }
+
   del(userId: number)
   {
     
+  }
+  switch(){
+    if(this.log){this.log = false;}else{this.log = true;}
+    if(this.reg){this.reg = false;} else { this.reg = true;}
   }
   
     async registerUser(): Promise<void> 

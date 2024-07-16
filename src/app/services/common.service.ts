@@ -146,5 +146,4 @@ var day = date.getDay();
     this.person.phone=person.phone;
     this.person.remarks=person.remarks;
   }
-
 }

@@ -40,12 +40,13 @@
         </div>
         <div class="inputField">
             <span class="span">Remarks</span>
-            <input class="input" type="text" [(ngModel)]="member.remarks" name="remarks"  />
+            <input class="input" type="text" [(ngModel)]="member.remarks" name="remarks" [placeholder]="member.remarks" />
         </div>
         <br>
         <button *ngIf="reg" class="button" (click)="register()">Add Member</button>
         <button *ngIf="edit" class="button" (click)="register()">Update</button>
         <button *ngIf="edit" class="button" (click)="close()">Close</button>
-        <button *ngIf="edit" class="buttonAlert" (click)="delete()">Delete Member</button>
+        <button *ngIf="edit" class="buttonAlert" (click)="del(member)">Delete Member</button>
+        <ng-template #popupContainer></ng-template>
     </div>
 </body>

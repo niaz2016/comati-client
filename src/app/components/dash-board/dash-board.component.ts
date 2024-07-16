@@ -46,19 +46,19 @@ export class DashBoardComponent implements OnInit  {
     this.defaulters = this.selectedComati?.defaulters as Defaulter[]; // necessary for initial settings and getData sets it after change
     if(this.comaties?.length===0){this.zeroComaties=true; this.showContent=false; this.defaultersTable=false;this.allPaid=false;}else{this.zeroComaties=false; this.showContent=true;}
     if(this.defaulters?.length!=0){this.defaultersTable=true;this.allPaid=false;}else{this.allPaid=true; this.defaultersTable=false;}
-    if(this.members?.length === 0){this.allPaid=false; this.zeroMembers = true}else{this.zeroMembers=false;}
+    
   }
   async getData(){
     this.members = await this.commonService.getMembers(this.selectedComati?.id?? 0) as Member[];
-    this.commonService.selectedComati=this.selectedComati as Comati;
+    if(this.members?.length === 0){this.allPaid=false; this.zeroMembers = true}else{this.zeroMembers=false;}
     this.defaulters = this.selectedComati?.defaulters as Defaulter[];
     if(this.defaulters?.length!=0){this.defaultersTable=true;this.allPaid=false;}else{this.allPaid=true; this.defaultersTable=false}
     if(this.comaties?.length===0){this.zeroComaties=true; this.showContent=false; this.defaultersTable=false;this.allPaid=false;}else{this.zeroComaties=false; this.showContent=true;}
+    this.commonService.selectedComati=this.selectedComati as Comati;
   }
 
  async defaulterDetails(memberId: number) {
    await this.commonService.getMember(memberId);
-     this.router.navigateByUrl("/person-details")
-   }
-   
+    this.router.navigateByUrl("/person-details")
+  }
 }

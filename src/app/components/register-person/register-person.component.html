@@ -3,17 +3,18 @@
       <div class="table-container">
         <table><thead>{{totalCount}} registered Persons</thead>
           <tr> <th>Name</th><th>Phone</th><th>Address</th><th></th></tr>
-          <tr *ngFor="let pers of persons" name="personTable"> <td ><fa-icon (click)="editPersonfunc(pers)" class="icon" [icon]="faEdit"></fa-icon>{{pers.name}}</td><td>{{pers.phone}}</td><td>{{pers.address}}</td></tr>
+          <tr *ngFor="let pers of persons" name="personTable"> <td ><fa-icon class="icon" (click)="editPersonfunc(pers)"
+          [icon]="faEdit"></fa-icon>{{pers.name}}</td><td>{{pers.phone}}</td><td>{{pers.address}}</td></tr>
         </table>
       </div>
     </div>
     <div class="first"><br>
-      <span class="element" *ngIf="reg" name="regPerson">Register New Person</span>
-      <span class="element" *ngIf="edit" name="editPerson">Edit Person</span><br>
+      <span class="element" *ngIf="reg" >Register New Person</span>
+      <span class="element" *ngIf="edit" >Edit Person</span><br>
       <div class="element"><span>Person ID:</span><span [(ngModel)]="person.id">{{person.id}}</span></div>
       <div class="inputField">
         <span class="span">Name</span>
-        <input class="input" type="text" [(ngModel)]="person.name" name="personName"/>
+        <input class="input" type="text" [(ngModel)]="person.name" [placeholder]="person.name" name="personName"/>
       </div>
       <div class="inputField">
         <span class="span">Phone</span>
@@ -28,10 +29,11 @@
         <input class="input" type="text" [(ngModel)]="person.remarks" name="personRemarks"/>
       </div>
       <br>
-      <button class="button" *ngIf="reg==true" (click)="savePerson()">Save</button>
-      <button class="button" *ngIf="edit==true" (click)="savePerson()">Update</button>
-      <button class="button" *ngIf="edit==true" (click)="cancelEdit()">Close</button>
-      <button *ngIf="edit" class="buttonAlert" (click)="del(person.id)" >Delete</button>
+      <button class="button" *ngIf="reg" (click)="savePerson()">Save</button>
+      <button class="button" *ngIf="edit" (click)="savePerson()">Update</button>
+      <button class="button" *ngIf="edit" (click)="cancelEdit()">Close</button>
+      <button *ngIf="edit" class="buttonAlert" (click)="openPopup(person)"  >Delete</button>
+      <ng-template #popupContainer></ng-template>
     </div>
     
   </div>
