@@ -5,41 +5,41 @@ import { CommonService } from '../../services/common.service';
 import { Defaulter } from '../../models/defaulter';
 import { Comati } from '../../models/comati';
 import { Payment } from '../../models/payment';
-import { PaymentsHistory } from '../../models/paymentsHistory';
 import { Person } from '../../models/person';
 import { Member } from '../../models/member';
+import { DatePipeComponent } from '../../shared/date-pipe/date-pipe.component';
 
 @Component({
   selector: 'app-person-details',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DatePipeComponent],
   templateUrl: './person-details.component.html',
   styleUrl: './person-details.component.scss'
 })
 export class PersonDetailsComponent implements OnInit {
-comaties: Comati[] | undefined;
-selectedComati: Comati | undefined;
+
+  constructor(private commonService: CommonService){
+   
+   }
+
+comaties = this.commonService.comaties;
+selectedComati = this.commonService.selectedComati;
 member: Member | undefined;
-members: Member[]=[];
-personDetails: Person |undefined;
-payments!: PaymentsHistory[];
- constructor(private commonService: CommonService){
-   this.member= this.commonService.member;
-  }
+members = this.commonService.members;
+personDetails: Person | undefined;
+payments: Payment[]=[];
+allPaymentsSum: number | undefined;
+
+
   async getPersonDetails(event: Member): Promise<void> {
-    this.member = event;
-    console.log(this.member)
+    this.personDetails = await this.commonService.getPerson(event.personId);
+    this.payments = await this.commonService.getMemberPayments(event.id);
+    this.allPaymentsSum = this.payments.reduce((sum, payment) => sum + payment.amount, 0);
+  }
+  async comatiSelected(event: Comati) {
+this.members = await this.commonService.getMembers(event.id) as Member[];
   }
   async ngOnInit(): Promise<void> {
-  this.comaties = this.commonService.comaties||[];
-  this.selectedComati = this.commonService.selectedComati;
-  this.members =await this.commonService.getMembers(this.selectedComati?.id)as Member[];
-  this.payments = this.commonService.payments;
-console.log(this.selectedComati)
 
   }
-
-  // updateMemberDetails():void{}
-  // updateSelectedComati():void{}
-  // updatePersonDetails():void{}
 }

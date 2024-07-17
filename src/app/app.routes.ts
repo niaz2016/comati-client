@@ -6,6 +6,7 @@ import { AddPaymentComponent } from './components/add-payment/add-payment.compon
 import { DashBoardComponent } from './components/dash-board/dash-board.component';
 import { LoginComponent } from './components/login/login.component';
 import { PersonDetailsComponent } from './components/person-details/person-details.component';
+
 export const routes: Routes = [
     {
         path: 'dash-board', component: DashBoardComponent
@@ -28,5 +29,4 @@ export const routes: Routes = [
     {
         path: 'person-details', component: PersonDetailsComponent
     },
-
 ];

@@ -10,47 +10,55 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Member } from '../../models/member';
 import { DatePipeComponent } from '../../shared/date-pipe/date-pipe.component';
+import { SortTablePipe } from '../../shared/sort-table.pipe';
 @Component({
   selector: 'app-dash-board',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, FontAwesomeModule, DatePipeComponent],
+  imports: [CommonModule, FormsModule, RouterLink, FontAwesomeModule, DatePipeComponent, SortTablePipe],
   templateUrl: './dash-board.component.html',
   styleUrls: ['./dash-board.component.scss']
 })
 export class DashBoardComponent implements OnInit  {
-  constructor(private commonService: CommonService, private router: Router) {
-    this.person=this.commonService.person;
-    
-  }
-
+  
+  
   faEdit= faEdit;
   person!: Person;
   members: Member[] = [];
-  comaties: Comati[]=[];
+  comaties = this.commonService.comaties;
+  
   defaulter!: Defaulter;
   defaulters: Defaulter[] = [];
   status!: string ;
-  startDate!: string;
-  endDate!: string;
-  selectedComati!: Comati;
+  zeroComaties = true;
+  zeroMembers = true;
+  showContent = true;
+  defaultersTable = false;
+  allPaid = false;
+  selectedComati?=this.commonService.selectedComati;
+  
+  constructor(private commonService: CommonService, private router: Router) {
+    this.person=this.commonService.person;
+  }
   async ngOnInit(): Promise<void> {
-    this.comaties= await this.commonService.getComaties(this.person.id);
-    this.selectedComati=this.comaties[0];
-    this.defaulters = this.selectedComati?.defaulters||[];
-    this.members = await this.commonService.getMembers(this.selectedComati?.id)
-    this.startDate = this.commonService.rearrangeDate(this.selectedComati?.start_Date?? new Date());
-    this.endDate = this.commonService.rearrangeDate(this.selectedComati?.end_Date?? new Date());
+    this.comaties= this.commonService.comaties;
+    const members = await this.commonService.getMembers(this.selectedComati?.id??0);
+    this.members = members as Member[];
+    this.defaulters = this.selectedComati?.defaulters as Defaulter[]; // necessary for initial settings and getData sets it after change
+    if(this.comaties?.length===0){this.zeroComaties=true; this.showContent=false; this.defaultersTable=false;this.allPaid=false;}else{this.zeroComaties=false; this.showContent=true;}
+    if(this.defaulters?.length!=0){this.defaultersTable=true;this.allPaid=false;}else{this.allPaid=true; this.defaultersTable=false;}
+    
   }
   async getData(){
-    this.defaulters = this.selectedComati?.defaulters||[];
-    this.commonService.selectedComati = this.selectedComati as Comati;
-    
-    this.members = await this.commonService.getMembers(this.selectedComati?.id?? 0)
+    this.members = await this.commonService.getMembers(this.selectedComati?.id?? 0) as Member[];
+    if(this.members?.length === 0){this.allPaid=false; this.zeroMembers = true}else{this.zeroMembers=false;}
+    this.defaulters = this.selectedComati?.defaulters as Defaulter[];
+    if(this.defaulters?.length!=0){this.defaultersTable=true;this.allPaid=false;}else{this.allPaid=true; this.defaultersTable=false}
+    if(this.comaties?.length===0){this.zeroComaties=true; this.showContent=false; this.defaultersTable=false;this.allPaid=false;}else{this.zeroComaties=false; this.showContent=true;}
+    this.commonService.selectedComati=this.selectedComati as Comati;
   }
 
  async defaulterDetails(memberId: number) {
    await this.commonService.getMember(memberId);
-     this.router.navigateByUrl("/person-details")
-   }
-   
+    this.router.navigateByUrl("/person-details")
+  }
 }

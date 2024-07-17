@@ -1,33 +1,52 @@
 <body class="container">
     <div class="first">
-        <h3>Add new member</h3>
-        <h3>{{person.name}}</h3>
+        <br>
+        <div class="element"><span>{{person.name}}</span><span>{{selectedComati?.name}}</span></div>
+        <div class="element" *ngIf="zeroMembers">No Members Registered in {{selectedComati?.name}}</div>
+        <div *ngIf="showTable" class="table-container">
+            <table > <thead>{{selectedComati?.totalMembers}} members in {{selectedComati?.name}}</thead>
+                <tr><th>No.</th><th>Name</th><th>Amount</th><th>Openeing</th></tr>
+                <tr *ngFor="let member of members | sortTable: 'openingMonth'; index as i"><td><div class="serialNo">{{i+1}}</div></td>
+                    <td><fa-icon class="icon" (click)="editMember(member)" [icon]="faEdit"></fa-icon>{{member?.name}}</td><td><div class="serialNo">{{member?.amount}}</div></td><td><app-date-pipe [date]="member?.openingMonth" ></app-date-pipe></td></tr>
+            </table>
+        </div>
+        <div *ngIf="showTable"><button  class="button" (click)="details()">Go to Detals</button></div>
     </div>
     <div class="first">
-        <div class="inputField">
+        <br>
+        <div *ngIf="reg" class="element"><span>Add New Member</span></div>
+        <div *ngIf="edit" class="element"><span>Edit Member</span><span>{{member.id}}</span></div>
+        <br>
+        <div *ngIf="reg" class="inputField">
             <span class="span">Select Comati</span>
-            <select class="input" type="text" id="comatiSelect" [(ngModel)]="member.comatiId" name="comatiSelect">
-            <option *ngFor="let comati of comaties" [ngValue]="comati.id">{{ comati.name }}</option></select>
+            <select class="input" type="text" id="comatiSelect" [(ngModel)]="selectedComati" (ngModelChange)="getMembers($event)" name="comatiSelect">
+            <option *ngFor="let comati of comaties" [ngValue]="comati">{{ comati.name }}</option></select>
         </div>
-        <div class="inputField">
+        <div *ngIf="edit" class="inputField"><span class="span">Comati Name</span>
+            <input class="input" disabled="true" [placeholder]="comati?.name" />
+        </div>
+        <div *ngIf="edit" class="inputField"> <span class="span">Name</span><input class="input" disabled="true" placeholder="Edit name from people page"/></div>
+        <div *ngIf="reg" class="inputField">
             <span class="span">Select Person</span>
             <select class="input" type="text" id="personSelect" [(ngModel)]="member.personId" name="personSelect">
             <option *ngFor="let person of persons" [ngValue]="person.id">{{ person.name }}</option></select>
         </div>
         <div class="inputField">
             <span class="span">Paying Amount</span>
-            <input class="input" type="number" [(ngModel)]="member.amount" name="amount" />
-        </div>
+            <input class="input" type="number" [(ngModel)]="member.amount" name="amount" [placeholder]="selectedComati?.per_Head"/></div>
         <div class="inputField">
             <span class="span">Opening Month</span>
             <input class="input" type="date" [(ngModel)]="member.openingMonth" name="openingDate" />
         </div>
         <div class="inputField">
             <span class="span">Remarks</span>
-            <input class="input" type="text" [(ngModel)]="member.remarks" name="remarks" />
+            <input class="input" type="text" [(ngModel)]="member.remarks" name="remarks" [placeholder]="member.remarks" />
         </div>
-        <button class="button" (click)="register()">Add Member</button>
+        <br>
+        <button *ngIf="reg" class="button" (click)="register()">Add Member</button>
+        <button *ngIf="edit" class="button" (click)="register()">Update</button>
+        <button *ngIf="edit" class="button" (click)="close()">Close</button>
+        <button *ngIf="edit" class="buttonAlert" (click)="openPopup(member)">Delete Member</button>
+        <ng-template #popupContainer></ng-template>
     </div>
-
-
 </body>

@@ -1,10 +1,22 @@
 <div class="container">
     <div class="first">
-        <h1>Register New Comati</h1>
-    <h3>{{person.name}}</h3>
+        <br>
+    <div class="element"><span>User: </span><span>{{person.name}}</span></div>
+    <br><div class="element" *ngIf="zeroComaties"> <span>You have no comaties registered</span> </div>
+    <div  class="table-container" *ngIf="showTable">
+        <table ><thead>Your Comaties</thead>
+            <tr><th>Name</th> <th>Members</th> <th>Per Head</th><th>Remarks</th> </tr>
+            <tr *ngFor="let comati of comaties">
+                <td><fa-icon class="icon" (click)="editComati(comati)" [icon]="faEdit"></fa-icon> {{comati?.name}}</td>
+                <td><div class="serialNo">{{comati?.totalMembers}}</div></td><td><div class="serialNo">{{comati?.per_Head}}</div></td><td>{{comati?.remarks}}</td>
+            </tr>
+        </table>
     </div>
-    
-     <div class="first">
+    </div>
+     <div class="first"> <br>
+        <div *ngIf="reg" class="element"> <span>Register New Comati</span></div>
+        <div *ngIf="edit" class="element"><span>Edit Details</span></div>
+    <br>
         <div class="inputField">
             <span class="span">Name</span>
             <input class="input" type="text" [(ngModel)]="comati.name"/>
@@ -21,7 +33,11 @@
             <span class="span">Start Date</span>
         <input class="input" type="date" [(ngModel)]="comati.start_Date"/>
         </div>
-        <button class="button" (click)="register()" >Save</button>
+        <br>
+        <button *ngIf="reg" class="button" (click)="register(comati)" >Save</button>
+        <button *ngIf="edit" class="button" (click)="register(comati)" >Update</button>
+        <button *ngIf="edit" class="button" (click)="close()" >Close</button>
+        <button *ngIf="edit" class="buttonAlert" (click)="openPopup(comati)" >Delete</button>
+        <ng-template #popupContainer></ng-template>
     </div>
-    
 </div>

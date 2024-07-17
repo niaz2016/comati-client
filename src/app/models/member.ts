@@ -3,7 +3,6 @@ export type Member = {
     name: string,
     remarks: string,
     comatiId: number,
-    comatiMemberNo: number,
     personId: number,
     amount: number,
     openingMonth: Date,

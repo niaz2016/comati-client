@@ -4,16 +4,16 @@ $form-element-padding: 10px;
 $form-element-border-radius: 0px;
 $form-element-border: 1px solid #ccc;
 $table-bg-color: #f9f9f9;
-$table-border-color: #ddd;
-$table-header-bg-color:  #807878;
+$table-border-color: #acacac;
+$table-header-bg-color:  #a39e9e;
 $table-header-text-color: #fff;
-$table-row-hover-bg-color: #f1f1f1;
+$table-row-hover-bg-color: white;
 $table-padding: 10px;
 $table-border-radius: 0px;
 
 .table-container {
   width: 100%;
-  margin: 20px auto;
+  margin: 10px auto;
   overflow-x: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   max-height: 100%;
@@ -27,35 +27,49 @@ $table-border-radius: 0px;
     display: block;
     box-shadow: 2px 2px 1px 1px rgb(212, 212, 212);
 
-    th, td {
+    th {
+      position: sticky; // Make the header sticky
+      top: 22px; // Position it at the top
+      z-index: 0;
       padding: $table-padding;
       text-align: left;
+      background-color: #eeecec;
+      max-width: 100px;
     }
+    
 
     thead {
       background-color: $table-header-bg-color;
       position: sticky; // Make the header sticky
       top: 0; // Position it at the top
       z-index: 1;
+      display: flex;
+      justify-content: center;
 
       th {
         color: $table-header-text-color;
         font-weight: bold;
       }
+      
     }
-
+    .serialNo{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     tbody {
       tr {
         &:nth-child(even) {
           background-color: darken($table-bg-color, 15%);
+          
         }
-
         &:hover {
           background-color: $table-row-hover-bg-color;
         }
 
         td {
-          border-bottom: 1px solid $table-border-color;
+          border-bottom: 4px solid $table-border-color;
+          height: 40px;
         }
 
         &:last-child {
@@ -80,12 +94,51 @@ $table-border-radius: 0px;
     padding-bottom: 0px;
     
 }
+.buttonAlert{
+  text-decoration: none;
+  background-color: rgb(241, 110, 110);
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 10px 10px;
+  width: 100%;
+  cursor: pointer;
+  border-radius: $form-element-border-radius;
+  font-size: 16px;
+  
+  &:hover {
+    background-color: #807878;
+    color: white;
+  }
+  
+  .select {
+    padding: $form-element-padding;
+    border: $form-element-border;
+    border-radius: $form-element-border-radius;
+    width: 220px; // Adjust width as needed
+    box-sizing: border-box;
+    align-self: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    appearance: none; // Removes default dropdown arrow for custom styling
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px 12px;
+}
+}
+.icon {
+  width: 10px;
+  height: 10px;
+  &:hover {
+    background-color: #c4c1c1;
+  }
+}
 .row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 5px;
+  gap: 20px;
   padding: 0;
 }
 .inputField {
@@ -141,7 +194,8 @@ $table-border-radius: 0px;
   padding: $form-element-padding;
   border: $form-element-border;
   border-radius: $form-element-border-radius;
-  min-width:70%;
+  min-width:65%;
+  max-width: 100%;
   box-sizing: border-box; // Ensures padding doesn't affect width
   margin-bottom: 0px;
   margin-top: 0px;
@@ -161,16 +215,15 @@ $table-border-radius: 0px;
   background-color: rgb(220, 220, 220);
   color: rgb(0, 0, 0);
   border: none;
-  padding: 10px 20px;
+  padding: 10px 10px;
   width: 100%;
   cursor: pointer;
   border-radius: $form-element-border-radius;
   font-size: 16px;
-  
+  margin-right: 3px;
   &:hover {
     background-color: #807878;
-    font-size: 18;
-    padding: 12px 24px;
+    color: white;
   }
   
   .select {
