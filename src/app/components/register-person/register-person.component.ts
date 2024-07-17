@@ -44,13 +44,13 @@ openPopup(person: Person){
   this.popupRef.instance.del = () => this.del(person.id);
   this.popupRef.instance.close = () => this.closePopup();
 }
-del(id: number){
-  this.commonService.deletePerson(id);
-  this.closePopup();
-  this.cancelEdit();
-}
 closePopup() {
   this.popupRef?.destroy();
+}
+async del(id: number){
+  await this.commonService.deletePerson(id);
+  this.closePopup();
+  this.cancelEdit();
 }
 onClose(){}
   editPersonfunc(pers: Person){

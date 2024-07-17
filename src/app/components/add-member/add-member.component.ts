@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Comati } from '../../models/comati';
@@ -19,21 +19,15 @@ import { PopupComponent } from '../../shared/popup/popup.component';
   styleUrl: './add-member.component.scss'
 })
 export class AddMemberComponent implements OnInit {
-del(arg0: Member) {
-throw new Error('Method not implemented.');
-}
-  popupContainer!: ViewContainerRef;
+
   persons = this.commonService.persons;
   person = this.commonService.person;  
-  selectedComati: Comati | undefined;
+  selectedComati= this.commonService.selectedComati;
   comaties = this.commonService.comaties;
-  members!: Member[];
+  members= this.commonService.members;
   comati: Comati | undefined;
   constructor(private commonService: CommonService, private router: Router,
-    ){
-    this.person=this.commonService.person;
-    this.selectedComati=this.commonService.selectedComati;
-  }
+    ){  }
   async getMembers(event: Comati) {
     this.member.comatiId= event.id;
     this.selectedComati=event;
@@ -55,8 +49,7 @@ member: Member = {
   remarks: '',
 }
 async ngOnInit(): Promise<void> {
-  
-  this.members= await this.commonService.getMembers(this.selectedComati?.id??0) as Member[];
+  this.members= await this.commonService.getMembers(this.selectedComati.id) as Member[];
     if(this.comaties.length===0){this.showTable=false; this.zeroMembers=true;}
     if(this.members.length>0){this.showTable=true; this.zeroMembers=false;}else { this.showTable=false; }
   }
@@ -68,10 +61,24 @@ async ngOnInit(): Promise<void> {
     this.edit=true;
     this.member=member;
   }
-// openPopup(member: Member){
-//   this.popupService.popupRef = this.popupContainer.createComponent(PopupComponent);
-//   this.popupService.openPopup(member)
-// }
+  @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
+  popupContainer!: ViewContainerRef;
+  popupRef?: ComponentRef<PopupComponent> ;
+  message: string = 'Are you sure to delete';
+openPopup(member: Member){
+  if (this.popupRef) {
+    return; // Popup is already open
+  }
+  this.popupRef = this.popupContainer.createComponent(PopupComponent);
+  this.popupRef.instance.title = member.name; 
+  this.popupRef.instance.message = this.message;
+  this.popupRef.instance.del = () => {this.commonService.deleteMember(member.id); this.closePopup()};
+  this.popupRef.instance.close = () => this.closePopup();
+}
+closePopup() {
+  this.popupRef?.destroy();
+  this.close();
+}
 async register(): Promise<void> {
   this.member.comatiId=this.selectedComati?.id??0;
   const result = await this.commonService.registerMember(this.member);

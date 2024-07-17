@@ -46,7 +46,7 @@
         <button *ngIf="reg" class="button" (click)="register()">Add Member</button>
         <button *ngIf="edit" class="button" (click)="register()">Update</button>
         <button *ngIf="edit" class="button" (click)="close()">Close</button>
-        <button *ngIf="edit" class="buttonAlert" (click)="del(member)">Delete Member</button>
+        <button *ngIf="edit" class="buttonAlert" (click)="openPopup(member)">Delete Member</button>
         <ng-template #popupContainer></ng-template>
     </div>
 </body>

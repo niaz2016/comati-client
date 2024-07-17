@@ -37,7 +37,7 @@
         <button *ngIf="reg" class="button" (click)="register(comati)" >Save</button>
         <button *ngIf="edit" class="button" (click)="register(comati)" >Update</button>
         <button *ngIf="edit" class="button" (click)="close()" >Close</button>
-        <button *ngIf="edit" class="buttonAlert" (click)="del(comati.id)" >Delete</button>
+        <button *ngIf="edit" class="buttonAlert" (click)="openPopup(comati)" >Delete</button>
         <ng-template #popupContainer></ng-template>
     </div>
 </div>
