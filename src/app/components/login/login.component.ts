@@ -37,7 +37,7 @@ user: User = {
   async login() {
     const params = new HttpParams().set('phone', this.user.phone).set('password', this.user.password);
       try {
-        const person = await firstValueFrom(this.http.get<Person>('https://localhost:7258/api/User', { params })) as Person;
+        const person = await firstValueFrom(this.http.get<Person>(this.commonService.userUrl, { params })) as Person;
       if(person){this.commonService.login(person);}
       }
       catch(err: any){window.alert(err.error.message);}

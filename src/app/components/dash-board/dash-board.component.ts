@@ -11,54 +11,64 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Member } from '../../models/member';
 import { DatePipeComponent } from '../../shared/date-pipe/date-pipe.component';
 import { SortTablePipe } from '../../shared/sort-table.pipe';
+import { TableComponent } from '../../shared/table/table.component';
 @Component({
   selector: 'app-dash-board',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, FontAwesomeModule, DatePipeComponent, SortTablePipe],
+  imports: [CommonModule, FormsModule, RouterLink, FontAwesomeModule, DatePipeComponent, SortTablePipe, TableComponent],
   templateUrl: './dash-board.component.html',
   styleUrls: ['./dash-board.component.scss']
 })
-export class DashBoardComponent implements OnInit  {
-  
-  
-  faEdit= faEdit;
+export class DashBoardComponent implements OnInit {
+
+
+  faEdit = faEdit;
   person!: Person;
-  members: Member[] = [];
-  comaties = this.commonService.comaties;
-  
+  members!: Member[];
+  comaties!: Comati[];
   defaulter!: Defaulter;
   defaulters: Defaulter[] = [];
-  status!: string ;
+  status!: string;
   zeroComaties = true;
-  zeroMembers = true;
+  zeroMembers = false;
   showContent = true;
   defaultersTable = false;
   allPaid = false;
-  selectedComati?=this.commonService.selectedComati;
-  
+  selectedComati!: Comati;
+
   constructor(private commonService: CommonService, private router: Router) {
-    this.person=this.commonService.person;
+    this.person = this.commonService.person;
   }
   async ngOnInit(): Promise<void> {
-    this.comaties= this.commonService.comaties;
-    const members = await this.commonService.getMembers(this.selectedComati?.id??0);
-    this.members = members as Member[];
-    this.defaulters = this.selectedComati?.defaulters as Defaulter[]; // necessary for initial settings and getData sets it after change
-    if(this.comaties?.length===0){this.zeroComaties=true; this.showContent=false; this.defaultersTable=false;this.allPaid=false;}else{this.zeroComaties=false; this.showContent=true;}
-    if(this.defaulters?.length!=0){this.defaultersTable=true;this.allPaid=false;}else{this.allPaid=true; this.defaultersTable=false;}
-    
-  }
-  async getData(){
-    this.members = await this.commonService.getMembers(this.selectedComati?.id?? 0) as Member[];
-    if(this.members?.length === 0){this.allPaid=false; this.zeroMembers = true}else{this.zeroMembers=false;}
-    this.defaulters = this.selectedComati?.defaulters as Defaulter[];
-    if(this.defaulters?.length!=0){this.defaultersTable=true;this.allPaid=false;}else{this.allPaid=true; this.defaultersTable=false}
-    if(this.comaties?.length===0){this.zeroComaties=true; this.showContent=false; this.defaultersTable=false;this.allPaid=false;}else{this.zeroComaties=false; this.showContent=true;}
-    this.commonService.selectedComati=this.selectedComati as Comati;
-  }
+    await this.commonService.getComaties(this.person.id);
+    this.comaties = this.commonService.comaties;
+    this.selectedComati = this.commonService.selectedComati;
+    // Fetch members from the service
+    this.getData();
 
- async defaulterDetails(memberId: number) {
-   await this.commonService.getMember(memberId);
+  }
+  getMembers() {
+    return this.members;
+  }
+  async getData() {
+    try {
+      const members = await this.commonService.getMembers(this.selectedComati.id) as Member[];
+      this.members = [...members]; // Update array to trigger change detection
+      this.defaulters = this.selectedComati?.defaulters || [];
+      this.defaultersTable = this.defaulters.length > 0;
+      this.allPaid = this.defaulters.length === 0;
+      this.zeroMembers = this.members.length === 0;
+      this.zeroComaties = this.comaties.length === 0;
+      this.showContent = !this.zeroComaties;
+      this.commonService.selectedComati = this.selectedComati;
+    } catch (error) {
+      console.error('Error fetching data', error);
+    }
+  }
+  
+
+  async defaulterDetails(memberId: number) {
+    await this.commonService.getMember(memberId);
     this.router.navigateByUrl("/person-details")
   }
 }

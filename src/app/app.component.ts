@@ -4,10 +4,12 @@ import { CommonService } from './services/common.service';
 import { Person } from './models/person';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SortTablePipe } from './shared/sort-table.pipe';
+import { HamburgerComponent } from "./shared/hamburger/hamburger.component";
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, FontAwesomeModule, SortTablePipe],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, FontAwesomeModule, SortTablePipe, HamburgerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   providers:[]
@@ -19,6 +21,11 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(): void {
     this.person=this.commonService.person;
+  }
+  isMenuOpen = false;
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
   person: Person| undefined;
   logout() {

@@ -28,7 +28,7 @@ export class RegisterPersonComponent implements OnInit {
   totalCount: number = this.commonService.persons.length;
   constructor(private commonService: CommonService){  }
   async ngOnInit() {
-    this.persons= await this.commonService.getPersons();    
+    this.persons= await this.commonService.getPersons();
   }
   @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
   popupContainer!: ViewContainerRef;

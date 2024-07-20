@@ -1,0 +1,14 @@
+<div class="tableContainer"  *ngIf="data && data.length > 0">
+    <table class="table">
+      <thead>
+        <tr>
+          <th *ngFor="let field of fields" [hidden]="isFieldHidden(field.name)">{{ field.caption }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data">
+          <td *ngFor="let field of fields" [hidden]="isFieldHidden(field.name)">{{ item[field.name] }}</td>
+        </tr>
+      </tbody>
+    </table>
+</div>

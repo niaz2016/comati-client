@@ -13,18 +13,19 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class CommonService {
-  
-  comatiesByMgrUrl = 'https://localhost:7258/api/Comati';
-  comatiUrl = 'https://localhost:7258/api/Comati/comati';
-  regComatiUrl = 'https://localhost:7258/api/Comati';
-  comatiMemberUrl = 'https://localhost:7258/api/ComatiMember';
-  personsUrl = 'https://localhost:7258/api/Person';
-  personUrl = 'https://localhost:7258/api/Person/personId';
-  paymentUrl = 'https://localhost:7258/api/ComatiPayment';
-  amountUrl = 'https://localhost:7258/api/ComatiPayment/ComatiId';
-  memberPaymentsUrl = 'https://localhost:7258/api/ComatiPayment/memberPayments';
-  delComatiUrl = 'https://localhost:7258/api/Comati/delete';
-  userUrl = 'https://localhost:7258/api/User';
+ // https://192.168.100.156:7258/api/Comati?MgrId=1
+  baseUrl = 'https://localhost:7258/api/';
+  comatiesByMgrUrl = `${this.baseUrl}Comati`;
+  comatiUrl = `${this.baseUrl}Comati/comati`;
+  regComatiUrl = `${this.baseUrl}Comati`;
+  comatiMemberUrl = `${this.baseUrl}ComatiMember`;
+  personsUrl = `${this.baseUrl}Person`;
+  personUrl = `${this.baseUrl}Person/personId`;
+  paymentUrl = `${this.baseUrl}ComatiPayment`;
+  amountUrl = `${this.baseUrl}ComatiPayment/ComatiId`;
+  memberPaymentsUrl = `${this.baseUrl}ComatiPayment/memberPayments`;
+  delComatiUrl = `${this.baseUrl}Comati/delete`;
+  userUrl = `${this.baseUrl}User`;
 
   person: Person={name:'No User Loggedin',id:0,phone:'No Phone'};
   persons: Person[]=[];
@@ -56,7 +57,9 @@ export class CommonService {
   }
   async getComaties(MgrId: number): Promise<Comati[]> {
     const params = new HttpParams().set('MgrId', MgrId);
-    this.comaties = await firstValueFrom(this.http.get<Comati[]>(this.comatiesByMgrUrl, {params}));
+    const comaties = await firstValueFrom(this.http.get<Comati[]>(this.comatiesByMgrUrl, {params}));
+    this.comaties.length=0;
+    this.comaties.push(...comaties);
     this.selectedComati=this.comaties[0];
     return this.comaties;
   }

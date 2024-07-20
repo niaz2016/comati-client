@@ -9,8 +9,8 @@
       </div>
     </div>
     <div class="first"><br>
-      <span class="element" *ngIf="reg" >Register New Person</span>
-      <span class="element" *ngIf="edit" >Edit Person</span><br>
+      <span class="element" *ngIf="reg" name="regPerson">Register New Person</span>
+      <span class="element" *ngIf="edit" name="editPerson">Edit Person</span><br>
       <div class="element"><span>Person ID:</span><span [(ngModel)]="person.id">{{person.id}}</span></div>
       <div class="inputField">
         <span class="span">Name</span>
@@ -29,9 +29,9 @@
         <input class="input" type="text" [(ngModel)]="person.remarks" name="personRemarks"/>
       </div>
       <br>
-      <button class="button" *ngIf="reg" (click)="savePerson()">Save</button>
-      <button class="button" *ngIf="edit" (click)="savePerson()">Update</button>
-      <button class="button" *ngIf="edit" (click)="cancelEdit()">Close</button>
+      <button class="button" *ngIf="reg" (click)="savePerson()" name="regButton">Save</button>
+      <button class="button" *ngIf="edit" (click)="savePerson()" name="editButton">Update</button>
+      <button class="button" *ngIf="edit" (click)="cancelEdit()" name="cancelButton">Close</button>
       <button *ngIf="edit" class="buttonAlert" (click)="openPopup(person)"  >Delete</button>
       <ng-template #popupContainer></ng-template>
     </div>

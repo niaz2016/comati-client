@@ -28,7 +28,7 @@
             </div>
             <table class="table-container">
                 <tr><th>Date</th><th>Amount</th><th>Remarks</th> </tr>
-                <tr *ngFor="let payment of payments"><td><app-date-pipe [fullDate]="payment.paymentDate"></app-date-pipe></td><td>{{payment.amount}}</td><td>{{payment.remarks}}</td> </tr>
+                <tr *ngFor="let payment of payments | sortTable: 'paymentDate' index as i"><td>{{i+1}}</td><td><app-date-pipe [fullDate]="payment.paymentDate"></app-date-pipe></td><td>{{payment.amount}}</td><td>{{payment.remarks}}</td> </tr>
 
             </table>
         </div>

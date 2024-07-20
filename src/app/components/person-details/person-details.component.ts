@@ -8,11 +8,12 @@ import { Payment } from '../../models/payment';
 import { Person } from '../../models/person';
 import { Member } from '../../models/member';
 import { DatePipeComponent } from '../../shared/date-pipe/date-pipe.component';
+import { SortTablePipe } from "../../shared/sort-table.pipe";
 
 @Component({
   selector: 'app-person-details',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipeComponent],
+  imports: [CommonModule, FormsModule, DatePipeComponent, SortTablePipe],
   templateUrl: './person-details.component.html',
   styleUrl: './person-details.component.scss'
 })
