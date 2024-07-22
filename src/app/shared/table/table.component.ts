@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import moment, { Moment } from 'moment'
 interface Field {
   name: string;
   caption: string;
@@ -15,6 +15,8 @@ interface Field {
 })
 export class TableComponent implements OnInit {
   @Input() data!: any[];
+  @Input() header!: string;
+  @Input() footer!: string;
   @Input() hiddenFields: string[] = [];
   fields: Field[] = [];
 
@@ -52,5 +54,14 @@ export class TableComponent implements OnInit {
     return camelCase
       .replace(/([A-Z])/g, ' $1')  // Add a space before capital letters
       .replace(/^./, str => str.toUpperCase());  // Capitalize the first letter
+  }
+  formatValue(value:any,field:string){
+    if(field.toLowerCase().includes('opening')){
+      return value = moment(value).format('MMMM YYYY');
+    }
+    if(field.toLowerCase().includes('date')){
+      return value = moment(value).format('DD MMMM YYYY');
+    }
+    return value;
   }
 }

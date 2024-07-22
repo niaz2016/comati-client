@@ -1,4 +1,7 @@
+
+
 <div class="tableContainer"  *ngIf="data && data.length > 0">
+  <span>{{header}}</span>
     <table class="table">
       <thead>
         <tr>
@@ -7,8 +10,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let item of data">
-          <td *ngFor="let field of fields" [hidden]="isFieldHidden(field.name)">{{ item[field.name] }}</td>
+          <td *ngFor="let field of fields" [hidden]="isFieldHidden(field.name)">{{ formatValue(item[field.name], field.name) }}</td>
         </tr>
       </tbody>
     </table>
+    <span>{{footer}}</span>
 </div>

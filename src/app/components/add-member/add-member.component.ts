@@ -10,11 +10,12 @@ import { faEdit} from '@fortawesome/free-solid-svg-icons'
 import { SortTablePipe } from '../../shared/sort-table.pipe';
 import { Router } from '@angular/router';
 import { PopupComponent } from '../../shared/popup/popup.component';
+import { TableComponent } from "../../shared/table/table.component";
 
 @Component({
   selector: 'app-comati-members',
   standalone: true,
-  imports: [CommonModule, FormsModule, DatePipeComponent, FontAwesomeModule, SortTablePipe],
+  imports: [CommonModule, FormsModule, DatePipeComponent, FontAwesomeModule, SortTablePipe, TableComponent],
   templateUrl: './add-member.component.html',
   styleUrl: './add-member.component.scss'
 })

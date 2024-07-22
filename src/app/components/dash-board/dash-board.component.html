@@ -13,40 +13,31 @@
                 <option *ngFor="let comati of comaties" [ngValue]="comati">{{ comati.name }}</option></select>
                 <br>
                 <div class="row" >
-                    <div><span class="span">Members: </span><span > {{ selectedComati?.totalMembers}}</span></div>
-                    <div><span class="span">Per Member: </span> <span > {{ selectedComati?.per_Head}}</span ></div>
+                    <div><span class="span">Members: </span><span > {{ selectedComati.totalMembers}}</span></div>
+                    <div><span class="span">Per Member: </span> <span > {{ selectedComati.per_Head}}</span ></div>
                 </div>
+                <div class="element"><span>Currently going through</span> months</div>
                 <br>
                 <button class="button" routerLink="/add-member" >Add New Member</button>
                 <button class="button" routerLink="/add-payment" >Add a payment</button>
             
     </div>
     
-    <div class="first" ><div class="row"> <span class="elemet">{{selectedComati?.name}}</span></div>
+    <div class="first" ><div class="row"> <span class="elemet">{{membersCount()}}</span></div>
     <div class="element" *ngIf="zeroMembers">No Members registered</div>   
-    <div ><app-table  *ngIf="members" [data]="members" [hiddenFields]="['remarks']"></app-table></div>
+    <div ><app-table  *ngIf="members" [data]="members" [hiddenFields]="['remarks', 'phone', 'person', 'comatiName', 'payments']"  ></app-table></div>
     
+
     </div>
     <div class="first" >
         <br>
-        <div class="element" ><span class="span">Total Comati</span><span class="span">{{selectedComati?.totalComati}}</span></div>
-        <div class="element"><span class="span">Total Collected</span><span class="span">{{selectedComati?.totalCollected}}</span></div>
-        <div class="element"><span class="span">Started On</span><span class="span"><app-date-pipe [date]="selectedComati?.start_Date" ></app-date-pipe> </span></div>
-        <div class="element" ><span class="span">Ending On</span> <app-date-pipe [date]="selectedComati?.end_Date" ></app-date-pipe></div>
+        <div class="element" ><span class="span">Total Comati</span><span class="span">{{selectedComati.totalComati}}</span></div>
+        <div class="element"><span class="span">Total Collected</span><span class="span">{{selectedComati.totalCollected}}</span></div>
+        <div class="element"><span class="span">Started On</span><span class="span"><app-date-pipe [date]="selectedComati.start_Date" ></app-date-pipe> </span></div>
+        <div class="element" ><span class="span">Ending On</span> <app-date-pipe [date]="selectedComati.end_Date" ></app-date-pipe></div>
         <br>
         <div class="element" *ngIf="allPaid">Congratulations: No pending payments</div>
-        <div class="table-container" name="table" *ngIf="defaultersTable" >
-            <!-- <table >
-                <thead>Defaulters This Month</thead>
-                <tr ><th>Name</th><th>Amount</th><th>Phone</th></tr> 
-                <tr  *ngFor="let defaulter of defaulters" >
-                <td >
-                <button  class="button" (click)="defaulterDetails(defaulter.memberId)" routerLink="/person-details">{{defaulter?.name}}</button>
-                </td> <td><div class="serialNo">{{defaulter?.amount}}</div> </td><td>{{defaulter?.phone}}</td>
-            </tr>
-          </table> -->
-          <!-- <app-table [data]="defaulters" [hiddenFields]="['remarks']" ></app-table> -->
-        </div>
+        <app-table *ngIf="defaulters" [data]="defaulters" [hiddenFields]="['remarks', 'address']" header="Defaulters this Month" ></app-table>
     </div>
 </div>
 <app-table></app-table>

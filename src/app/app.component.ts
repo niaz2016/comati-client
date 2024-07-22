@@ -27,6 +27,7 @@ export class AppComponent implements OnInit {
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
+  
   person: Person| undefined;
   logout() {
     this.commonService.selectedComati?.name?? '';

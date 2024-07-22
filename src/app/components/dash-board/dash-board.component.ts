@@ -21,7 +21,6 @@ import { TableComponent } from '../../shared/table/table.component';
 })
 export class DashBoardComponent implements OnInit {
 
-
   faEdit = faEdit;
   person!: Person;
   members!: Member[];
@@ -31,7 +30,6 @@ export class DashBoardComponent implements OnInit {
   status!: string;
   zeroComaties = true;
   zeroMembers = false;
-  showContent = true;
   defaultersTable = false;
   allPaid = false;
   selectedComati!: Comati;
@@ -45,10 +43,13 @@ export class DashBoardComponent implements OnInit {
     this.selectedComati = this.commonService.selectedComati;
     // Fetch members from the service
     this.getData();
-
   }
   getMembers() {
     return this.members;
+  }
+  membersCount(){
+    const members = this.members.length
+    return(members+" members in "+this.selectedComati.name).toString();
   }
   async getData() {
     try {
@@ -59,7 +60,6 @@ export class DashBoardComponent implements OnInit {
       this.allPaid = this.defaulters.length === 0;
       this.zeroMembers = this.members.length === 0;
       this.zeroComaties = this.comaties.length === 0;
-      this.showContent = !this.zeroComaties;
       this.commonService.selectedComati = this.selectedComati;
     } catch (error) {
       console.error('Error fetching data', error);

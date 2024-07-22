@@ -12,7 +12,7 @@
         </div>
         <br>
         <div class="element"><span class="span">{{personDetails?.name}}</span></div>
-        <div class="element"><span class="span">All Payments</span> <span class="span">{{allPaymentsSum}}</span></div>
+        <div class="element"><span class="span">All Payments</span> <span class="span">{{allPaymentsSum+" ("+paymentsCount+")"}}</span></div>
         <br>
         <div class="inputField"><span class="span">Monthly</span> <span class="span">{{member?.amount}}</span></div>
         <div class="inputField"><span class="span">Opening Date</span><app-date-pipe [date]="member?.openingMonth"></app-date-pipe></div>
@@ -26,11 +26,7 @@
             <div class="element">
                 <span>Payment History</span>
             </div>
-            <table class="table-container">
-                <tr><th>Date</th><th>Amount</th><th>Remarks</th> </tr>
-                <tr *ngFor="let payment of payments | sortTable: 'paymentDate' index as i"><td>{{i+1}}</td><td><app-date-pipe [fullDate]="payment.paymentDate"></app-date-pipe></td><td>{{payment.amount}}</td><td>{{payment.remarks}}</td> </tr>
-
-            </table>
+            <app-table *ngIf="payments" [data]="payments" [hiddenFields]="['comatiPayments']"></app-table>
         </div>
     </div>
 </div>

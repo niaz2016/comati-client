@@ -1,11 +1,11 @@
 <nav class="navBar">
   <div><app-hamburger class="isMenuOpen" (click)="toggleMenu()"></app-hamburger></div>
-  <ul class="titles">
-    <li><a routerLinkActive="active" routerLink="/dash-board">DashBoard</a></li>
-    <li><a routerLinkActive="active" routerLink="/add-comati">Comati</a></li>
-    <li><a routerLinkActive="active" routerLink="/add-member">Members</a></li>
-    <li><a routerLinkActive="active" routerLink="/add-payment">Payments</a></li>
-    <li><a routerLinkActive="active" routerLink="/reg-person">People</a></li>
+  <ul (click)="toggleMenu()" class="titles">
+    <li (click)="toggleMenu()"><a  routerLinkActive="active" routerLink="/dash-board">DashBoard</a></li>
+    <li (click)="toggleMenu()"><a  routerLinkActive="active" routerLink="/add-comati">Comati</a></li>
+    <li (click)="toggleMenu()"><a  routerLinkActive="active" routerLink="/add-member">Members</a></li>
+    <li (click)="toggleMenu()"><a  routerLinkActive="active" routerLink="/add-payment">Payments</a></li>
+    <li (click)="toggleMenu()"><a  routerLinkActive="active" routerLink="/reg-person">People</a></li>
   </ul>
   <ul class="rightGap"><span>{{person?.name}}</span>
     <div class="loginButton">

@@ -6,11 +6,12 @@ import { CommonService } from '../../services/common.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { PopupComponent } from '../../shared/popup/popup.component';
+import { TableComponent } from "../../shared/table/table.component";
 
 @Component({
   selector: 'app-add-comati',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule],
+  imports: [CommonModule, FormsModule, FontAwesomeModule, TableComponent],
   templateUrl: './comati.component.html',
   styleUrl: './comati.component.scss'
 })

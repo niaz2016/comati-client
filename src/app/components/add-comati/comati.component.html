@@ -3,15 +3,7 @@
         <br>
     <div class="element"><span>User: </span><span>{{person.name}}</span></div>
     <br><div class="element" *ngIf="zeroComaties"> <span>You have no comaties registered</span> </div>
-    <div  class="table-container" *ngIf="showTable">
-        <table ><thead>Your Comaties</thead>
-            <tr><th>Name</th> <th>Members</th> <th>Per Head</th><th>Remarks</th> </tr>
-            <tr *ngFor="let comati of comaties">
-                <td><fa-icon class="icon" (click)="editComati(comati)" [icon]="faEdit"></fa-icon> {{comati?.name}}</td>
-                <td><div class="serialNo">{{comati?.totalMembers}}</div></td><td><div class="serialNo">{{comati?.per_Head}}</div></td><td>{{comati?.remarks}}</td>
-            </tr>
-        </table>
-    </div>
+    <app-table [data]="comaties" [hiddenFields]="['start_Date', 'per_Head', 'totalCollected', 'comatiMembers', 'defaulters']"></app-table>
     </div>
      <div class="first"> <br>
         <div *ngIf="reg" class="element"> <span>Register New Comati</span></div>
