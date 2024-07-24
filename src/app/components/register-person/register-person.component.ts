@@ -6,10 +6,11 @@ import { CommonService } from '../../services/common.service';
 import { faEdit} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PopupComponent } from '../../shared/popup/popup.component';
+import { TableComponent } from "../../shared/table/table.component";
 @Component({
   selector: 'app-register-person',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule],
+  imports: [CommonModule, FormsModule, FontAwesomeModule, TableComponent],
   templateUrl: './register-person.component.html',
   styleUrls: ['./register-person.component.scss'],
 })

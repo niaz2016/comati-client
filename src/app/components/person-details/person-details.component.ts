@@ -29,7 +29,7 @@ selectedComati = this.commonService.selectedComati;
 member = this.commonService.selectedMember;
 members = this.commonService.members;
 personDetails: Person | undefined;
-payments?: Payment[];
+payments!: Payment[];
 allPaymentsSum: number | undefined;
 
 

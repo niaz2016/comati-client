@@ -1,6 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import moment, { Moment } from 'moment'
+import moment from 'moment'
+import { SortTablePipe } from '../sort-table.pipe';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 interface Field {
   name: string;
   caption: string;
@@ -9,16 +12,20 @@ interface Field {
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SortTablePipe, FontAwesomeModule],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
+  faEdit = faEdit;
   @Input() data!: any[];
   @Input() header!: string;
   @Input() footer!: string;
   @Input() hiddenFields: string[] = [];
   fields: Field[] = [];
+  @Input() dateFieldNames: string[] =['openingMonth', 'end_Date', 'paymentDate'];
+  @Output() editRow = new EventEmitter<any>();
+
 
   ngOnInit(): void {
     if (this.data && this.data.length > 0) {
@@ -63,5 +70,15 @@ export class TableComponent implements OnInit {
       return value = moment(value).format('DD MMMM YYYY');
     }
     return value;
+  }
+  isCurrentMonth(dateString: string): boolean {
+    const date = new Date(dateString);
+    const now = new Date();
+    return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth();
+  }
+
+  shouldHighlightRow(item: any): boolean {
+    // Check if any of the specified date fields contain the current month
+    return this.dateFieldNames.some(dateFieldName => this.isCurrentMonth(item[dateFieldName]));
   }
 }

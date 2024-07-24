@@ -13,8 +13,8 @@ import { User } from '../models/user';
   providedIn: 'root'
 })
 export class CommonService {
- // https://192.168.100.156:7258/api/Comati?MgrId=1
-  baseUrl = 'http://192.168.100.156:7258/api/';
+ // https://192.168.100.156:5209/api/Comati?MgrId=1
+  baseUrl = 'http://localhost:5209/api/';
   comatiesByMgrUrl = `${this.baseUrl}Comati`;
   comatiUrl = `${this.baseUrl}Comati/comati`;
   regComatiUrl = `${this.baseUrl}Comati`;

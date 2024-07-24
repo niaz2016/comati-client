@@ -1,5 +1,3 @@
-
-
 <div class="tableContainer"  *ngIf="data && data.length > 0">
   <span>{{header}}</span>
     <table class="table">
@@ -9,8 +7,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of data">
-          <td *ngFor="let field of fields" [hidden]="isFieldHidden(field.name)">{{ formatValue(item[field.name], field.name) }}</td>
+        <tr *ngFor="let item of data |sortTable:'paymentDate'" [ngClass]="{'highlight': shouldHighlightRow(item)}">
+        <td *ngFor="let field of fields" [hidden]="isFieldHidden(field.name)">{{ formatValue(item[field.name], field.name) }}</td>
+        <fa-icon class="icon" (click)="editRow.emit(item)"[icon]="faEdit"></fa-icon>
         </tr>
       </tbody>
     </table>

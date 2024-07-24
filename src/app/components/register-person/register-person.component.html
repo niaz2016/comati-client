@@ -1,12 +1,9 @@
 <div class="container">
     <div class="first"><br>
-      <div class="table-container">
-        <table><thead>{{totalCount}} registered Persons</thead>
-          <tr> <th>Name</th><th>Phone</th><th>Address</th><th></th></tr>
-          <tr *ngFor="let pers of persons" name="personTable"> <td ><fa-icon class="icon" (click)="editPersonfunc(pers)"
-          [icon]="faEdit"></fa-icon>{{pers.name}}</td><td>{{pers.phone}}</td><td>{{pers.address}}</td></tr>
-        </table>
-      </div>
+      <table class="table-container" >
+        <app-table  *ngIf="persons" [data]="persons" [header]="totalCount.toString()+' People registered'" (editRow)="editPersonfunc($event)" ></app-table>
+      </table>
+      
     </div>
     <div class="first"><br>
       <span class="element" *ngIf="reg" name="regPerson">Register New Person</span>

@@ -1,4 +1,8 @@
 $greyBorder :1px solid #EAEEF5;
+.highlight {
+    color: black;
+    background-color: #FFFFCC !important;
+}
 .tableContainer {
     display: flex;
     flex-direction: column;
@@ -57,13 +61,11 @@ $greyBorder :1px solid #EAEEF5;
         color: #737475;
         background-color: #EEEEEE;
     }
+    
     .table>thead {
         background-color: #FBFBFC;
     }
 }
-
-
-
 
 .hidden {
     display: none;

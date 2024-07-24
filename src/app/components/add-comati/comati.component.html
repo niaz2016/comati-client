@@ -3,7 +3,7 @@
         <br>
     <div class="element"><span>User: </span><span>{{person.name}}</span></div>
     <br><div class="element" *ngIf="zeroComaties"> <span>You have no comaties registered</span> </div>
-    <app-table [data]="comaties" [hiddenFields]="['start_Date', 'per_Head', 'totalCollected', 'comatiMembers', 'defaulters']"></app-table>
+    <app-table [data]="comaties" [hiddenFields]="['start_Date', 'per_Head', 'totalCollected', 'comatiMembers', 'defaulters']" (editRow)="editComati($event)"></app-table>
     </div>
      <div class="first"> <br>
         <div *ngIf="reg" class="element"> <span>Register New Comati</span></div>

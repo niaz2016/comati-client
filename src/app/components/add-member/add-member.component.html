@@ -3,7 +3,7 @@
         <br>
         <div class="element"><span>{{person.name}}</span><span>{{selectedComati.name}}</span></div>
         <div class="element" *ngIf="zeroMembers">No Members Registered in {{selectedComati.name}}</div>
-        <app-table *ngIf="showTable" [data]="members" [hiddenFields]="['comatiName', 'person', 'openingDate', 'payments']" ></app-table>
+        <app-table *ngIf="showTable" [data]="members" [hiddenFields]="['comatiName', 'person', 'openingDate', 'payments']" (editRow)="editMember($event)"></app-table>
         <div *ngIf="showTable"><button  class="button" (click)="details()">Go to Detals</button></div>
     </div>
     <div class="first">
