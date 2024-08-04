@@ -8,7 +8,6 @@ import { CommonService } from '../../services/common.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEdit} from '@fortawesome/free-solid-svg-icons'
 import { SortTablePipe } from '../../shared/sort-table.pipe';
-import { Router } from '@angular/router';
 import { PopupComponent } from '../../shared/popup/popup.component';
 import { TableComponent } from "../../shared/table/table.component";
 
@@ -27,7 +26,7 @@ export class AddMemberComponent implements OnInit {
   comaties = this.commonService.comaties;
   members= this.commonService.members;
   comati: Comati | undefined;
-  constructor(private commonService: CommonService, private router: Router,
+  constructor(private commonService: CommonService,
     ){  }
   async getMembers(event: Comati) {
     this.member.comatiId= event.id;
@@ -55,7 +54,7 @@ async ngOnInit(): Promise<void> {
     if(this.members.length>0){this.showTable=true; this.zeroMembers=false;}else { this.showTable=false; }
   }
   details(){
-    this.router.navigateByUrl("/person-details");
+    this.commonService.router.navigateByUrl("/person-details");
   }
   editMember(member: Member) {
     this.reg=false;

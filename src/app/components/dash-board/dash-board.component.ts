@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { Person } from '../../models/person';
 import { CommonService } from '../../services/common.service';
 import { Defaulter } from '../../models/defaulter';
-import { Router, RouterLink } from '@angular/router';
 import { Comati } from '../../models/comati';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -15,7 +14,7 @@ import { TableComponent } from '../../shared/table/table.component';
 @Component({
   selector: 'app-dash-board',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, FontAwesomeModule, DatePipeComponent, SortTablePipe, TableComponent],
+  imports: [CommonModule, FormsModule, FontAwesomeModule, DatePipeComponent, SortTablePipe, TableComponent],
   templateUrl: './dash-board.component.html',
   styleUrls: ['./dash-board.component.scss']
 })
@@ -33,8 +32,8 @@ export class DashBoardComponent implements OnInit {
   defaultersTable = false;
   allPaid = false;
   selectedComati!: Comati;
-
-  constructor(private commonService: CommonService, private router: Router) {
+  totalShort!: number;
+  constructor(private commonService: CommonService) {
     this.person = this.commonService.person;
   }
   async ngOnInit(): Promise<void> {
@@ -61,14 +60,14 @@ export class DashBoardComponent implements OnInit {
       this.zeroMembers = this.members.length === 0;
       this.zeroComaties = this.comaties.length === 0;
       this.commonService.selectedComati = this.selectedComati;
+      
     } catch (error) {
       console.error('Error fetching data', error);
     }
   }
   
-
   async defaulterDetails(memberId: number) {
     await this.commonService.getMember(memberId);
-    this.router.navigateByUrl("/person-details")
+    this.commonService.router.navigateByUrl("/person-details")
   }
 }

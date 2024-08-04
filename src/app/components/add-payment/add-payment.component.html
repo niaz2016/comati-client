@@ -1,7 +1,11 @@
 <div class="container">
     <div class="first">
-        <br>
+    <br>
     <div class="element"><span>User :</span><span>{{person.name}}</span></div>
+    <br>
+    <button class="button" (click)="getAllTimeDefaulters()">Find Overdue Payments</button>
+        <app-table *ngIf="allTimeDefaulters" [data]="allTimeDefaulters" [hiddenFields]="['isActive']" header="All Time Defaulters" footer="Total Short: {{totalShort}}">
+        </app-table>
     </div>
     <div class="first" >
         <br>
@@ -30,5 +34,6 @@
         </div>
         <br>
         <button class="button" (click)="payNow()">Pay Now</button>
+        <div ><button  class="button" (click)="details()">See Payments History</button></div>
     </div>
 </div>
