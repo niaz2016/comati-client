@@ -23,7 +23,7 @@ export class CommonService {
   personsUrl = `${this.baseUrl}Person`;
   personUrl = `${this.baseUrl}Person/personId`;
   paymentUrl = `${this.baseUrl}ComatiPayment`;
-  amountUrl = `${this.baseUrl}ComatiPayment/ComatiId`;
+  
   memberPaymentsUrl = `${this.baseUrl}ComatiPayment/memberPayments`;
   delComatiUrl = `${this.baseUrl}Comati/delete`;
   userUrl = `${this.baseUrl}User`;
@@ -43,6 +43,7 @@ export class CommonService {
   selectedComati!: Comati;
   user: User | undefined;
   allTimeDefaulters!: AllTimeDefaulter[];
+  defaulters:Defaulter[] = [];
   constructor(private http: HttpClient, public router: Router) {
 
     let u = localStorage.getItem('user');
@@ -50,8 +51,9 @@ export class CommonService {
     this.loadDefaults();
   }
   async loadDefaults(){
-    await this.getComaties(this.person.id);
     await this.getPersons();
+    await this.getComaties(this.person.id);
+    await this.getMembers(this.selectedComati.id);
   }
   async registerUser(user: User): Promise<User> {
     const result = await firstValueFrom(this.http.post<User>(this.userUrl, user));
@@ -64,6 +66,7 @@ export class CommonService {
     this.comaties.length=0;
     this.comaties.push(...comaties);
     this.selectedComati=this.comaties[0];
+    this.defaulters=this.selectedComati.defaulters as Defaulter[];
     return this.comaties;
   }
   async getPerson(personId: number): Promise<Person> {

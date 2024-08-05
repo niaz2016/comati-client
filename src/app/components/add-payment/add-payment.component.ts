@@ -9,6 +9,7 @@ import { Payment } from '../../models/payment';
 import { Defaulter } from '../../models/defaulter';
 import { TableComponent } from "../../shared/table/table.component";
 import { AllTimeDefaulter } from '../../models/allTimeDefaulter';
+import { width } from '@fortawesome/free-solid-svg-icons/faEdit';
 
 @Component({
   selector: 'app-comati-payment',
@@ -52,7 +53,7 @@ async getAmount(event: any): Promise<void> {
 async getAllTimeDefaulters(){
   this.allTimeDefaulters =await this.commonService.getAllTimeDefaulters(this.commonService.selectedComati.id)
   this.totalShort= this.allTimeDefaulters.reduce((sum, AllTimeDefaulter) => sum + AllTimeDefaulter.AmountOverdue, 0);
-      console.log(this.totalShort)
+  if(this.allTimeDefaulters.length===0){window.alert("No any Overdue Payment")}
 }
 details(){
   this.commonService.router.navigateByUrl("/person-details");

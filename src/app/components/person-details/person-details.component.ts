@@ -44,7 +44,7 @@ allPaymentsSum: number | undefined;
 this.members = await this.commonService.getMembers(event.id) as Member[];
   }
   async ngOnInit(): Promise<void> {
-    this.payments = await this.commonService.getMemberPayments(this.member.id);
+    if(this.member.id){this.payments = await this.commonService.getMemberPayments(this.member.id);}
     this.paymentsCount = this.payments.length;
   }
 }

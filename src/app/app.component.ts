@@ -6,6 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SortTablePipe } from './shared/sort-table.pipe';
 import { HamburgerComponent } from "./shared/hamburger/hamburger.component";
 import { CommonModule } from '@angular/common';
+import "@fontsource/roboto"; 
 @Component({
   selector: 'app-root',
   standalone: true,
