@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Person } from '../../models/person';
 import { CommonService } from '../../services/common.service';
-import { Defaulter } from '../../models/defaulter';
 import { Comati } from '../../models/comati';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -11,7 +10,6 @@ import { Member } from '../../models/member';
 import { DatePipeComponent } from '../../shared/date-pipe/date-pipe.component';
 import { SortTablePipe } from '../../shared/sort-table.pipe';
 import { TableComponent } from '../../shared/table/table.component';
-import { AllTimeDefaulter } from '../../models/allTimeDefaulter';
 @Component({
   selector: 'app-dash-board',
   standalone: true,
@@ -34,7 +32,7 @@ export class DashBoardComponent implements OnInit {
   totalShort!: number;
   empty = false;
   showAlltimeDefs = false;
-  comatiesAvailable = true;
+  comatiesAvailable = false;
   allTimeDefaulters = this.commonService.allTimeDefaulters;
   constructor(private commonService: CommonService) {
     this.person = this.commonService.person;
@@ -43,7 +41,7 @@ export class DashBoardComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.commonService.getComaties(this.person.id);
     this.comaties = this.commonService.comaties;
-    if(this.comaties.length===0){this.comatiesAvailable=false;}
+    if(this.comaties[0]){this.comatiesAvailable=true;}
     this.selectedComati = this.commonService.selectedComati;
     // Fetch members from the service
     if(this.comaties.length>0){ await this.getData();}else{this.empty=true;}

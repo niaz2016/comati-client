@@ -14,7 +14,6 @@ import { AllTimeDefaulter } from '../models/allTimeDefaulter';
   providedIn: 'root'
 })
 export class CommonService {
- // https://192.168.100.156:5209/api/Comati?MgrId=1
   baseUrl = 'http://localhost:5209/api/';
   comatiesByMgrUrl = `${this.baseUrl}Comati`;
   comatiUrl = `${this.baseUrl}Comati/comati`;
@@ -29,7 +28,7 @@ export class CommonService {
   userUrl = `${this.baseUrl}User`;
   allTimeDefaultersUrl = `${this.baseUrl}ComatiPayment/defaulters`;
 
-  person: Person={name:'No User Loggedin',id:0,phone:'No Phone'};
+  person: Person={name:'No User Loggedin',id:0,phone:'No Phone', mgr: 0};
   persons: Person[]=[];
   comati!: Comati;
   comaties: Comati[]=[];
@@ -51,9 +50,10 @@ export class CommonService {
     this.loadDefaults();
   }
   async loadDefaults(){
-    await this.getPersons();
+    await this.getPersons(this.person.id);
     await this.getComaties(this.person.id);
-    await this.getMembers(this.selectedComati.id);
+    if(this.selectedComati){
+    await this.getMembers(this.selectedComati.id);}
   }
   async registerUser(user: User): Promise<User> {
     const result = await firstValueFrom(this.http.post<User>(this.userUrl, user));
@@ -65,8 +65,9 @@ export class CommonService {
     const comaties = await firstValueFrom(this.http.get<Comati[]>(this.comatiesByMgrUrl, {params}));
     this.comaties.length=0;
     this.comaties.push(...comaties);
+    if(this.comaties[0]){
     this.selectedComati=this.comaties[0];
-    this.defaulters=this.selectedComati.defaulters as Defaulter[];
+    this.defaulters=this.selectedComati.defaulters as Defaulter[];}
     return this.comaties;
   }
   async getPerson(personId: number): Promise<Person> {
@@ -115,8 +116,9 @@ export class CommonService {
     }else {return null;}
   }
 
-  async getPersons(): Promise<Person[]> {
-    this.persons= await firstValueFrom(this.http.get<Person[]>(this.personsUrl));
+  async getPersons(MgrId: number): Promise<Person[]> {
+    const params = new HttpParams().set('MgrId', MgrId);
+    this.persons= await firstValueFrom(this.http.get<Person[]>(this.personsUrl, { params }));
     return this.persons;
   }
   async login(person:Person) {

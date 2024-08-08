@@ -16,11 +16,12 @@ import { TableComponent } from "../../shared/table/table.component";
 })
 export class RegisterPersonComponent implements OnInit {
   person:Person = {
-    id:0,
+    id: 0,
     name: '',
     phone: '',
     address: '',
     remarks: '',
+    mgr: 0,
   };
   faEdit = faEdit;
   edit=false;
@@ -29,7 +30,8 @@ export class RegisterPersonComponent implements OnInit {
   totalCount: number = this.commonService.persons.length;
   constructor(private commonService: CommonService){  }
   async ngOnInit() {
-    this.persons= await this.commonService.getPersons();
+    this.persons = this.commonService.persons;
+    this.person.mgr = this.commonService.person.id;
   }
   @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
   popupContainer!: ViewContainerRef;
@@ -62,16 +64,15 @@ onClose(){}
   cancelEdit() {
     this.edit = false;
     this.reg = true;
-    this.person.id=0;
-    this.person.name='';
-    this.person.phone='';
-    this.person.address='';
-    this.person.remarks='';
+    // this.person.id=0;
+    // this.person.name='';
+    // this.person.phone='';
+    // this.person.address='';
+    // this.person.remarks='';
     this.ngOnInit();
     }
-    
     async savePerson(): Promise<void> {
-      
+      this.person.mgr = this.commonService.person.id;
       if(this.person.name.length<3||this.person.phone.length<11 || this.person.phone?.length>11)
         {
         window.alert("Please Enter Correct Credentials");
@@ -82,6 +83,7 @@ onClose(){}
           if (result) {
            if(this.reg){window.alert("Person registration Successful");}
            else if((this.edit)) {window.alert("Person Update Successful");}
+           this.commonService.getPersons(this.commonService.person.id);
            this.cancelEdit();
           }
       }

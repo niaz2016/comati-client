@@ -51,7 +51,7 @@ member: Member = {
 async ngOnInit(): Promise<void> {
   this.members= await this.commonService.getMembers(this.selectedComati.id) as Member[];
     if(this.comaties.length===0){this.showTable=false; this.zeroMembers=true;}
-    if(this.members.length>0){this.showTable=true; this.zeroMembers=false;}else { this.showTable=false; }
+    if(this.members){this.showTable=true; this.zeroMembers=false;}else { this.showTable=false; }
   }
   details(){
     this.commonService.router.navigateByUrl("/person-details");

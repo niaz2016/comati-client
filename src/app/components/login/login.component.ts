@@ -18,12 +18,12 @@ export class LoginComponent implements OnInit {
 
  person: Person | undefined
 user: User = {
-    id: 0,
-    name: '',
-    phone: '',
-    address: '',
-    password: '',
-  };
+  id: 0,
+  name: '',
+  phone: '',
+  address: '',
+  password: '',
+};
   rePassword: string = '';
   reg = false;
   log = true;

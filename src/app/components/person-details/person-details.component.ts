@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonService } from '../../services/common.service';
-import { Defaulter } from '../../models/defaulter';
 import { Comati } from '../../models/comati';
 import { Payment } from '../../models/payment';
 import { Person } from '../../models/person';
