@@ -60,10 +60,11 @@ export class TableComponent implements OnInit {
   camelCaseToTitle(camelCase: string): string {
     return camelCase
       .replace(/([A-Z])/g, ' $1')  // Add a space before capital letters
+      .replace(/_/, '')
       .replace(/^./, str => str.toUpperCase());  // Capitalize the first letter
   }
   formatValue(value:any,field:string){
-    if(field.toLowerCase().includes('opening')){
+    if(field.toLowerCase().includes('month')){
       return value = moment(value).format('MMMM YYYY');
     }
     if(field.toLowerCase().includes('date')){

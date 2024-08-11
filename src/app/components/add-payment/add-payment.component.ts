@@ -60,11 +60,15 @@ async ngOnInit(){
       return;
     }
     else{
-    let result = await this.commonService.AddPayment(this.payment);
-    if(result){window.alert("Payment Successfull"); return;}
+      try {
+        let result = await this.commonService.AddPayment(this.payment);
+    if(result){window.alert(result); return;}
     else {
       window.alert("Payment may be null")
+      }
     }
+    catch(err: any){window.alert("Error: "+err.error)} 
+
   }
   }  
 

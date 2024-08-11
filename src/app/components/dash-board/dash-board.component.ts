@@ -23,44 +23,47 @@ export class DashBoardComponent implements OnInit {
 
   faEdit = faEdit;
   person!: Person;
-  members!: Member[];
+  members?: Member[];
   comaties!: Comati[];
   defaulter!: Defaulter;
-  defaulters: Defaulter[] = [];
+  defaulters?: Defaulter[];
   status!: string;
   zeroComaties = true;
   zeroMembers = false;
   defaultersTable = false;
   allPaid = false;
-  selectedComati!: Comati;
+  selectedComati?: Comati;
 
   constructor(private commonService: CommonService, private router: Router) {
     this.person = this.commonService.person;
+    
   }
   async ngOnInit(): Promise<void> {
     await this.commonService.getComaties(this.person.id);
     this.comaties = this.commonService.comaties;
+    this.selectedComati=this.commonService.selectedComati;
+    await this.commonService.getMembers(this.selectedComati.id)
+    this.members=this.commonService.members;
     this.selectedComati = this.commonService.selectedComati;
-    // Fetch members from the service
-    this.getData();
+    this.defaulters = this.selectedComati.defaulters;
   }
   getMembers() {
     return this.members;
   }
   membersCount(){
-    const members = this.members.length
-    return(members+" members in "+this.selectedComati.name).toString();
+    const members = this.members?.length
+    return(members+" members in "+this.selectedComati?.name).toString();
   }
   async getData() {
     try {
-      const members = await this.commonService.getMembers(this.selectedComati.id) as Member[];
+      const members = await this.commonService.getMembers(this.selectedComati?.id?? 0) as Member[];
       this.members = [...members]; // Update array to trigger change detection
       this.defaulters = this.selectedComati?.defaulters || [];
       this.defaultersTable = this.defaulters.length > 0;
       this.allPaid = this.defaulters.length === 0;
       this.zeroMembers = this.members.length === 0;
       this.zeroComaties = this.comaties.length === 0;
-      this.commonService.selectedComati = this.selectedComati;
+      this.commonService.selectedComati = this.selectedComati as Comati;
     } catch (error) {
       console.error('Error fetching data', error);
     }

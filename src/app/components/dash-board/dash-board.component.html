@@ -11,8 +11,8 @@
         </select>
         <br>
         <div class="row">
-            <div><span class="span">Members: </span><span> {{ selectedComati.totalMembers}}</span></div>
-            <div><span class="span">Per Member: </span> <span> {{ selectedComati.per_Head}}</span></div>
+            <div><span class="span">Members: </span><span> {{ selectedComati?.totalMembers}}</span></div>
+            <div><span class="span">Per Member: </span> <span> {{ selectedComati?.per_Head}}</span></div>
         </div>
         <br>
         <button class="button" routerLink="/add-member">Add New Member</button>
@@ -26,13 +26,13 @@
     <div class="first">
         <br>
         <div class="element"><span class="span">Total Comati</span><span
-                class="span">{{selectedComati.totalComati}}</span></div>
+                class="span">{{selectedComati?.totalComati}}</span></div>
         <div class="element"><span class="span">Total Collected</span><span
-                class="span">{{selectedComati.totalCollected}}</span></div>
+                class="span">{{selectedComati?.totalCollected}}</span></div>
         <div class="element"><span class="span">Started On</span><span class="span"><app-date-pipe
-                    [date]="selectedComati.start_Date"></app-date-pipe> </span></div>
+                    [date]="selectedComati?.start_Date"></app-date-pipe> </span></div>
         <div class="element"><span class="span">Ending On</span> <app-date-pipe
-                [date]="selectedComati.end_Date"></app-date-pipe></div>
+                [date]="selectedComati?.end_Date"></app-date-pipe></div>
         <br>
         <div class="element" *ngIf="allPaid">Congratulations: No pending payments</div>
         <app-table *ngIf="defaulters" [data]="defaulters" [hiddenFields]="['remarks', 'address']" header="Defaulters this Month" ></app-table>
