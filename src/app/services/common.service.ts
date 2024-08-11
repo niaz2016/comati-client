@@ -22,7 +22,6 @@ export class CommonService {
   personsUrl = `${this.baseUrl}Person`;
   personUrl = `${this.baseUrl}Person/personId`;
   paymentUrl = `${this.baseUrl}ComatiPayment`;
-  
   memberPaymentsUrl = `${this.baseUrl}ComatiPayment/memberPayments`;
   delComatiUrl = `${this.baseUrl}Comati/delete`;
   userUrl = `${this.baseUrl}User`;
@@ -54,6 +53,7 @@ export class CommonService {
     await this.getComaties(this.person.id);
     if(this.selectedComati){
     await this.getMembers(this.selectedComati.id);}
+    this.router.navigateByUrl("/dash-board")
   }
   async registerUser(user: User): Promise<User> {
     const result = await firstValueFrom(this.http.post<User>(this.userUrl, user));
@@ -115,14 +115,13 @@ export class CommonService {
 
     }else {return null;}
   }
-
   async getPersons(MgrId: number): Promise<Person[]> {
     const params = new HttpParams().set('MgrId', MgrId);
     this.persons= await firstValueFrom(this.http.get<Person[]>(this.personsUrl, { params }));
     return this.persons;
   }
   async login(person:Person) {
-    if (person && person.name) {
+    if (person) {
       localStorage.setItem('user', JSON.stringify(person));
       this.setUser(person);
       await this.getComaties(this.person.id);

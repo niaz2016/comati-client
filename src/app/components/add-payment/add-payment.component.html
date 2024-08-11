@@ -3,13 +3,14 @@
     <br>
     <div class="element"><span>User :</span><span>{{person.name}}</span></div>
     <br>
+    <span class="span">Select Comati</span><select class="input" *ngIf="comaties" [(ngModel)]="selectedComati"><option *ngFor="let comati of comaties">{{comati.name}}</option></select>
     <button class="button" (click)="getAllTimeDefaulters()">Find Overdue Payments</button>
-        <app-table *ngIf="allTimeDefaulters" [data]="allTimeDefaulters" [hiddenFields]="['isActive']" header="All Time Defaulters" footer="Total Short: {{totalShort}}">
+        <app-table *ngIf="allTimeDefaulters" [data]="allTimeDefaulters" [hiddenFields]="['isActive']" header={{selectedComati.name}} footer="Total Short: {{totalShort}}">
         </app-table>
     </div>
     <div class="first" >
         <br>
-        <div class="element"><span>Add Payment</span><span>{{selectedComati?.name}}</span></div><br>
+        <div class="element"><span>Add Payment</span><span>{{selectedComati.name}}</span></div><br>
         <div class="inputField">
             <span class="span">Select Comati</span>
             <select class="input" type="text" id="comatiSelect" [(ngModel)]="comati" (ngModelChange)="getMembers($event)" name="comatiSelect">

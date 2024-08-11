@@ -30,7 +30,7 @@ export class RegisterPersonComponent implements OnInit {
   totalCount: number = this.commonService.persons.length;
   constructor(private commonService: CommonService){  }
   async ngOnInit() {
-    this.persons = this.commonService.persons;
+    this.persons = await this.commonService.getPersons(this.commonService.person.id);
     this.person.mgr = this.commonService.person.id;
   }
   @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
@@ -54,6 +54,7 @@ async del(id: number){
   await this.commonService.deletePerson(id);
   this.closePopup();
   this.cancelEdit();
+  location.reload();
 }
 onClose(){}
   editPersonfunc(pers: Person){
@@ -64,19 +65,14 @@ onClose(){}
   cancelEdit() {
     this.edit = false;
     this.reg = true;
-    // this.person.id=0;
-    // this.person.name='';
-    // this.person.phone='';
-    // this.person.address='';
-    // this.person.remarks='';
-    this.ngOnInit();
     }
     async savePerson(): Promise<void> {
       this.person.mgr = this.commonService.person.id;
-      if(this.person.name.length<3||this.person.phone.length<11 || this.person.phone?.length>11)
+      if(this.person.name.length<3||this.person.phone.length<11 || this.person.phone.length>11)
         {
         window.alert("Please Enter Correct Credentials");
       }
+      else{
       try
       {
         const result = await this.commonService.registerPerson(this.person);
@@ -91,4 +87,5 @@ onClose(){}
         window.alert(err.Error);
       }
   }
+}
 }

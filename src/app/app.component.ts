@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   providers:[]
 })
 export class AppComponent implements OnInit {
-  
+  person: Person = this.commonService.person;
   title = 'comati';
   constructor(private commonService: CommonService) {
   }
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
   
-  person: Person| undefined;
+  
   logout() {
     this.commonService.selectedComati?.name?? '';
     this.commonService.selectedComati?.id?? 0;

@@ -12,12 +12,12 @@
       <div class="inputField">
         <span class="span">Name</span>
         <input *ngIf="edit" class="input" type="text" [(ngModel)]="person.name"/>
-        <input *ngIf="reg" class="input" type="text"/>
+        <input *ngIf="reg" class="input" type="text" [(ngModel)]="person.name"/>
       </div>
       <div class="inputField">
         <span class="span">Phone</span>
         <input *ngIf="edit" class="input" type="text" [(ngModel)]="person.phone"/>
-        <input *ngIf="reg" class="input" type="text"/>
+        <input *ngIf="reg" class="input" type="text" [(ngModel)]="person.phone"/>
       </div>
       <div class="inputField">
         <span class="span">Address</span>

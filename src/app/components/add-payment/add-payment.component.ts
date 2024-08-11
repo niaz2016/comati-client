@@ -9,7 +9,6 @@ import { Payment } from '../../models/payment';
 import { Defaulter } from '../../models/defaulter';
 import { TableComponent } from "../../shared/table/table.component";
 import { AllTimeDefaulter } from '../../models/allTimeDefaulter';
-import { width } from '@fortawesome/free-solid-svg-icons/faEdit';
 
 @Component({
   selector: 'app-comati-payment',
@@ -22,7 +21,7 @@ export class AddPaymentComponent implements OnInit {
   person!:Person;
   comati!:Comati;
   comaties: Comati[]=[];
-  selectedComati: Comati | undefined;
+  selectedComati: Comati = this.commonService.selectedComati;
   member: Member|undefined;
   members: Member[]=[];
   selectedMember!: Member;

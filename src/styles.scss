@@ -20,7 +20,7 @@ $greyBorder :1px solid #EAEEF5;
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Roboto', 'Times New Roman', Times, serif;
   
 }
 
@@ -126,12 +126,6 @@ body {
     padding-right: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
-    &:hover{
-      background-color: white;
-      font-weight:600;
-      font-size: larger;
-      box-shadow: #807878;
-    }
   }
 }
 // Styling for labels

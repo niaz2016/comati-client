@@ -38,7 +38,7 @@ user: User = {
     const params = new HttpParams().set('phone', this.user.phone).set('password', this.user.password);
       try {
         const person = await firstValueFrom(this.http.get<Person>(this.commonService.userUrl, { params })) as Person;
-      if(person){this.commonService.login(person);}
+      if(person && person.id){this.commonService.login(person);}
       }
       catch(err: any){window.alert(err.error.message);}
   }
@@ -72,7 +72,7 @@ user: User = {
           if (result)
           {
             window.alert("User registration Successful");
-            location.reload();
+            this.commonService.router.navigateByUrl("/dash-board")
           }}
         catch(Err: any){window.alert(Err.error.message);
         }
