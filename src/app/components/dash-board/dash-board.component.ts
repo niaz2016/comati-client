@@ -81,8 +81,10 @@ export class DashBoardComponent implements OnInit {
       this.zeroComaties = this.comaties.length === 0;
       this.commonService.selectedComati = this.selectedComati as Comati;
     } 
+    catch(err: any){
+        console.log(err)
+    }
   }
-  
   async defaulterDetails(memberId: number) {
     await this.commonService.getMember(memberId);
     this.commonService.router.navigateByUrl("/person-details")

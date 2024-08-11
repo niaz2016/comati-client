@@ -14,12 +14,8 @@ import { AllTimeDefaulter } from '../models/allTimeDefaulter';
   providedIn: 'root'
 })
 export class CommonService {
-<<<<<<< HEAD
  // https://192.168.100.156:5209/api/Comati?MgrId=1
   baseUrl = 'http://localhost:7258/api/';
-=======
-  baseUrl = 'http://localhost:5209/api/';
->>>>>>> 15e1d97efa2108d6941a707cc84c06433e2da7c4
   comatiesByMgrUrl = `${this.baseUrl}Comati`;
   comatiUrl = `${this.baseUrl}Comati/comati`;
   regComatiUrl = `${this.baseUrl}Comati`;
