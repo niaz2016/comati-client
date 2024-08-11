@@ -11,12 +11,7 @@ $table-row-hover-bg-color: white;
 $table-padding: 10px;
 $table-border-radius: 0px;
 $greyBorder :1px solid #EAEEF5;
-@font-face {
-  font-family: 'Roboto';
-  src: local('Roboto'), local('Roboto-Regular'), url('C:\\Users\\Niaz\\Downloads\\Roboto-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
+
 body {
   padding: 0;
   margin: 0;
@@ -126,12 +121,6 @@ body {
     padding-right: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
-    &:hover{
-      background-color: white;
-      font-weight:600;
-      font-size: larger;
-      box-shadow: #807878;
-    }
   }
 }
 // Styling for labels

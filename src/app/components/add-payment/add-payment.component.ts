@@ -6,13 +6,14 @@ import { Comati } from '../../models/comati';
 import { Person } from '../../models/person';
 import { Member } from '../../models/member';
 import { Payment } from '../../models/payment';
-import { DatePipeComponent } from '../../shared/date-pipe/date-pipe.component';
 import { Defaulter } from '../../models/defaulter';
+import { TableComponent } from "../../shared/table/table.component";
+import { AllTimeDefaulter } from '../../models/allTimeDefaulter';
 
 @Component({
   selector: 'app-comati-payment',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TableComponent],
   templateUrl: './add-payment.component.html',
   styleUrl: './add-payment.component.scss'
 })
@@ -20,18 +21,19 @@ export class AddPaymentComponent implements OnInit {
   person!:Person;
   comati!:Comati;
   comaties: Comati[]=[];
-  selectedComati: Comati | undefined;
+  selectedComati: Comati = this.commonService.selectedComati;
   member: Member|undefined;
   members: Member[]=[];
   selectedMember!: Member;
   defaulter: Defaulter | undefined;
   defaulters: Defaulter[]=[];
-  
+  allTimeDefaulters?: AllTimeDefaulter[];
+  totalShort: number | undefined;
   constructor(private commonService: CommonService){
     this.person=this.commonService.person;
-    
+
   }
-  
+
 payment: Payment= {
   comatiId: 0,
   memberId: 0,
@@ -47,7 +49,14 @@ async getAmount(event: any): Promise<void> {
   this.payment.amount=this.member?.amount as number;
   this.payment.remarks= this.member?.remarks??'';
 }
-
+async getAllTimeDefaulters(){
+  this.allTimeDefaulters =await this.commonService.getAllTimeDefaulters(this.commonService.selectedComati.id)
+  this.totalShort= this.allTimeDefaulters.reduce((sum, AllTimeDefaulter) => sum + AllTimeDefaulter.AmountOverdue, 0);
+  if(this.allTimeDefaulters.length===0){window.alert("No any Overdue Payment")}
+}
+details(){
+  this.commonService.router.navigateByUrl("/person-details");
+}
 async ngOnInit(){
   this.comaties=this.commonService.comaties;
   this.selectedComati=this.commonService.selectedComati;
@@ -70,6 +79,6 @@ async ngOnInit(){
     catch(err: any){window.alert("Error: "+err.error)} 
 
   }
-  }  
+  }
 
 }

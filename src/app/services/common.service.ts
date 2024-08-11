@@ -8,13 +8,18 @@ import { Router } from '@angular/router';
 import { Payment } from '../models/payment';
 import { Defaulter } from '../models/defaulter';
 import { User } from '../models/user';
+import { AllTimeDefaulter } from '../models/allTimeDefaulter';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
+<<<<<<< HEAD
  // https://192.168.100.156:5209/api/Comati?MgrId=1
   baseUrl = 'http://localhost:7258/api/';
+=======
+  baseUrl = 'http://localhost:5209/api/';
+>>>>>>> 15e1d97efa2108d6941a707cc84c06433e2da7c4
   comatiesByMgrUrl = `${this.baseUrl}Comati`;
   comatiUrl = `${this.baseUrl}Comati/comati`;
   regComatiUrl = `${this.baseUrl}Comati`;
@@ -22,12 +27,12 @@ export class CommonService {
   personsUrl = `${this.baseUrl}Person`;
   personUrl = `${this.baseUrl}Person/personId`;
   paymentUrl = `${this.baseUrl}ComatiPayment`;
-  amountUrl = `${this.baseUrl}ComatiPayment/ComatiId`;
   memberPaymentsUrl = `${this.baseUrl}ComatiPayment/memberPayments`;
   delComatiUrl = `${this.baseUrl}Comati/delete`;
   userUrl = `${this.baseUrl}User`;
+  allTimeDefaultersUrl = `${this.baseUrl}ComatiPayment/defaulters`;
 
-  person: Person={name:'No User Loggedin',id:0,phone:'No Phone'};
+  person: Person={name:'No User Loggedin',id:0,phone:'No Phone', mgr: 0};
   persons: Person[]=[];
   comati!: Comati;
   comaties: Comati[]=[];
@@ -40,15 +45,20 @@ export class CommonService {
   personDetails!: Person;
   selectedComati!: Comati;
   user: User | undefined;
-  constructor(private http: HttpClient, private router: Router) {
-    
+  allTimeDefaulters!: AllTimeDefaulter[];
+  defaulters:Defaulter[] = [];
+  constructor(private http: HttpClient, public router: Router) {
+
     let u = localStorage.getItem('user');
-    if(u && u!=undefined && u!='undefined'){this.setUser((JSON.parse(u) as Person) );}
+    if(u && u!='undefined'){this.setUser((JSON.parse(u) as Person) );}
     this.loadDefaults();
   }
   async loadDefaults(){
+    await this.getPersons(this.person.id);
     await this.getComaties(this.person.id);
-    await this.getPersons();
+    if(this.selectedComati){
+    await this.getMembers(this.selectedComati.id);}
+    this.router.navigateByUrl("/dash-board")
   }
   async registerUser(user: User): Promise<User> {
     const result = await firstValueFrom(this.http.post<User>(this.userUrl, user));
@@ -60,19 +70,21 @@ export class CommonService {
     const comaties = await firstValueFrom(this.http.get<Comati[]>(this.comatiesByMgrUrl, {params}));
     this.comaties.length=0;
     this.comaties.push(...comaties);
+    if(this.comaties[0]){
     this.selectedComati=this.comaties[0];
+    this.defaulters=this.selectedComati.defaulters as Defaulter[];}
     return this.comaties;
   }
   async getPerson(personId: number): Promise<Person> {
     const params =new HttpParams().set('id', personId);
     return await firstValueFrom(this.http.get<Person>(this.personUrl, {params}));
-    
+
    }
    async getMember(memberId: number ) {
      const params = new HttpParams().set('memberId', memberId);
      //this.personDetails= await firstValueFrom(this.http.get<Person>(this.getPerson, )) get person by memberId
      this.member = await firstValueFrom(this.http.get<Member>(this.comatiMemberUrl, {params}));
-     
+
    }
   async getMemberPayments(memberId: number): Promise<Payment[]>  {
     const params = new HttpParams().set('memberId', memberId);
@@ -84,7 +96,7 @@ export class CommonService {
     this.comati = await firstValueFrom(this.http.get<Comati>(this.comatiUrl, {params}))
     return this.comati;
   }
-  
+
   async registerMember(member: Member): Promise<Member> {
     return await firstValueFrom(this.http.post<Member>(this.comatiMemberUrl, member));
   }
@@ -105,16 +117,16 @@ export class CommonService {
     const params = new HttpParams().set('comatiId', comatiId);
     this.members = await firstValueFrom(this.http.get<Member[]>(this.comatiMemberUrl, { params }));
     return this.members;
-    
+
     }else {return null;}
   }
-
-  async getPersons(): Promise<Person[]> {
-    this.persons= await firstValueFrom(this.http.get<Person[]>(this.personsUrl));
+  async getPersons(MgrId: number): Promise<Person[]> {
+    const params = new HttpParams().set('MgrId', MgrId);
+    this.persons= await firstValueFrom(this.http.get<Person[]>(this.personsUrl, { params }));
     return this.persons;
   }
   async login(person:Person) {
-    if (person && person.name) {
+    if (person) {
       localStorage.setItem('user', JSON.stringify(person));
       this.setUser(person);
       await this.getComaties(this.person.id);
@@ -135,6 +147,11 @@ export class CommonService {
     const params = new HttpParams().set('id', id);
     const result = await firstValueFrom(this.http.delete<number>(this.comatiMemberUrl, {params}));
     return result
+  }
+  async getAllTimeDefaulters(comatiId: number){
+    const params = new HttpParams().set('comatiId', comatiId)
+    this.allTimeDefaulters = await firstValueFrom(this.http.get<AllTimeDefaulter[]>(this.allTimeDefaultersUrl, {params}));
+    return this.allTimeDefaulters;
   }
   rearrangeDate(date: Date): string{
 var month = date.getMonth();

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonService } from '../../services/common.service';
-import { Defaulter } from '../../models/defaulter';
 import { Comati } from '../../models/comati';
 import { Payment } from '../../models/payment';
 import { Person } from '../../models/person';
@@ -44,7 +43,7 @@ allPaymentsSum: number | undefined;
 this.members = await this.commonService.getMembers(event.id) as Member[];
   }
   async ngOnInit(): Promise<void> {
-    this.payments = await this.commonService.getMemberPayments(this.member.id);
+    if(this.member.id){this.payments = await this.commonService.getMemberPayments(this.member.id);}
     this.paymentsCount = this.payments.length;
   }
 }

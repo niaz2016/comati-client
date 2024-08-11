@@ -11,19 +11,23 @@
       <div class="element"><span>Person ID:</span><span [(ngModel)]="person.id">{{person.id}}</span></div>
       <div class="inputField">
         <span class="span">Name</span>
-        <input class="input" type="text" [(ngModel)]="person.name" [placeholder]="person.name" name="personName"/>
+        <input *ngIf="edit" class="input" type="text" [(ngModel)]="person.name"/>
+        <input *ngIf="reg" class="input" type="text" [(ngModel)]="person.name"/>
       </div>
       <div class="inputField">
         <span class="span">Phone</span>
-        <input class="input" type="text" [(ngModel)]="person.phone" name="personPhone"/>
+        <input *ngIf="edit" class="input" type="text" [(ngModel)]="person.phone"/>
+        <input *ngIf="reg" class="input" type="text" [(ngModel)]="person.phone"/>
       </div>
       <div class="inputField">
         <span class="span">Address</span>
-        <input class="input" type="text" [(ngModel)]="person.address" name="personAddress"/>
+        <input *ngIf="edit" class="input" type="text" [(ngModel)]="person.address"/>
+        <input *ngIf="reg" class="input" type="text" />
       </div>
       <div class="inputField">
         <span class="span">Remarks</span>
-        <input class="input" type="text" [(ngModel)]="person.remarks" name="personRemarks"/>
+        <input *ngIf="edit" class="input" type="text" [(ngModel)]="person.remarks"/>
+        <input *ngIf="reg" class="input" type="text" />
       </div>
       <br>
       <button class="button" *ngIf="reg" (click)="savePerson()" name="regButton">Save</button>
