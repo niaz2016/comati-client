@@ -7,7 +7,7 @@
     <li (click)="toggleMenu()"><a  routerLinkActive="active" routerLink="/add-payment">Payments</a></li>
     <li (click)="toggleMenu()"><a  routerLinkActive="active" routerLink="/reg-person">People</a></li>
   </ul>
-  <ul class="rightGap"><span>{{person?.name}}</span>
+  <ul class="rightGap"><span>{{person.name}}</span>
     <div class="loginButton">
       <li><a (click)="logout()" routerLink="/login">login</a></li>
     </div>

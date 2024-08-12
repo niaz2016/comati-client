@@ -14,8 +14,7 @@ import { AllTimeDefaulter } from '../models/allTimeDefaulter';
   providedIn: 'root'
 })
 export class CommonService {
- // https://192.168.100.156:5209/api/Comati?MgrId=1
-  baseUrl = 'http://localhost:7258/api/';
+  baseUrl = 'http://localhost:5209/api/';
   comatiesByMgrUrl = `${this.baseUrl}Comati`;
   comatiUrl = `${this.baseUrl}Comati/comati`;
   regComatiUrl = `${this.baseUrl}Comati`;
@@ -50,7 +49,7 @@ export class CommonService {
     this.loadDefaults();
   }
   async loadDefaults(){
-    await this.getPersons(this.person.id);
+    await this.getPersons();
     await this.getComaties(this.person.id);
     if(this.selectedComati){
     await this.getMembers(this.selectedComati.id);}
@@ -116,8 +115,8 @@ export class CommonService {
 
     }else {return null;}
   }
-  async getPersons(MgrId: number): Promise<Person[]> {
-    const params = new HttpParams().set('MgrId', MgrId);
+  async getPersons(): Promise<Person[]> {
+    const params = new HttpParams().set('MgrId', this.person.id);
     this.persons= await firstValueFrom(this.http.get<Person[]>(this.personsUrl, { params }));
     return this.persons;
   }

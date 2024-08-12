@@ -1,6 +1,6 @@
 export type AllTimeDefaulter = {
-    Name: string,
-    MemberId: number,
-    TotalPaid: number,
-    AmountOverdue: number,
+    name: string,
+    memberId: number,
+    totalPaid: number,
+    amountOverdue: number,
 }

@@ -21,7 +21,7 @@ export class AddPaymentComponent implements OnInit {
   person!:Person;
   comati!:Comati;
   comaties: Comati[]=[];
-  selectedComati: Comati = this.commonService.selectedComati;
+  selectedComati?: Comati;
   member: Member|undefined;
   members: Member[]=[];
   selectedMember!: Member;
@@ -41,7 +41,7 @@ payment: Payment= {
   paymentDate: new Date(),
   remarks: ''
 };
-async getMembers(event: any): Promise<Member[]> {
+async getMembers(event: Comati): Promise<Member[]> {
   this.members= await this.commonService.getMembers(event.id) as Member[];
   return this.members;
 }
@@ -50,16 +50,20 @@ async getAmount(event: any): Promise<void> {
   this.payment.remarks= this.member?.remarks??'';
 }
 async getAllTimeDefaulters(){
-  this.allTimeDefaulters =await this.commonService.getAllTimeDefaulters(this.commonService.selectedComati.id)
-  this.totalShort= this.allTimeDefaulters.reduce((sum, AllTimeDefaulter) => sum + AllTimeDefaulter.AmountOverdue, 0);
+  if(this.selectedComati){this.allTimeDefaulters =await this.commonService.getAllTimeDefaulters(this.selectedComati.id);
+  this.totalShort= this.allTimeDefaulters.reduce((sum, AllTimeDefaulters) => sum + AllTimeDefaulters.amountOverdue, 0);
   if(this.allTimeDefaulters.length===0){window.alert("No any Overdue Payment")}
+  }
 }
 details(){
   this.commonService.router.navigateByUrl("/person-details");
 }
+selComati(event: Comati){
+  this.selectedComati = event;
+}
 async ngOnInit(){
   this.comaties=this.commonService.comaties;
-  this.selectedComati=this.commonService.selectedComati;
+
 }
   async payNow() {
     this.payment.comatiId=this.selectedComati?.id as number;
@@ -71,7 +75,7 @@ async ngOnInit(){
     else{
       try {
         let result = await this.commonService.AddPayment(this.payment);
-    if(result){window.alert(result); return;}
+    if(result){window.alert("Payment Successfull"); return;}
     else {
       window.alert("Payment may be null")
       }

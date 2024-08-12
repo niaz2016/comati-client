@@ -15,7 +15,15 @@ import { TableComponent } from "../../shared/table/table.component";
   styleUrls: ['./register-person.component.scss'],
 })
 export class RegisterPersonComponent implements OnInit {
-  person:Person = {
+  person:Person = { //editPerson
+    id: 0,
+    name: '',
+    phone: '',
+    address: '',
+    remarks: '',
+    mgr: 0,
+  };
+  regPerson: Person = { //registerPerson
     id: 0,
     name: '',
     phone: '',
@@ -25,14 +33,24 @@ export class RegisterPersonComponent implements OnInit {
   };
   faEdit = faEdit;
   edit=false;
-  reg=true;
-  persons: Person[]=[];
+  reg=false;
+  persons = this.commonService.persons;
   totalCount: number = this.commonService.persons.length;
   constructor(private commonService: CommonService){  }
   async ngOnInit() {
-    this.persons = await this.commonService.getPersons(this.commonService.person.id);
-    this.person.mgr = this.commonService.person.id;
+    this.persons = await this.commonService.getPersons();
   }
+  openReg(){
+    this.reg = true;
+    this.edit = false;
+  }
+  regPer(){
+   this.savePerson(this.regPerson);
+  }
+  editPer(){
+    this.savePerson(this.person);
+  }
+
   @ViewChild('popupContainer', { read: ViewContainerRef, static: true })
   popupContainer!: ViewContainerRef;
   popupRef?: ComponentRef<PopupComponent> ;
@@ -64,27 +82,26 @@ onClose(){}
   }
   cancelEdit() {
     this.edit = false;
-    this.reg = true;
+    this.reg = false;
     }
-    async savePerson(): Promise<void> {
-      this.person.mgr = this.commonService.person.id;
-      if(this.person.name.length<3||this.person.phone.length<11 || this.person.phone.length>11)
+    async savePerson(p: Person): Promise<void> {
+      p.mgr = this.commonService.person.id;
+      if(p.name.length<3||p.phone.length<11 || p.phone.length>11)
         {
         window.alert("Please Enter Correct Credentials");
       }
       else{
       try
       {
-        const result = await this.commonService.registerPerson(this.person);
+        const result = await this.commonService.registerPerson(p);
           if (result) {
            if(this.reg){window.alert("Person registration Successful");}
            else if((this.edit)) {window.alert("Person Update Successful");}
-           this.commonService.getPersons(this.commonService.person.id);
-           this.cancelEdit();
+           this.ngOnInit();
           }
       }
       catch(err: any) {
-        window.alert(err.Error);
+        window.alert(err.messages);
       }
   }
 }

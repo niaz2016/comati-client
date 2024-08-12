@@ -23,7 +23,7 @@ export class DashBoardComponent implements OnInit {
   faEdit = faEdit;
   person!: Person;
   members?: Member[];
-  comaties!: Comati[];
+  comaties?: Comati[];
   defaulter!: Defaulter;
   defaulters?: Defaulter[];
   selectedComati?: Comati;
@@ -33,7 +33,7 @@ export class DashBoardComponent implements OnInit {
   defaultersTable = false;
   allPaid = false;
   totalShort!: number;
-  empty = false;
+  empty = true;
   showAlltimeDefs = false;
   comatiesAvailable = false;
   allTimeDefaulters = this.commonService.allTimeDefaulters;
@@ -46,12 +46,16 @@ export class DashBoardComponent implements OnInit {
     await this.commonService.getComaties(this.person.id);
     this.comaties = this.commonService.comaties;
     this.selectedComati=this.commonService.selectedComati;
-    await this.commonService.getMembers(this.selectedComati.id)
-    this.members=this.commonService.members;
     this.selectedComati = this.commonService.selectedComati;
-    this.defaulters = this.selectedComati.defaulters;
-    if(this.comaties[0]){this.comatiesAvailable=true;}
-    this.selectedComati = this.commonService.selectedComati;
+    if(this.comaties[0])
+      {
+        this.comatiesAvailable=true;
+        this.empty = false;
+        await this.commonService.getMembers(this.selectedComati.id)
+        this.defaulters = this.selectedComati.defaulters;
+        this.members=this.commonService.members;
+        this.selectedComati = this.commonService.selectedComati;
+      }
     // Fetch members from the service
     if(this.comaties.length>0){ await this.getData();}else{this.empty=true;}
   }
@@ -78,7 +82,7 @@ export class DashBoardComponent implements OnInit {
       this.defaultersTable = this.commonService.defaulters.length > 0;
       this.allPaid = this.commonService.defaulters.length === 0;
       this.zeroMembers = this.members.length === 0;
-      this.zeroComaties = this.comaties.length === 0;
+      this.zeroComaties = this.comaties?.length === 0;
       this.commonService.selectedComati = this.selectedComati as Comati;
     } 
     catch(err: any){

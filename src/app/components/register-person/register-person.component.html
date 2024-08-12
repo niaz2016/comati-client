@@ -1,41 +1,60 @@
 <div class="container">
     <div class="first"><br>
       <table class="table-container" >
-        <app-table  *ngIf="persons" [data]="persons" [header]="totalCount.toString()+' People registered'" (editRow)="editPersonfunc($event)" ></app-table>
+        <app-table  *ngIf="persons" [data]="persons" [header]="totalCount.toString()+'  registered people'" (editRow)="editPersonfunc($event)" ></app-table>
       </table>
-      
+      <br>
+      <button *ngIf="!reg" (click)="openReg()" class="button">Register New Person</button>
     </div>
-    <div class="first"><br>
+    <div *ngIf="reg" class="first">
+      <br>
       <span class="element" *ngIf="reg" name="regPerson">Register New Person</span>
-      <span class="element" *ngIf="edit" name="editPerson">Edit Person</span><br>
-      <div class="element"><span>Person ID:</span><span [(ngModel)]="person.id">{{person.id}}</span></div>
+      <br>
       <div class="inputField">
         <span class="span">Name</span>
-        <input *ngIf="edit" class="input" type="text" [(ngModel)]="person.name"/>
-        <input *ngIf="reg" class="input" type="text" [(ngModel)]="person.name"/>
+        <input *ngIf="reg" class="input" type="text" [(ngModel)]="regPerson.name"/>
       </div>
       <div class="inputField">
         <span class="span">Phone</span>
-        <input *ngIf="edit" class="input" type="text" [(ngModel)]="person.phone"/>
-        <input *ngIf="reg" class="input" type="text" [(ngModel)]="person.phone"/>
+        <input *ngIf="reg" class="input" type="text" [(ngModel)]="regPerson.phone"/>
       </div>
       <div class="inputField">
         <span class="span">Address</span>
-        <input *ngIf="edit" class="input" type="text" [(ngModel)]="person.address"/>
-        <input *ngIf="reg" class="input" type="text" />
+        <input *ngIf="reg" class="input" type="text" [(ngModel)]="regPerson.address"/>
       </div>
       <div class="inputField">
         <span class="span">Remarks</span>
-        <input *ngIf="edit" class="input" type="text" [(ngModel)]="person.remarks"/>
-        <input *ngIf="reg" class="input" type="text" />
+        <input *ngIf="reg" class="input" type="text" [(ngModel)]="regPerson.remarks"/>
       </div>
       <br>
-      <button class="button" *ngIf="reg" (click)="savePerson()" name="regButton">Save</button>
-      <button class="button" *ngIf="edit" (click)="savePerson()" name="editButton">Update</button>
-      <button class="button" *ngIf="edit" (click)="cancelEdit()" name="cancelButton">Close</button>
-      <button *ngIf="edit" class="buttonAlert" (click)="openPopup(person)"  >Delete</button>
+      <button class="button" (click)="cancelEdit()" name="cancelButton">Close</button>
+      <button class="button" *ngIf="reg" (click)="regPer()" name="regButton">Save</button>
+    </div>
+    <div class="first" *ngIf="edit">
+      <br>
+      <span class="element" name="editPerson">Edit Person</span><br>
+      <div class="element"><span>Person ID:</span><span >{{person.id}}</span></div>
+      <div class="inputField">
+        <span class="span">Name</span>
+        <input class="input" type="text" [(ngModel)]="person.name"/>
+      </div>
+      <div class="inputField">
+        <span class="span">Phone</span>
+        <input class="input" type="text" [(ngModel)]="person.phone"/>
+      </div>
+      <div class="inputField">
+        <span class="span">Address</span>
+        <input class="input" type="text" [(ngModel)]="person.address"/>
+      </div>
+      <div class="inputField">
+        <span class="span">Remarks</span>
+        <input class="input" type="text" [(ngModel)]="person.remarks"/>
+      </div>
+      <br>
+      <button class="button" (click)="editPer()" name="editButton">Update</button>
+      <button class="button" (click)="cancelEdit()" name="cancelButton">Close</button>
+      <button class="buttonAlert" (click)="openPopup(person)"  >Delete</button>
       <ng-template #popupContainer></ng-template>
     </div>
-    
   </div>
   
