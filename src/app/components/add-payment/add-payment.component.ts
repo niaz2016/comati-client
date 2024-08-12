@@ -30,7 +30,7 @@ export class AddPaymentComponent implements OnInit {
   allTimeDefaulters?: AllTimeDefaulter[];
   totalShort: number | undefined;
   constructor(private commonService: CommonService){
-    this.person=this.commonService.person;
+    this.person=this.commonService.user;
 
   }
 

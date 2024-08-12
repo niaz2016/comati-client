@@ -14,7 +14,7 @@ import { AllTimeDefaulter } from '../models/allTimeDefaulter';
   providedIn: 'root'
 })
 export class CommonService {
-  baseUrl = 'http://localhost:5209/api/';
+  baseUrl = 'http://192.168.100.204:5000/api/';
   comatiesByMgrUrl = `${this.baseUrl}Comati`;
   comatiUrl = `${this.baseUrl}Comati/comati`;
   regComatiUrl = `${this.baseUrl}Comati`;
@@ -26,8 +26,6 @@ export class CommonService {
   delComatiUrl = `${this.baseUrl}Comati/delete`;
   userUrl = `${this.baseUrl}User`;
   allTimeDefaultersUrl = `${this.baseUrl}ComatiPayment/defaulters`;
-
-  person: Person={name:'No User Loggedin',id:0,phone:'No Phone', mgr: 0};
   persons: Person[]=[];
   comati!: Comati;
   comaties: Comati[]=[];
@@ -39,7 +37,7 @@ export class CommonService {
   payments: Payment[]=[];
   personDetails!: Person;
   selectedComati!: Comati;
-  user: User | undefined;
+  user: User = {name:'No User Loggedin',id:0,phone:'', password: '', mgr: 0};
   allTimeDefaulters!: AllTimeDefaulter[];
   defaulters:Defaulter[] = [];
   constructor(private http: HttpClient, public router: Router) {
@@ -50,7 +48,7 @@ export class CommonService {
   }
   async loadDefaults(){
     await this.getPersons();
-    await this.getComaties(this.person.id);
+    await this.getComaties(this.user.id);
     if(this.selectedComati){
     await this.getMembers(this.selectedComati.id);}
     this.router.navigateByUrl("/dash-board")
@@ -116,7 +114,7 @@ export class CommonService {
     }else {return null;}
   }
   async getPersons(): Promise<Person[]> {
-    const params = new HttpParams().set('MgrId', this.person.id);
+    const params = new HttpParams().set('MgrId', this.user.id);
     this.persons= await firstValueFrom(this.http.get<Person[]>(this.personsUrl, { params }));
     return this.persons;
   }
@@ -124,8 +122,11 @@ export class CommonService {
     if (person) {
       localStorage.setItem('user', JSON.stringify(person));
       this.setUser(person);
-      await this.getComaties(this.person.id);
+      await this.getComaties(this.user.id);
       this.router.navigateByUrl("/dash-board")
+      //if(this.person.id>0){this.router.navigateByUrl("/dash-board")}
+      //else{this.router.navigateByUrl("/login")}
+      this.loadDefaults();
     }
   }
   async deleteComati(comatiId: number): Promise<number> {
@@ -156,9 +157,8 @@ var day = date.getDay();
     return stringDate;
    }
   setUser(person:Person) {
-    this.person.name=person.name;
-    this.person.id=person.id;
-    this.person.phone=person.phone;
-    this.person.remarks=person.remarks;
+    this.user.name=person.name;
+    this.user.id=person.id;
+    this.user.phone=person.phone;
   }
 }

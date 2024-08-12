@@ -1,5 +1,5 @@
 <nav class="navBar">
-  <div><app-hamburger class="isMenuOpen" (click)="toggleMenu()"></app-hamburger></div>
+  <div><app-hamburger  (click)="toggleMenu()"></app-hamburger></div>
   <ul (click)="toggleMenu()" class="titles">
     <li (click)="toggleMenu()"><a  routerLinkActive="active" routerLink="/dash-board">DashBoard</a></li>
     <li (click)="toggleMenu()"><a  routerLinkActive="active" routerLink="/add-comati">Comati</a></li>
@@ -7,9 +7,9 @@
     <li (click)="toggleMenu()"><a  routerLinkActive="active" routerLink="/add-payment">Payments</a></li>
     <li (click)="toggleMenu()"><a  routerLinkActive="active" routerLink="/reg-person">People</a></li>
   </ul>
-  <ul class="rightGap"><span>{{person.name}}</span>
+  <ul class="rightGap">
     <div class="loginButton">
-      <li><a (click)="logout()" routerLink="/login">login</a></li>
+      <li><a (click)="logout()" routerLink="/login">{{loginStatus}}</a></li>
     </div>
   </ul>
 
@@ -19,12 +19,12 @@
 
   <div class="hamburgerMenu">
     <ul>
-      <li><a class="aaa" a routerLinkActive="active" routerLink="/dash-board">DashBoard</a></li>
-      <li><a routerLinkActive="active" routerLink="/add-comati">Comati</a></li>
-      <li><a routerLinkActive="active" routerLink="/add-member">Members</a></li>
-      <li><a routerLinkActive="active" routerLink="/add-payment">Payments</a></li>
-      <li><a routerLinkActive="active" routerLink="/reg-person">People</a></li>
-      <li><a (click)="logout()" routerLink="/login">login</a></li>
+      <li><a (click)="toggleMenu()" routerLinkActive="active" routerLink="/dash-board">DashBoard</a></li>
+      <li><a (click)="toggleMenu()" routerLinkActive="active" routerLink="/add-comati">Comati</a></li>
+      <li><a (click)="toggleMenu()" routerLinkActive="active" routerLink="/add-member">Members</a></li>
+      <li><a (click)="toggleMenu()" routerLinkActive="active" routerLink="/add-payment">Payments</a></li>
+      <li><a (click)="toggleMenu()" routerLinkActive="active" routerLink="/reg-person">People</a></li>
+      <li><a (click)="toggleMenu()" (click)="logout()" routerLink="/login">login</a></li>
     </ul>
   </div>
 </div>

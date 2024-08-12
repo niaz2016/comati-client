@@ -21,7 +21,7 @@ import { TableComponent } from "../../shared/table/table.component";
 export class AddMemberComponent implements OnInit {
 
   persons = this.commonService.persons;
-  person = this.commonService.person;  
+  person = this.commonService.user;  
   selectedComati= this.commonService.selectedComati;
   comaties = this.commonService.comaties;
   members= this.commonService.members;

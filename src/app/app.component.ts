@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonService } from './services/common.service';
-import { Person } from './models/person';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SortTablePipe } from './shared/sort-table.pipe';
 import { HamburgerComponent } from "./shared/hamburger/hamburger.component";
@@ -9,33 +8,38 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, FontAwesomeModule, SortTablePipe, HamburgerComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, FontAwesomeModule, HamburgerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers:[]
+  providers:[HamburgerComponent]
 })
 export class AppComponent implements OnInit {
-  person: Person = this.commonService.person;
+  user = this.commonService.user;
   title = 'comati';
-  constructor(private commonService: CommonService) {
+  loginStatus: string = 'login'
+  constructor(private commonService: CommonService, private hamburger: HamburgerComponent) {
   }
   ngOnInit(): void {
-    this.person=this.commonService.person;
-  }
-  isMenuOpen = false;
-
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+    this.loginStatus = this.commonService.user.name;
+    console.log(this.commonService.user.name)
   }
   
+  isMenuOpen = false;
+  toggleMenu() {
+    this.hamburger.onBurgerClicked()
+    this.isMenuOpen = !this.isMenuOpen;
+    console.log(this.hamburger.active)
+  }
   
   logout() {
     this.commonService.selectedComati?.name?? '';
     this.commonService.selectedComati?.id?? 0;
     this.commonService.comaties=[];
     this.commonService.members=[];
-    this.person={ id: 0, name: '', phone: '', mgr: 0};
+    this.user={ id: 0, name: 'Logged Out', phone: '', mgr: 0, password: ''};
     this.commonService.selectedComati= {id: 0, name: '', managerId: 0, start_Date: new Date, per_Head: 0,totalMembers: 0, totalComati: 0, totalCollected: 0};
-    localStorage.setItem('person', JSON.stringify(this.person));
+    this.commonService.user= this.user;
+    localStorage.setItem('user', JSON.stringify(this.user));
+    
     }
 }

@@ -11,17 +11,18 @@ import { DatePipeComponent } from '../../shared/date-pipe/date-pipe.component';
 import { SortTablePipe } from '../../shared/sort-table.pipe';
 import { TableComponent } from '../../shared/table/table.component';
 import { Defaulter } from '../../models/defaulter';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-dash-board',
   standalone: true,
-  imports: [CommonModule, FormsModule, FontAwesomeModule, DatePipeComponent, SortTablePipe, TableComponent],
+  imports: [CommonModule, FormsModule, FontAwesomeModule,RouterLink, DatePipeComponent, SortTablePipe, TableComponent],
   templateUrl: './dash-board.component.html',
   styleUrls: ['./dash-board.component.scss']
 })
 export class DashBoardComponent implements OnInit {
 
   faEdit = faEdit;
-  person!: Person;
+  user!: Person;
   members?: Member[];
   comaties?: Comati[];
   defaulter!: Defaulter;
@@ -38,12 +39,12 @@ export class DashBoardComponent implements OnInit {
   comatiesAvailable = false;
   allTimeDefaulters = this.commonService.allTimeDefaulters;
   constructor(private commonService: CommonService) {
-    this.person = this.commonService.person;
+    this.user = this.commonService.user;
     
   }
 
   async ngOnInit(): Promise<void> {
-    await this.commonService.getComaties(this.person.id);
+    await this.commonService.getComaties(this.user.id);
     this.comaties = this.commonService.comaties;
     this.selectedComati=this.commonService.selectedComati;
     this.selectedComati = this.commonService.selectedComati;

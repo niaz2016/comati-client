@@ -1,34 +1,35 @@
 <div class="container">
     <div class="first"><br>
-      <table class="table-container" >
-        <app-table  *ngIf="persons" [data]="persons" [header]="totalCount.toString()+'  registered people'" (editRow)="editPersonfunc($event)" ></app-table>
-      </table>
+      <div class="element"><span class="span"  type="text">Registered Persons</span>
+        <input class="input" type="text" placeholder="Search..." [(ngModel)]="searchQuery" (ngModelChange)="filterPersons()" />
+      </div>
+        <app-table  *ngIf="filteredPersons" [data]="filteredPersons" [header]="'  ('+totalCount.toString()+')  registered persons'" (editRow)="editPersonfunc($event)" ></app-table>
       <br>
       <button *ngIf="!reg" (click)="openReg()" class="button">Register New Person</button>
     </div>
     <div *ngIf="reg" class="first">
       <br>
-      <span class="element" *ngIf="reg" name="regPerson">Register New Person</span>
+      <span class="element" name="regPerson">Register New Person</span>
       <br>
       <div class="inputField">
         <span class="span">Name</span>
-        <input *ngIf="reg" class="input" type="text" [(ngModel)]="regPerson.name"/>
+        <input class="input" type="text" [(ngModel)]="regPerson.name"/>
       </div>
       <div class="inputField">
         <span class="span">Phone</span>
-        <input *ngIf="reg" class="input" type="text" [(ngModel)]="regPerson.phone"/>
+        <input class="input" type="text" [(ngModel)]="regPerson.phone"/>
       </div>
       <div class="inputField">
         <span class="span">Address</span>
-        <input *ngIf="reg" class="input" type="text" [(ngModel)]="regPerson.address"/>
+        <input class="input" type="text" [(ngModel)]="regPerson.address"/>
       </div>
       <div class="inputField">
         <span class="span">Remarks</span>
-        <input *ngIf="reg" class="input" type="text" [(ngModel)]="regPerson.remarks"/>
+        <input class="input" type="text" [(ngModel)]="regPerson.remarks"/>
       </div>
       <br>
       <button class="button" (click)="cancelEdit()" name="cancelButton">Close</button>
-      <button class="button" *ngIf="reg" (click)="regPer()" name="regButton">Save</button>
+      <button class="button" (click)="regPer()" name="regButton">Save</button>
     </div>
     <div class="first" *ngIf="edit">
       <br>

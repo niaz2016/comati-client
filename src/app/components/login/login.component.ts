@@ -12,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
   standalone: true,
   imports: [CommonModule,FormsModule,],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
 
@@ -23,18 +23,20 @@ user: User = {
   phone: '',
   address: '',
   password: '',
+  mgr: 0,
 };
   rePassword: string = '';
   reg = false;
   log = true;
   constructor(private commonService: CommonService, private http: HttpClient)
   { 
-  
-  }
-  ngOnInit(): void {
     
   }
+  ngOnInit() {
+    this.user = this.commonService.user;
+  }
   async login() {
+    
     const params = new HttpParams().set('phone', this.user.phone).set('password', this.user.password);
       try {
         const person = await firstValueFrom(this.http.get<Person>(this.commonService.userUrl, { params })) as Person;

@@ -18,7 +18,7 @@ import { TableComponent } from "../../shared/table/table.component";
 export class AddComatiComponent implements OnInit {
 
 faEdit=faEdit;
-person=this.commonService.person;
+person=this.commonService.user;
 comaties=this.commonService.comaties;
 comati: Comati = {
   id: 0,

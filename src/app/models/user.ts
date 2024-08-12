@@ -4,4 +4,5 @@ export type User = {
     phone: string,
     address?: string,
     password: string,
+    mgr: number,
 }

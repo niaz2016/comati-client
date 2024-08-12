@@ -13,8 +13,10 @@ $greyBorder :1px solid #EAEEF5;
     border-spacing: 0;
     align-items: stretch;
     width: 100%;
+    overflow-x: auto;
     .header {
         display: flex;
+        margin-left: 5px;
         padding: 5px 20px;
     }
     .table {

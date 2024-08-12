@@ -15,7 +15,7 @@ import { TableComponent } from "../../shared/table/table.component";
   styleUrls: ['./register-person.component.scss'],
 })
 export class RegisterPersonComponent implements OnInit {
-  person:Person = { //editPerson
+  person:Person = { //edit old Person
     id: 0,
     name: '',
     phone: '',
@@ -23,7 +23,7 @@ export class RegisterPersonComponent implements OnInit {
     remarks: '',
     mgr: 0,
   };
-  regPerson: Person = { //registerPerson
+  regPerson: Person = { //register new Person
     id: 0,
     name: '',
     phone: '',
@@ -35,8 +35,24 @@ export class RegisterPersonComponent implements OnInit {
   edit=false;
   reg=false;
   persons = this.commonService.persons;
+  filteredPersons = this.persons;
+  searchQuery: string = '';
   totalCount: number = this.commonService.persons.length;
   constructor(private commonService: CommonService){  }
+
+  filterPersons() {
+    if (this.searchQuery) {
+      this.filteredPersons = this.persons.filter(person =>
+        Object.values(person).some(value =>
+          value !== null && value !== undefined && value.toString().toLowerCase().includes(this.searchQuery.toLowerCase())
+        )
+      );
+    } else {
+      this.filteredPersons = [...this.persons];  // If no search query, show all persons
+    }
+  }
+  
+  
   async ngOnInit() {
     this.persons = await this.commonService.getPersons();
   }
@@ -67,6 +83,7 @@ openPopup(person: Person){
 }
 closePopup() {
   this.popupRef?.destroy();
+  
 }
 async del(id: number){
   await this.commonService.deletePerson(id);
@@ -85,7 +102,7 @@ onClose(){}
     this.reg = false;
     }
     async savePerson(p: Person): Promise<void> {
-      p.mgr = this.commonService.person.id;
+      p.mgr = this.commonService.user.id;
       if(p.name.length<3||p.phone.length<11 || p.phone.length>11)
         {
         window.alert("Please Enter Correct Credentials");
