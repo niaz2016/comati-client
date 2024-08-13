@@ -6,6 +6,8 @@ import { CommonService } from '../../services/common.service';
 import { User } from '../../models/user';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +16,7 @@ import { firstValueFrom } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
  person: Person | undefined
 user: User = {
@@ -28,19 +30,19 @@ user: User = {
   rePassword: string = '';
   reg = false;
   log = true;
-  constructor(private commonService: CommonService, private http: HttpClient)
+  constructor(private commonService: CommonService, private http: HttpClient, private authService: AuthService, private cookie: CookieService)
   { 
     
-  }
-  ngOnInit() {
-    this.user = this.commonService.user;
   }
   async login() {
     
     const params = new HttpParams().set('phone', this.user.phone).set('password', this.user.password);
       try {
         const person = await firstValueFrom(this.http.get<Person>(this.commonService.userUrl, { params, withCredentials: true })) as Person;
-      if(person && person.id){this.commonService.login(person);}
+      if(person && person.id)
+        {
+        this.authService.login();
+        this.commonService.login(person);}
       }
       catch(err: any){window.alert(err.error.message);}
   }

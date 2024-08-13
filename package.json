@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --ssl true",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "ssl": "true"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +25,7 @@
     "jspdf": "^2.5.1",
     "loadash": "^1.0.0",
     "moment": "^2.30.1",
+    "ngx-cookie-service": "^18.0.0",
     "primeng": "^17.18.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

@@ -5,6 +5,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SortTablePipe } from './shared/sort-table.pipe';
 import { HamburgerComponent } from "./shared/hamburger/hamburger.component";
 import { CommonModule } from '@angular/common';
+import { AuthService } from './services/auth.service';
+import { CookieService } from 'ngx-cookie-service';
+import { Person } from './models/person';
+import { User } from './models/user';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -14,14 +18,17 @@ import { CommonModule } from '@angular/common';
   providers:[HamburgerComponent]
 })
 export class AppComponent implements OnInit {
-  user = this.commonService.user;
+
+  user={ id: 0, name: 'Logged Out', phone: '', mgr: 0, password: ''};
   title = 'comati';
   loginStatus: string = 'login'
-  constructor(private commonService: CommonService, private hamburger: HamburgerComponent) {
+  constructor(private commonService: CommonService, private hamburger: HamburgerComponent, private authService: AuthService) {
+    
   }
+  
+
   ngOnInit(): void {
     this.loginStatus = this.commonService.user.name;
-    console.log(this.commonService.user.name)
   }
   
   isMenuOpen = false;
@@ -32,14 +39,13 @@ export class AppComponent implements OnInit {
   }
   
   logout() {
+    this.authService.logout();
     this.commonService.selectedComati?.name?? '';
     this.commonService.selectedComati?.id?? 0;
     this.commonService.comaties=[];
     this.commonService.members=[];
-    this.user={ id: 0, name: 'Logged Out', phone: '', mgr: 0, password: ''};
     this.commonService.selectedComati= {id: 0, name: '', managerId: 0, start_Date: new Date, per_Head: 0,totalMembers: 0, totalComati: 0, totalCollected: 0};
     this.commonService.user= this.user;
-    localStorage.setItem('user', JSON.stringify(this.user));
     
     }
 }

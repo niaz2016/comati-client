@@ -16,7 +16,6 @@
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
-          
           "options": {
             "outputPath": "dist/comati",
             "index": "src/index.html",
@@ -63,6 +62,11 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "ssl": true,
+            "sslKey": "D:/Git/Niaz/comati-client/cert.key",
+            "sslCert": "D:/Git/Niaz/comati-client/cert.crt"
+          },
           "configurations": {
             "production": {
               "buildTarget": "comati:build:production"

@@ -9,12 +9,14 @@ import { Payment } from '../models/payment';
 import { Defaulter } from '../models/defaulter';
 import { User } from '../models/user';
 import { AllTimeDefaulter } from '../models/allTimeDefaulter';
+import { AuthService } from './auth.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
-  baseUrl = 'http://192.168.100.204:5000/api/';
+  baseUrl = 'https://localhost:5000/api/';
   comatiesByMgrUrl = `${this.baseUrl}Comati`;
   comatiUrl = `${this.baseUrl}Comati/comati`;
   regComatiUrl = `${this.baseUrl}Comati`;
@@ -40,11 +42,11 @@ export class CommonService {
   user: User = {name:'No User Loggedin',id:0,phone:'', password: '', mgr: 0};
   allTimeDefaulters!: AllTimeDefaulter[];
   defaulters:Defaulter[] = [];
-  constructor(private http: HttpClient, public router: Router) {
-
-    let u = localStorage.getItem('user');
-    if(u && u!='undefined'){this.setUser((JSON.parse(u) as Person) );}
-    this.loadDefaults();
+  constructor(private http: HttpClient, public router: Router, private cookie: CookieService) {
+    // const uc = cookie.get("User");
+    // if(uc){
+    //   this.user= JSON.parse(uc);
+    // }
   }
   async loadDefaults(){
     await this.getPersons();
@@ -120,13 +122,11 @@ export class CommonService {
   }
   async login(person:Person) {
     if (person) {
-      localStorage.setItem('user', JSON.stringify(person));
       this.setUser(person);
       await this.getComaties(this.user.id);
-      this.router.navigateByUrl("/dash-board")
-      //if(this.person.id>0){this.router.navigateByUrl("/dash-board")}
-      //else{this.router.navigateByUrl("/login")}
       this.loadDefaults();
+      this.router.navigateByUrl("/dash-board")
+
     }
   }
   async deleteComati(comatiId: number): Promise<number> {
@@ -157,8 +157,8 @@ var day = date.getDay();
     return stringDate;
    }
   setUser(person:Person) {
-    this.user.name=person.name;
     this.user.id=person.id;
+    this.user.name=person.name;
     this.user.phone=person.phone;
   }
 }
