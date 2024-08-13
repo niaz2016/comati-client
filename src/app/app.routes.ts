@@ -6,27 +6,28 @@ import { AddPaymentComponent } from './components/add-payment/add-payment.compon
 import { DashBoardComponent } from './components/dash-board/dash-board.component';
 import { LoginComponent } from './components/login/login.component';
 import { PersonDetailsComponent } from './components/person-details/person-details.component';
+import { AuthService } from './services/auth.service';
 
 export const routes: Routes = [
     {
-        path: 'dash-board', component: DashBoardComponent
+        path: 'dash-board', component: DashBoardComponent, canActivate: [AuthService]
     },
     {
-        path: 'add-comati', component: AddComatiComponent
+        path: 'add-comati', component: AddComatiComponent, canActivate: [AuthService]
     },
     {
-        path: 'add-member', component: AddMemberComponent
+        path: 'add-member', component: AddMemberComponent, canActivate: [AuthService]
     },
     {
-        path: 'add-payment', component: AddPaymentComponent
+        path: 'add-payment', component: AddPaymentComponent, canActivate: [AuthService]
     },
     {
-        path: 'reg-person', component: RegisterPersonComponent
+        path: 'reg-person', component: RegisterPersonComponent, canActivate: [AuthService]
     },
     {
         path: 'login', component: LoginComponent
     },
     {
-        path: 'person-details', component: PersonDetailsComponent
+        path: 'person-details', component: PersonDetailsComponent, canActivate: [AuthService]
     },
 ];

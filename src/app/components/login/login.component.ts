@@ -39,7 +39,7 @@ user: User = {
     
     const params = new HttpParams().set('phone', this.user.phone).set('password', this.user.password);
       try {
-        const person = await firstValueFrom(this.http.get<Person>(this.commonService.userUrl, { params })) as Person;
+        const person = await firstValueFrom(this.http.get<Person>(this.commonService.userUrl, { params, withCredentials: true })) as Person;
       if(person && person.id){this.commonService.login(person);}
       }
       catch(err: any){window.alert(err.error.message);}
