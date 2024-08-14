@@ -56,7 +56,7 @@ export class RegisterPersonComponent implements OnInit {
   
   
   async ngOnInit() {
-    this.persons = await this.commonService.getPersons();
+    
   }
   openReg(){
     this.reg = true;

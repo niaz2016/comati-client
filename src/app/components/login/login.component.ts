@@ -32,17 +32,17 @@ user: User = {
   log = true;
   constructor(private commonService: CommonService, private http: HttpClient, private authService: AuthService, private cookie: CookieService)
   { 
-    
   }
   async login() {
     
     const params = new HttpParams().set('phone', this.user.phone).set('password', this.user.password);
       try {
-        const person = await firstValueFrom(this.http.get<Person>(this.commonService.userUrl, { params, withCredentials: true })) as Person;
-      if(person && person.id)
+        this.user = await firstValueFrom(this.http.get<User>(this.commonService.userUrl, { params, withCredentials: true })) as User;
+      if(this.user)
         {
         this.authService.login();
-        this.commonService.login(person.id);}
+        this.commonService.login(this.user.id);}
+        console.log(this.user.id)
       }
       catch(err: any){window.alert(err.error.message);}
   }

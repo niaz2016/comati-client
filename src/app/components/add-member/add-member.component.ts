@@ -49,6 +49,7 @@ member: Member = {
   remarks: '',
 }
 async ngOnInit(): Promise<void> {
+  this.selectedComati = this.commonService.selectedComati;
   this.members= await this.commonService.getMembers(this.selectedComati.id) as Member[];
     if(this.comaties.length===0){this.showTable=false; this.zeroMembers=true;}
     if(this.members){this.showTable=true; this.zeroMembers=false;}else { this.showTable=false; }

@@ -63,7 +63,7 @@ selComati(event: Comati){
 }
 async ngOnInit(){
   this.comaties=this.commonService.comaties;
-
+  this.selectedComati = this.commonService.selectedComati;
 }
   async payNow() {
     this.payment.comatiId=this.selectedComati?.id as number;

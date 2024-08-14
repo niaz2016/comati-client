@@ -12,13 +12,13 @@
             <span class="span">{{user?.name}}</span>
         </div>
         <label class="label">Select Comati </label>
-        <select class="input" id="comatiSelect" [(ngModel)]="selectedComati" (change)="getData()" name="comatiSelect">
+        <select class="input" id="comatiSelect" [(ngModel)]="selectedComati" (ngModelChange)="getData($event)" name="comatiSelect">
             <option *ngFor="let comati of comaties" [ngValue]="comati">{{ comati.name }}</option>
         </select>
         <br>
         <div class="row">
-            <div><span class="span">Members: </span><span> {{ selectedComati?.totalMembers}}</span></div>
-            <div><span class="span">Per Member: </span> <span> {{ selectedComati?.per_Head}}</span></div>
+            <div><span class="span">Members: </span><span> {{ selectedComati.totalMembers}}</span></div>
+            <div><span class="span">Per Member: </span> <span> {{ selectedComati.per_Head}}</span></div>
         </div>
         <br>
         <button class="button" routerLink="/add-member">Add New Member</button>
@@ -32,17 +32,17 @@
     <div *ngIf="comaties" class="first">
         <br>
         <div class="element"><span class="span">Total Comati</span><span
-                class="span">{{selectedComati?.totalComati}}</span></div>
+                class="span">{{selectedComati.totalComati}}</span></div>
         <div class="element"><span class="span">Total Collected</span><span
-                class="span">{{selectedComati?.totalCollected}}</span></div>
+                class="span">{{selectedComati.totalCollected}}</span></div>
         <div class="element"><span class="span">Started On</span><span class="span"><app-date-pipe
-                    [date]="selectedComati?.start_Date"></app-date-pipe> </span></div>
+                    [date]="selectedComati.start_Date"></app-date-pipe> </span></div>
         <div class="element"><span class="span">Ending On</span> <app-date-pipe
-                [date]="selectedComati?.end_Date"></app-date-pipe></div>
+                [date]="selectedComati.end_Date"></app-date-pipe></div>
         <br>
         <div class="element" *ngIf="allPaid">Congratulations: No pending payments for this month</div>
         <button *ngIf="allPaid" class="button" (click)="getAllTimeDefaulters()" >Check any previous defaulters</button>
         <app-table *ngIf="showAlltimeDefs" [data]="allTimeDefaulters"></app-table>
-        <app-table *ngIf="defaultersData()" [data]="defaultersData()" [hiddenFields]="['address', 'remarks']"  header="Overdues for this month"  ></app-table>
+        <app-table *ngIf="defaultersData()" [data]="defaulters" [hiddenFields]="['address', 'remarks']"  header="Overdues for this month"  ></app-table>
     </div>
 </div>

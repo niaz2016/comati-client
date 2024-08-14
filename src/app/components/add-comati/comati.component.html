@@ -1,7 +1,7 @@
 <div class="container">
     <div class="first">
         <br>
-    <div class="element"><span>User: </span><span>{{person.name}}</span></div>
+    <div class="element"><span>User: </span><span>{{user.name}}</span></div>
     <br><div class="element" *ngIf="zeroComaties"> <span>You have no comaties registered</span> </div>
     <app-table [data]="comaties" [hiddenFields]="['start_Date', 'per_Head', 'totalCollected', 'comatiMembers', 'defaulters']" (editRow)="editComati($event)"></app-table>
     </div>

@@ -110,17 +110,17 @@ export class CommonService {
 
     }else {return null;}
   }
-  async getPersons(): Promise<Person[]> {
-    const params = new HttpParams().set('MgrId', this.user.id);
+  async getPersons(MgrId: number): Promise<Person[]> {
+    const params = new HttpParams().set('MgrId', MgrId);
     this.persons= await firstValueFrom(this.http.get<Person[]>(this.personsUrl, { params }));
     return this.persons;
   }
   async login(MgrId:number) {
     if (MgrId>0) {
-      console.log(MgrId)
       this.user.id = MgrId;
       this.user = await this.getPerson(MgrId);
       this.comaties = await this.getComaties(MgrId);
+      this.persons = await this.getPersons(MgrId);
       this.selectedComati = this.comaties[0];
       if(this.selectedComati){await this.getMembers(this.selectedComati.id);}
       

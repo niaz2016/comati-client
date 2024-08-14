@@ -18,7 +18,7 @@ import { TableComponent } from "../../shared/table/table.component";
 export class AddComatiComponent implements OnInit {
 
 faEdit=faEdit;
-person=this.commonService.user;
+user=this.commonService.user;
 comaties=this.commonService.comaties;
 comati: Comati = {
   id: 0,
@@ -36,10 +36,10 @@ showTable = false;
 reg: boolean = true;
 edit: boolean = false;
 constructor(private commonService: CommonService){
-  this.comati.managerId=this.person.id;
+  this.comati.managerId=this.user.id;
 }
 async ngOnInit(): Promise<void> {
-    this.comaties = await this.commonService.getComaties(this.person.id);
+    this.comaties = await this.commonService.getComaties(this.user.id);
     if(this.comaties?.length===0){this.zeroComaties=true; this.showTable=false}
     if(this.comaties?.length!=0){this.zeroComaties=false; this.showTable=true;}
   }
@@ -80,7 +80,7 @@ closePopup() {
       window.alert("Please Provide correct Credentials")
     }else{
     const result =  this.commonService.registerComati(this.comati);
-    if((await result).managerId===this.person.id){
+    if((await result).managerId===this.user.id){
       if(this.reg){window.alert("Comati Created Successfully");}
       if(this.edit){window.alert("Comati Updated Successfully");}
       this.close();
