@@ -12,6 +12,9 @@ import { SortTablePipe } from '../../shared/sort-table.pipe';
 import { TableComponent } from '../../shared/table/table.component';
 import { Defaulter } from '../../models/defaulter';
 import { RouterLink } from '@angular/router';
+import { AllTimeDefaulter } from '../../models/allTimeDefaulter';
+import { CookieService } from 'ngx-cookie-service';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-dash-board',
   standalone: true,
@@ -22,7 +25,7 @@ import { RouterLink } from '@angular/router';
 export class DashBoardComponent implements OnInit {
 
   faEdit = faEdit;
-  user!: Person;
+  user?: Person;
   members?: Member[];
   comaties?: Comati[];
   defaulter!: Defaulter;
@@ -37,17 +40,19 @@ export class DashBoardComponent implements OnInit {
   empty = true;
   showAlltimeDefs = false;
   comatiesAvailable = false;
-  allTimeDefaulters = this.commonService.allTimeDefaulters;
-  constructor(private commonService: CommonService) {
-    this.user = this.commonService.user;
+  allTimeDefaulters!: AllTimeDefaulter[];
+  constructor(private commonService: CommonService, private cookie: CookieService, private auth: AuthService) {
     
   }
 
   async ngOnInit(): Promise<void> {
-    await this.commonService.getComaties(this.user.id);
-    this.comaties = this.commonService.comaties;
+    const string = this.cookie.get("User");
+    const obj = JSON.parse(string);
+    if(obj){
+    this.auth.login();
+    await this.commonService.login(obj.Id)}
+    this.comaties=this.commonService.comaties;
     this.selectedComati=this.commonService.selectedComati;
-    this.selectedComati = this.commonService.selectedComati;
     if(this.comaties[0])
       {
         this.comatiesAvailable=true;
@@ -72,8 +77,8 @@ export class DashBoardComponent implements OnInit {
   }
   async getAllTimeDefaulters(){
    this.allTimeDefaulters = await this.commonService.getAllTimeDefaulters(this.commonService.selectedComati.id)
-    if(this.commonService.allTimeDefaulters.length>0){this.showAlltimeDefs = true; return this.commonService.allTimeDefaulters; }
-    else this.showAlltimeDefs = false; return window.alert("No defaulters found")
+   // if(this.commonService.allTimeDefaulters.length>0){this.showAlltimeDefs = true; return this.commonService.allTimeDefaulters; }
+   //else this.showAlltimeDefs = false; return window.alert("No defaulters found")
   }
   async getData() {
     try {

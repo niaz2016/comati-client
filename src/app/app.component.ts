@@ -1,14 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { CommonService } from './services/common.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { SortTablePipe } from './shared/sort-table.pipe';
 import { HamburgerComponent } from "./shared/hamburger/hamburger.component";
 import { CommonModule } from '@angular/common';
 import { AuthService } from './services/auth.service';
 import { CookieService } from 'ngx-cookie-service';
-import { Person } from './models/person';
-import { User } from './models/user';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -19,33 +16,51 @@ import { User } from './models/user';
 })
 export class AppComponent implements OnInit {
 
-  user={ id: 0, name: 'Logged Out', phone: '', mgr: 0, password: ''};
-  title = 'comati';
+  //user={ id: 0, name: 'Logged Out', phone: '', mgr: 0, password: ''};
+  title = 'Comati';
   loginStatus: string = 'login'
-  constructor(private commonService: CommonService, private hamburger: HamburgerComponent, private authService: AuthService) {
-    
-  }
-  
+  userCookie?: string;
+  constructor(
+    private commonService: CommonService,
+    private hamburger: HamburgerComponent,
+    private authService: AuthService,
+    private cookie: CookieService,
+    private router: Router,
+  ) {
+    this.userCookie = this.cookie.get("User");
+    if (this.userCookie) {
+        try {
+          this.authService.login();
+          const user = JSON.parse(this.userCookie);
+          // this.user.id = user.Id;
+          // this.user.name = user.Name,
+          // this.user.mgr = user.Mgr,
+          // this.user.phone = user.Phone,
+          // this.user.password = user.Password
+          // this.loginStatus = user.Name;
+          commonService.login(user.Id);
+        } catch (e) {
+            console.error("Error parsing user JSON:", e);
+        }
+    } else {
+      this.router.navigateByUrl("/login");
+      return;
+    }
 
+  }
+
+  
   ngOnInit(): void {
-    this.loginStatus = this.commonService.user.name;
+     
   }
   
   isMenuOpen = false;
   toggleMenu() {
     this.hamburger.onBurgerClicked()
     this.isMenuOpen = !this.isMenuOpen;
-    console.log(this.hamburger.active)
   }
   
   logout() {
     this.authService.logout();
-    this.commonService.selectedComati?.name?? '';
-    this.commonService.selectedComati?.id?? 0;
-    this.commonService.comaties=[];
-    this.commonService.members=[];
-    this.commonService.selectedComati= {id: 0, name: '', managerId: 0, start_Date: new Date, per_Head: 0,totalMembers: 0, totalComati: 0, totalCollected: 0};
-    this.commonService.user= this.user;
-    
     }
 }

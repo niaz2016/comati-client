@@ -22,6 +22,7 @@ export class RegisterPersonComponent implements OnInit {
     address: '',
     remarks: '',
     mgr: 0,
+    password: ''
   };
   regPerson: Person = { //register new Person
     id: 0,
@@ -30,6 +31,7 @@ export class RegisterPersonComponent implements OnInit {
     address: '',
     remarks: '',
     mgr: 0,
+    password: ''
   };
   faEdit = faEdit;
   edit=false;

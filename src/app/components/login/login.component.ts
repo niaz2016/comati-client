@@ -42,7 +42,7 @@ user: User = {
       if(person && person.id)
         {
         this.authService.login();
-        this.commonService.login(person);}
+        this.commonService.login(person.id);}
       }
       catch(err: any){window.alert(err.error.message);}
   }

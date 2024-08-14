@@ -5,4 +5,5 @@ export type Person = {
     address?: string,
     remarks?: string,
     mgr: number,
+    password: string,
 }

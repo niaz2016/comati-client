@@ -64,8 +64,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "ssl": true,
-            "sslKey": "D:/Git/Niaz/comati-client/cert.key",
-            "sslCert": "D:/Git/Niaz/comati-client/cert.crt"
+            "sslKey": "cert.key",
+            "sslCert": "cert.crt"
           },
           "configurations": {
             "production": {
