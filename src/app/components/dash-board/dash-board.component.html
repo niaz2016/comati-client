@@ -43,6 +43,6 @@
         <div class="element" *ngIf="allPaid">Congratulations: No pending payments for this month</div>
         <button *ngIf="allPaid" class="button" (click)="getAllTimeDefaulters()" >Check any previous defaulters</button>
         <app-table *ngIf="showAlltimeDefs" [data]="allTimeDefaulters"></app-table>
-        <app-table *ngIf="defaultersData()" [data]="defaulters" [hiddenFields]="['address', 'remarks']"  header="Overdues for this month"  ></app-table>
+        <app-table *ngIf="defaulters" [data]="defaulters" [hiddenFields]="['address', 'remarks']"  header="Overdues for this month"  ></app-table>
     </div>
 </div>

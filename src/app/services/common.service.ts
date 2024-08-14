@@ -9,14 +9,13 @@ import { Payment } from '../models/payment';
 import { Defaulter } from '../models/defaulter';
 import { User } from '../models/user';
 import { AllTimeDefaulter } from '../models/allTimeDefaulter';
-import { AuthService } from './auth.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
-  baseUrl = 'https://localhost:5000/api/';
+  baseUrl = 'http://localhost:5209/api/';
   comatiesByMgrUrl = `${this.baseUrl}Comati`;
   comatiUrl = `${this.baseUrl}Comati/comati`;
   regComatiUrl = `${this.baseUrl}Comati`;
@@ -53,7 +52,6 @@ export class CommonService {
   async getComaties(MgrId: number): Promise<Comati[]> {
     const params = new HttpParams().set('MgrId', MgrId);
     const comaties = await firstValueFrom(this.http.get<Comati[]>(this.comatiesByMgrUrl, {params}));
-    console.log(this.comaties)
     return comaties;
   }
   // async getComaties(MgrId: number): Promise<Comati[]> {

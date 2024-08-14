@@ -18,20 +18,28 @@ interface Field {
 })
 export class TableComponent implements OnInit {
   faEdit = faEdit;
-  @Input() data!: any[];
+  //@Input() data!: any[];
+  _data!:any[];
   @Input() header!: string;
   @Input() footer!: string;
   @Input() hiddenFields: string[] = [];
   @Input() fields: Field[] = [];
   @Input() dateFieldNames: string[] =['openingMonth', 'end_Date', 'paymentDate'];
   @Output() editRow = new EventEmitter<any>();
+  @Input() set data(data:any[]) {
+    if (data && data.length > 0) {
+      this.fields = this.extractFields(data[0]);
+      this.hiddenFields = this.initializeHiddenFields(this.hiddenFields, this.fields);
+      this._data=data;
+    }
+  }
+  get data() {
+    return this._data;
+  }
 
 
   ngOnInit(): void {
-    if (this.data && this.data.length > 0) {
-      this.fields = this.extractFields(this.data[0]);
-      this.hiddenFields = this.initializeHiddenFields(this.hiddenFields, this.fields);
-    }
+    
   }
 
   extractFields(item: any): Field[] {

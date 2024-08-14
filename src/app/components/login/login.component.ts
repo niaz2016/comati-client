@@ -42,9 +42,14 @@ user: User = {
         {
         this.authService.login();
         this.commonService.login(this.user.id);}
-        console.log(this.user.id)
       }
-      catch(err: any){window.alert(err.error.message);}
+      catch(err: any){"Could not get Data, Will retry"+window.alert(err.error.message);
+        this.user = await firstValueFrom(this.http.get<User>(this.commonService.userUrl, { params, withCredentials: true })) as User;}
+        if(this.user)
+          {
+          this.authService.login();
+          this.commonService.login(this.user.id);
+        }
   }
   cancelEdit() {
     this.user.name = '',
@@ -78,7 +83,7 @@ user: User = {
             window.alert("User registration Successful");
             this.commonService.router.navigateByUrl("/dash-board")
           }}
-        catch(Err: any){window.alert(Err.error.message);
+        catch(Err: any){window.alert("Error Code: 001"+Err.error.message);
         }
           
       }

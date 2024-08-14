@@ -28,8 +28,7 @@ export class DashBoardComponent implements OnInit {
   user?: Person;
   members?: Member[];
   comaties?: Comati[];
-  defaulter!: Defaulter;
-  defaulters!: Defaulter[];
+  defaulters?: Defaulter[];
   selectedComati!: Comati;
   status!: string;
   zeroComaties = true;
@@ -42,7 +41,7 @@ export class DashBoardComponent implements OnInit {
   comatiesAvailable = false;
   allTimeDefaulters!: AllTimeDefaulter[];
   constructor(private commonService: CommonService, private cookie: CookieService, private auth: AuthService) {
-    
+    console.log(this.defaulters)
   }
   async ngOnInit(): Promise<void> {
     const string = this.cookie.get('User');
@@ -53,8 +52,7 @@ export class DashBoardComponent implements OnInit {
     this.comaties=this.commonService.comaties;
     if(this.comaties[0])
       {
-        this.selectedComati= this.comaties[0];
-        this.allTimeDefaulters = await this.commonService.getAllTimeDefaulters(this.selectedComati.id);
+        if(!this.commonService.selectedComati){this.selectedComati= this.comaties[0];} else { this.selectedComati = this.commonService.selectedComati;}        
         await this.commonService.getMembers(this.selectedComati.id);
         this.defaulters = this.selectedComati.defaulters as Defaulter[];
         this.members = await this.commonService.getMembers(this.selectedComati.id) as Member[];
@@ -66,7 +64,7 @@ export class DashBoardComponent implements OnInit {
     if(this.comaties.length>0){ await this.getData(this.selectedComati);}else{this.empty=true;}
   }
   async defaultersData(){
-    return this.selectedComati.defaulters as Defaulter[];
+    this.defaulters = (await this.commonService.getComati(this.selectedComati.id)).defaulters as Defaulter[];
   }
   membersCount(){
     const members = this.members?.length
@@ -76,17 +74,16 @@ export class DashBoardComponent implements OnInit {
     this.commonService.router.navigateByUrl('/add-comati')
   }
   async getAllTimeDefaulters(){
-   this.allTimeDefaulters = await this.commonService.getAllTimeDefaulters(this.selectedComati?.id??this.commonService.selectedComati.id)
-   this.allTimeDefaulters = this.commonService.allTimeDefaulters = this.allTimeDefaulters;
+   this.allTimeDefaulters = await this.commonService.getAllTimeDefaulters(this.selectedComati.id)
   }
   async getData(comati: Comati) {
     try {
-      const members = await this.commonService.getMembers(comati.id) as Member[];
+      this.selectedComati= comati;
+      this.members = await this.commonService.getMembers(comati.id) as Member[];
       this.defaulters = this.selectedComati.defaulters as Defaulter[];
-      this.members = [...members]; // Update array to trigger change detection
       this.commonService.defaulters = this.defaulters as Defaulter[];
       this.defaultersTable = this.commonService.defaulters.length > 0;
-      this.allPaid = this.commonService.defaulters.length === 0;
+      this.allPaid = this.defaulters.length === 0;
       this.zeroMembers = this.members.length === 0;
       this.zeroComaties = this.comaties?.length === 0;
       this.commonService.selectedComati = this.selectedComati as Comati;
@@ -96,6 +93,7 @@ export class DashBoardComponent implements OnInit {
     }
   }
   async defaulterDetails(memberId: number) {
+    this.commonService.selectedComati = this.selectedComati;
     await this.commonService.getMember(memberId);
     this.commonService.router.navigateByUrl("/person-details")
   }
