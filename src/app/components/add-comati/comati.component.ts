@@ -7,6 +7,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons/faEdit';
 import { PopupComponent } from '../../shared/popup/popup.component';
 import { TableComponent } from "../../shared/table/table.component";
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-add-comati',
@@ -18,7 +19,7 @@ import { TableComponent } from "../../shared/table/table.component";
 export class AddComatiComponent implements OnInit {
 
 faEdit=faEdit;
-user=this.commonService.user;
+user: User | undefined;
 comaties=this.commonService.comaties;
 comati: Comati = {
   id: 0,
@@ -36,9 +37,10 @@ showTable = false;
 reg: boolean = true;
 edit: boolean = false;
 constructor(private commonService: CommonService){
-  this.comati.managerId=this.user.id;
+  
 }
 async ngOnInit(): Promise<void> {
+  this.user = this.commonService.user;
     this.comaties = await this.commonService.getComaties(this.user.id);
     if(this.comaties?.length===0){this.zeroComaties=true; this.showTable=false}
     if(this.comaties?.length!=0){this.zeroComaties=false; this.showTable=true;}
@@ -76,11 +78,13 @@ closePopup() {
 
   async register(comati: Comati){
     this.comati=comati;
+    this.comati.managerId = this.commonService.user.id;
+    console.log(this.user)
     if ((this.comati.per_Head)===0 || (this.comati.name.length)<3 || this.comati.managerId===0 ){
       window.alert("Please Provide correct Credentials")
     }else{
     const result =  this.commonService.registerComati(this.comati);
-    if((await result).managerId===this.user.id){
+    if((await result).managerId){
       if(this.reg){window.alert("Comati Created Successfully");}
       if(this.edit){window.alert("Comati Updated Successfully");}
       this.close();

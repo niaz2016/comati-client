@@ -15,7 +15,7 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class CommonService {
-  baseUrl = 'http://localhost:5209/api/';
+  baseUrl = 'https://192.168.100.204:5000/api/';
   comatiesByMgrUrl = `${this.baseUrl}Comati`;
   comatiUrl = `${this.baseUrl}Comati/comati`;
   regComatiUrl = `${this.baseUrl}Comati`;
@@ -115,7 +115,6 @@ export class CommonService {
   }
   async login(MgrId:number) {
     if (MgrId>0) {
-      this.user.id = MgrId;
       this.user = await this.getPerson(MgrId);
       this.comaties = await this.getComaties(MgrId);
       this.persons = await this.getPersons(MgrId);
