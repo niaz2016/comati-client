@@ -15,7 +15,7 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class CommonService {
-  baseUrl = 'https://192.168.100.204:5000/api/';
+  baseUrl = 'https://localhost:5000/api/';
   comatiesByMgrUrl = `${this.baseUrl}Comati`;
   comatiUrl = `${this.baseUrl}Comati/comati`;
   regComatiUrl = `${this.baseUrl}Comati`;

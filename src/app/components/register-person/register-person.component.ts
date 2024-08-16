@@ -56,7 +56,7 @@ export class RegisterPersonComponent implements OnInit {
   
   
   async ngOnInit() {
-    
+    this.filteredPersons = this.persons;
   }
   openReg(){
     this.reg = true;
@@ -114,7 +114,7 @@ onClose(){}
       {
         const result = await this.commonService.registerPerson(p);
           if (result) {
-           if(this.reg){window.alert("Person registration Successful");}
+           if(this.reg){this.filteredPersons.push(p); window.alert("Person registration Successful"); }
            else if((this.edit)) {window.alert("Person Update Successful");}
            this.ngOnInit();
           }
